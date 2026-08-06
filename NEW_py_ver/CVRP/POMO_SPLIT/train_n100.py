@@ -43,7 +43,11 @@ TRAINER_PARAMS = {
     "epochs": 8100,
     "train_episodes": 10 * 1000,
     "train_batch_size": 64,
-    "logging": {"model_save_interval": 200},
+    "logging": {
+        "model_save_interval": 200,
+        "metrics_log_interval": 1,
+        "metrics_flush_interval": 50,
+    },
     "model_load": {"enable": False},
 }
 

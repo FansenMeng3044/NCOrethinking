@@ -65,6 +65,8 @@ trainer_params = {
     'prev_model_path': None,
     'logging': {
         'model_save_interval': 200,
+        'metrics_log_interval': 1,
+        'metrics_flush_interval': 50,
         'img_save_interval': 500,
         'log_image_params_1': {
             'json_foldername': 'log_image_style',

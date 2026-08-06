@@ -1,4 +1,7 @@
 
+import time
+import traceback
+
 import torch
 from logging import getLogger
 
@@ -9,6 +12,7 @@ from torch.optim import Adam as Optimizer
 from torch.optim.lr_scheduler import MultiStepLR as Scheduler
 
 from utils.utils import *
+from utils.training_metrics import POMOTrainingMetrics
 
 
 class CVRPTrainer:
@@ -39,6 +43,7 @@ class CVRPTrainer:
         else:
             device = torch.device('cpu')
             torch.set_default_tensor_type('torch.FloatTensor')
+        self.device = device
 
         # Main Components
         self.model = Model(**self.model_params)
@@ -61,47 +66,87 @@ class CVRPTrainer:
 
         # utility
         self.time_estimator = TimeEstimator()
+        self.metrics_logger = POMOTrainingMetrics(
+            self.result_folder, 'pomo_cvrp', self.env_params, self.model_params,
+            self.optimizer_params, self.trainer_params, self.model, self.device
+        )
 
     def run(self):
         self.time_estimator.reset(self.start_epoch)
-        for epoch in range(self.start_epoch, self.trainer_params['epochs']+1):
-            self.logger.info('=================================================================')
+        status = 'completed'
+        error = None
+        try:
+            for epoch in range(self.start_epoch, self.trainer_params['epochs']+1):
+                epoch_start = time.perf_counter()
+                self.metrics_logger.start_epoch(epoch)
+                if self.device.type == 'cuda':
+                    torch.cuda.reset_peak_memory_stats(self.device)
+                self.logger.info('=================================================================')
 
-            # LR Decay
-            self.scheduler.step()
+                # LR Decay
+                self.scheduler.step()
+                learning_rate_start = self.optimizer.param_groups[0]['lr']
 
-            # Train
-            train_score, train_loss = self._train_one_epoch(epoch)
-            self.result_log.append('train_score', epoch, train_score)
-            self.result_log.append('train_loss', epoch, train_loss)
+                # Train
+                training_start = time.perf_counter()
+                train_score, train_loss, global_step_end = self._train_one_epoch(epoch)
+                training_seconds = time.perf_counter() - training_start
+                self.result_log.append('train_score', epoch, train_score)
+                self.result_log.append('train_loss', epoch, train_loss)
 
             ############################
             # Logs & Checkpoint
             ############################
-            elapsed_time_str, remain_time_str = self.time_estimator.get_est_string(epoch, self.trainer_params['epochs'])
-            self.logger.info("Epoch {:3d}/{:3d}: Time Est.: Elapsed[{}], Remain[{}]".format(
-                epoch, self.trainer_params['epochs'], elapsed_time_str, remain_time_str))
+                elapsed_time_str, remain_time_str = self.time_estimator.get_est_string(epoch, self.trainer_params['epochs'])
+                self.logger.info("Epoch {:3d}/{:3d}: Time Est.: Elapsed[{}], Remain[{}]".format(
+                    epoch, self.trainer_params['epochs'], elapsed_time_str, remain_time_str))
 
-            all_done = (epoch == self.trainer_params['epochs'])
-            model_save_interval = self.trainer_params['logging']['model_save_interval']
+                all_done = (epoch == self.trainer_params['epochs'])
+                model_save_interval = self.trainer_params['logging']['model_save_interval']
+                checkpoint_path = ''
+                checkpoint_seconds = 0.0
 
             # Save Model
-            if all_done or (epoch % model_save_interval) == 0:
-                self.logger.info("Saving trained_model")
-                checkpoint_dict = {
+                if all_done or (epoch % model_save_interval) == 0:
+                    self.logger.info("Saving trained_model")
+                    checkpoint_start = time.perf_counter()
+                    checkpoint_dict = {
+                        'epoch': epoch,
+                        'model_state_dict': self.model.state_dict(),
+                        'optimizer_state_dict': self.optimizer.state_dict(),
+                        'scheduler_state_dict': self.scheduler.state_dict(),
+                        'result_log': self.result_log.get_raw_data()
+                    }
+                    checkpoint_path = '{}/checkpoint-{}.pt'.format(self.result_folder, epoch)
+                    torch.save(checkpoint_dict, checkpoint_path)
+                    checkpoint_seconds = time.perf_counter() - checkpoint_start
+                    self.metrics_logger.log_checkpoint(epoch, checkpoint_path, checkpoint_seconds)
+
+                epoch_total_seconds = time.perf_counter() - epoch_start
+                self.metrics_logger.log_epoch({
                     'epoch': epoch,
-                    'model_state_dict': self.model.state_dict(),
-                    'optimizer_state_dict': self.optimizer.state_dict(),
-                    'scheduler_state_dict': self.scheduler.state_dict(),
-                    'result_log': self.result_log.get_raw_data()
-                }
-                torch.save(checkpoint_dict, '{}/checkpoint-{}.pt'.format(self.result_folder, epoch))
+                    'global_step_end': global_step_end,
+                    'learning_rate_start': learning_rate_start,
+                    'learning_rate_end': self.optimizer.param_groups[0]['lr'],
+                    'training_seconds': training_seconds,
+                    'checkpoint_seconds': checkpoint_seconds,
+                    'epoch_total_seconds': epoch_total_seconds,
+                    'throughput_instances_per_second': self.trainer_params['train_episodes'] / max(training_seconds, 1e-12),
+                    'checkpoint_saved': bool(checkpoint_path),
+                    'checkpoint_path': checkpoint_path,
+                })
 
             # All-done announcement
-            if all_done:
-                self.logger.info(" *** Training Done *** ")
-                self.logger.info("Now, printing log array...")
-                util_print_log_array(self.logger, self.result_log)
+                if all_done:
+                    self.logger.info(" *** Training Done *** ")
+                    self.logger.info("Now, printing log array...")
+                    util_print_log_array(self.logger, self.result_log)
+        except BaseException as exc:
+            status = 'interrupted' if isinstance(exc, KeyboardInterrupt) else 'failed'
+            error = traceback.format_exc()
+            raise
+        finally:
+            self.metrics_logger.close(status=status, error=error)
 
     def _train_one_epoch(self, epoch):
 
@@ -111,20 +156,29 @@ class CVRPTrainer:
         train_num_episode = self.trainer_params['train_episodes']
         episode = 0
         loop_cnt = 0
+        batches_per_epoch = (train_num_episode + self.trainer_params['train_batch_size'] - 1) // self.trainer_params['train_batch_size']
         while episode < train_num_episode:
 
             remaining = train_num_episode - episode
             batch_size = min(self.trainer_params['train_batch_size'], remaining)
 
-            avg_score, avg_loss = self._train_one_batch(batch_size)
+            batch_metrics = self._train_one_batch(batch_size)
+            batch_metrics.update({
+                'epoch': epoch,
+                'batch_id': loop_cnt,
+                'global_step': (epoch - 1) * batches_per_epoch + loop_cnt,
+                'learning_rate': self.optimizer.param_groups[0]['lr'],
+            })
+            self.metrics_logger.log_batch(batch_metrics)
+            avg_score, avg_loss = batch_metrics['score_mean'], batch_metrics['loss_mean']
             score_AM.update(avg_score, batch_size)
             loss_AM.update(avg_loss, batch_size)
 
             episode += batch_size
 
             # Log First 10 Batch, only at the first epoch
+            loop_cnt += 1
             if epoch == self.start_epoch:
-                loop_cnt += 1
                 if loop_cnt <= 10:
                     self.logger.info('Epoch {:3d}: Train {:3d}/{:3d}({:1.1f}%)  Score: {:.4f},  Loss: {:.4f}'
                                      .format(epoch, episode, train_num_episode, 100. * episode / train_num_episode,
@@ -135,9 +189,11 @@ class CVRPTrainer:
                          .format(epoch, 100. * episode / train_num_episode,
                                  score_AM.avg, loss_AM.avg))
 
-        return score_AM.avg, loss_AM.avg
+        return score_AM.avg, loss_AM.avg, epoch * batches_per_epoch
 
     def _train_one_batch(self, batch_size):
+
+        batch_start = time.perf_counter()
 
         # Prep
         ###############################################
@@ -178,5 +234,40 @@ class CVRPTrainer:
         ###############################################
         self.model.zero_grad()
         loss_mean.backward()
+        grad_parts = [p.grad.detach().float().norm(2) for p in self.model.parameters() if p.grad is not None]
+        grad_norm = torch.stack(grad_parts).norm(2) if grad_parts else loss_mean.new_tensor(0.0)
         self.optimizer.step()
-        return score_mean.item(), loss_mean.item()
+
+        score_values = -max_pomo_reward.detach().float()
+        loss_values = loss.detach().float().mean(dim=1)
+        packed = torch.stack([
+            score_values.mean(), score_values.std(unbiased=False), (-reward.detach().float()).mean(),
+            loss_values.mean(), loss_values.std(unbiased=False), advantage.detach().float().mean(),
+            advantage.detach().float().std(unbiased=False), log_prob.detach().float().mean(),
+            grad_norm, score_values.sum(), score_values.square().sum(), loss_values.sum(),
+            loss_values.square().sum(),
+        ]).cpu().tolist()
+        (score_value, score_std, solution_cost_mean, loss_value, loss_std, advantage_mean,
+         advantage_std, log_prob_mean, grad_norm_value, score_sum, score_sumsq,
+         loss_sum, loss_sumsq) = packed
+        if self.device.type == 'cuda':
+            allocated = torch.cuda.memory_allocated(self.device) / (1024 ** 2)
+            reserved = torch.cuda.memory_reserved(self.device) / (1024 ** 2)
+            peak_allocated = torch.cuda.max_memory_allocated(self.device) / (1024 ** 2)
+            peak_reserved = torch.cuda.max_memory_reserved(self.device) / (1024 ** 2)
+        else:
+            allocated = reserved = peak_allocated = peak_reserved = 0.0
+        step_seconds = time.perf_counter() - batch_start
+        return {
+            'batch_size': batch_size, 'score_mean': score_value, 'score_std': score_std,
+            'solution_cost_mean': solution_cost_mean, 'loss_mean': loss_value,
+            'loss_std': loss_std, 'advantage_mean': advantage_mean,
+            'advantage_std': advantage_std, 'log_prob_mean': log_prob_mean,
+            'nll_mean': -log_prob_mean, 'grad_norm': grad_norm_value,
+            'step_seconds': step_seconds,
+            'throughput_instances_per_second': batch_size / max(step_seconds, 1e-12),
+            'gpu_memory_allocated_mb': allocated, 'gpu_memory_reserved_mb': reserved,
+            'gpu_peak_allocated_mb': peak_allocated, 'gpu_peak_reserved_mb': peak_reserved,
+            '_score_sum': score_sum, '_score_sumsq': score_sumsq,
+            '_loss_sum': loss_sum, '_loss_sumsq': loss_sumsq,
+        }
