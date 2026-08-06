@@ -1,0 +1,13 @@
+data/
+outputs/
+logs/
+results/
+experiments/
+__pycache__/
+.pytest_cache/
+.idea
+*/.ipynb_checkpoints
+*.tc.*
+*.tc_backward.*
+*.log
+*.bak

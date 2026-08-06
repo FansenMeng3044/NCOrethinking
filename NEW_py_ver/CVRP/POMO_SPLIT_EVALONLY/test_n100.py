@@ -55,8 +55,8 @@ tester_params = {
     "use_cuda": USE_CUDA,
     "cuda_device_num": CUDA_DEVICE_NUM,
     "model_load": {
-        "path": "./result/saved_model",  # directory of the trained no-split checkpoint
-        "epoch": 8100,                    # epoch to load
+        "path": "./result/20260713_042905_pomo_giant_tour_noplit_train_n100",
+        "epoch": 200,
     },
     "test_episodes": 10 * 1000,
     "test_batch_size": 1000,

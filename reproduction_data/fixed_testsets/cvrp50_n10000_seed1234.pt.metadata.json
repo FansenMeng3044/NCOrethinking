@@ -1,0 +1,56 @@
+{
+  "coordinate_max": 0.9999997019767761,
+  "coordinate_min": 0.0,
+  "created_utc": "2026-07-13T11:17:51.091181+00:00",
+  "demand_grid_valid": true,
+  "demand_max": 0.22499999403953552,
+  "demand_min": 0.02500000037252903,
+  "demand_scaler": 40,
+  "distribution": "independent uniform depot/customer coordinates in [0,1]^2; integer customer demands 1..9 divided by 40",
+  "dtypes": {
+    "depot_xy": "torch.float32",
+    "node_demand": "torch.float32",
+    "node_xy": "torch.float32"
+  },
+  "format_version": 1,
+  "generation_device": "cpu",
+  "generator": "POMO NEW_py_ver/CVRP/CVRProblemDef.get_random_problems",
+  "generator_source": "NEW_py_ver/CVRP/CVRProblemDef.py",
+  "generator_source_sha256": "0f3c90ffda2274e6e82a5370acb31cd482eda03ab52e10612dfabd76f35e6428",
+  "git_commit": "15338053a7b7e3e03f85b3d4863f29a21bea4812",
+  "git_dirty": true,
+  "loaded_tensor_device": "cpu",
+  "loader": "POMO NEW_py_ver/CVRP/POMO/CVRPEnv.use_saved_problems",
+  "loader_source": "NEW_py_ver/CVRP/POMO/CVRPEnv.py",
+  "loader_source_sha256": "1e16b84204a6b8788cd96c85b239b4b1697501262e67f0856960e21bec17295e",
+  "num_instances": 10000,
+  "official_loader_roundtrip_equal_torch_equal": true,
+  "problem": "CVRP",
+  "problem_size": 50,
+  "provenance": "Reproduction test set generated with the official POMO generator; not the paper authors' original test instances.",
+  "python": "3.8.13",
+  "regeneration_equal_torch_equal": true,
+  "roundtrip_equal_torch_equal": true,
+  "seed": 1234,
+  "shapes": {
+    "depot_xy": [
+      10000,
+      1,
+      2
+    ],
+    "node_demand": [
+      10000,
+      50
+    ],
+    "node_xy": [
+      10000,
+      50,
+      2
+    ]
+  },
+  "size_bytes": 6081454,
+  "testset_path": "/root/mfs/pomo/reproduction_data/fixed_testsets/cvrp50_n10000_seed1234.pt",
+  "testset_sha256": "0f61dde44774d2cb994c47a65a0430c4e0f4ed3b28db340c35e94bfc8c42a16a",
+  "torch": "1.13.1+cu117",
+  "validation_method": "Generate twice after torch.manual_seed(seed), save/load on CPU, then load through official CVRPEnv.use_saved_problems; compare every tensor with torch.equal."
+}

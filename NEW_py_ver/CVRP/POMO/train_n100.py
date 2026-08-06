@@ -30,8 +30,8 @@ from CVRPTrainer import CVRPTrainer as Trainer
 # parameters
 
 env_params = {
-    'problem_size': 100,
-    'pomo_size': 100,
+    'problem_size': 50,
+    'pomo_size': 50,
 }
 
 model_params = {
@@ -64,7 +64,7 @@ trainer_params = {
     'train_batch_size': 64,
     'prev_model_path': None,
     'logging': {
-        'model_save_interval': 500,
+        'model_save_interval': 200,
         'img_save_interval': 500,
         'log_image_params_1': {
             'json_foldername': 'log_image_style',

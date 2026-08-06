@@ -16,8 +16,8 @@ from utils.utils import create_logger
 
 
 ENV_PARAMS = {
-    "problem_size": 100,
-    "pomo_size": 100,
+    "problem_size": 50,
+    "pomo_size": 50,
     "capacity": 1.0,
 }
 
@@ -43,7 +43,7 @@ TRAINER_PARAMS = {
     "epochs": 8100,
     "train_episodes": 10 * 1000,
     "train_batch_size": 64,
-    "logging": {"model_save_interval": 500},
+    "logging": {"model_save_interval": 200},
     "model_load": {"enable": False},
 }
 
