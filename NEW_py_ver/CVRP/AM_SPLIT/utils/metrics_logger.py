@@ -50,7 +50,9 @@ class MetricsLogger:
     ]
     BATCH_FIELDS = [
         "epoch", "batch_id", "global_step", "samples_seen", "batch_size", "learning_rate",
-        "cost_mean", "cost_std", "reinforce_loss", "baseline_loss", "total_loss",
+        "cost_mean", "cost_std", "reinforce_loss", "reinforce_loss_std",
+        "reinforce_loss_standard_error", "baseline_loss", "total_loss",
+        "total_loss_std", "total_loss_standard_error",
         "log_likelihood_mean", "nll_mean", "baseline_value_mean", "advantage_mean",
         "advantage_std", "grad_norm", "grad_norm_clipped", "critic_grad_norm",
         "critic_grad_norm_clipped", "step_seconds", "throughput_instances_per_second",
@@ -60,7 +62,9 @@ class MetricsLogger:
     EPOCH_FIELDS = [
         "global_step_end", "epoch_examples", "cumulative_examples", "train_batches",
         "learning_rate_start", "learning_rate_end", "train_cost_mean", "train_cost_std",
-        "reinforce_loss_mean", "baseline_loss_mean", "total_loss_mean", "nll_mean",
+        "reinforce_loss_mean", "reinforce_loss_std", "reinforce_loss_standard_error",
+        "baseline_loss_mean", "total_loss_mean", "total_loss_std",
+        "total_loss_standard_error", "nll_mean",
         "advantage_mean", "advantage_std", "grad_norm_mean", "grad_norm_max",
         "grad_norm_clipped_mean", "data_preparation_seconds", "training_seconds",
         "checkpoint_seconds", "validation_seconds", "baseline_callback_seconds",
@@ -120,7 +124,7 @@ class MetricsLogger:
                 })
         git_status = _git_value(repository_dir, "status", "--porcelain")
         return {
-            "schema_version": 2,
+            "schema_version": 3,
             "started_at_utc": self.start_utc,
             "command": sys.argv,
             "working_directory": os.getcwd(),
@@ -178,8 +182,9 @@ class MetricsLogger:
         self._epoch = {
             "epoch": int(epoch), "examples": 0, "batches": 0, "cost_sum": 0.0,
             "cost_sumsq": 0.0, "advantage_sum": 0.0, "advantage_sumsq": 0.0,
-            "reinforce_loss_sum": 0.0, "baseline_loss_sum": 0.0,
-            "total_loss_sum": 0.0, "nll_sum": 0.0, "grad_norm_sum": 0.0,
+            "reinforce_loss_sum": 0.0, "reinforce_loss_sumsq": 0.0,
+            "baseline_loss_sum": 0.0, "total_loss_sum": 0.0,
+            "total_loss_sumsq": 0.0, "nll_sum": 0.0, "grad_norm_sum": 0.0,
             "grad_norm_clipped_sum": 0.0, "grad_norm_max": 0.0,
             "gpu_peak_allocated_mb": 0.0, "gpu_peak_reserved_mb": 0.0,
         }
@@ -197,13 +202,12 @@ class MetricsLogger:
         acc["cost_sumsq"] += float(metrics["_cost_sumsq"])
         acc["advantage_sum"] += float(metrics["_advantage_sum"])
         acc["advantage_sumsq"] += float(metrics["_advantage_sumsq"])
-        for source, target in (
-            ("reinforce_loss", "reinforce_loss_sum"),
-            ("baseline_loss", "baseline_loss_sum"),
-            ("total_loss", "total_loss_sum"),
-            ("nll_mean", "nll_sum"),
-        ):
-            acc[target] += float(metrics[source]) * n
+        acc["reinforce_loss_sum"] += float(metrics["_reinforce_loss_sum"])
+        acc["reinforce_loss_sumsq"] += float(metrics["_reinforce_loss_sumsq"])
+        acc["baseline_loss_sum"] += float(metrics["baseline_loss"]) * n
+        acc["total_loss_sum"] += float(metrics["_total_loss_sum"])
+        acc["total_loss_sumsq"] += float(metrics["_total_loss_sumsq"])
+        acc["nll_sum"] += float(metrics["nll_mean"]) * n
         acc["grad_norm_sum"] += float(metrics["grad_norm"])
         acc["grad_norm_clipped_sum"] += float(metrics["grad_norm_clipped"])
         acc["grad_norm_max"] = max(acc["grad_norm_max"], float(metrics["grad_norm"]))
@@ -236,6 +240,24 @@ class MetricsLogger:
         cost_var = max(0.0, acc["cost_sumsq"] / n - cost_mean * cost_mean)
         adv_mean = acc["advantage_sum"] / n
         adv_var = max(0.0, acc["advantage_sumsq"] / n - adv_mean * adv_mean)
+        reinforce_mean = acc["reinforce_loss_sum"] / n
+        reinforce_var = max(
+            0.0, acc["reinforce_loss_sumsq"] / n - reinforce_mean * reinforce_mean
+        )
+        reinforce_sample_var = (
+            max(0.0, (
+                acc["reinforce_loss_sumsq"] - acc["reinforce_loss_sum"] ** 2 / n
+            ) / (n - 1)) if n > 1 else 0.0
+        )
+        total_mean = acc["total_loss_sum"] / n
+        total_var = max(
+            0.0, acc["total_loss_sumsq"] / n - total_mean * total_mean
+        )
+        total_sample_var = (
+            max(0.0, (
+                acc["total_loss_sumsq"] - acc["total_loss_sum"] ** 2 / n
+            ) / (n - 1)) if n > 1 else 0.0
+        )
         val_mean = float(metrics["validation_cost_mean"])
         epoch = int(metrics["epoch"])
         if val_mean < self.best_val:
@@ -249,9 +271,13 @@ class MetricsLogger:
             "train_batches": acc["batches"],
             "train_cost_mean": cost_mean,
             "train_cost_std": math.sqrt(cost_var),
-            "reinforce_loss_mean": acc["reinforce_loss_sum"] / n,
+            "reinforce_loss_mean": reinforce_mean,
+            "reinforce_loss_std": math.sqrt(reinforce_var),
+            "reinforce_loss_standard_error": math.sqrt(reinforce_sample_var / n),
             "baseline_loss_mean": acc["baseline_loss_sum"] / n,
-            "total_loss_mean": acc["total_loss_sum"] / n,
+            "total_loss_mean": total_mean,
+            "total_loss_std": math.sqrt(total_var),
+            "total_loss_standard_error": math.sqrt(total_sample_var / n),
             "nll_mean": acc["nll_sum"] / n,
             "advantage_mean": adv_mean,
             "advantage_std": math.sqrt(adv_var),

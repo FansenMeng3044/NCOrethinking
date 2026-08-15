@@ -210,7 +210,8 @@ def train_batch(
     bl_val, bl_loss = baseline.eval(x, cost) if bl_val is None else (bl_val, 0)
 
     # Calculate loss
-    reinforce_loss = ((cost - bl_val) * log_likelihood).mean()
+    reinforce_loss_samples = (cost - bl_val) * log_likelihood
+    reinforce_loss = reinforce_loss_samples.mean()
     loss = reinforce_loss + bl_loss
 
     # Perform backward pass and optimization step
@@ -235,13 +236,29 @@ def train_batch(
             return value.detach().float().reshape(())
         return cost_values.new_tensor(float(value))
 
+    reinforce_loss_values = reinforce_loss_samples.detach().float()
+    baseline_loss_value_tensor = as_scalar_tensor(bl_loss)
+    total_loss_values = reinforce_loss_values + baseline_loss_value_tensor
+    reinforce_loss_se = (
+        reinforce_loss_values.std(unbiased=True) / math.sqrt(batch_size)
+        if batch_size > 1 else reinforce_loss_values.new_tensor(0.0)
+    )
+    total_loss_se = (
+        total_loss_values.std(unbiased=True) / math.sqrt(batch_size)
+        if batch_size > 1 else total_loss_values.new_tensor(0.0)
+    )
+
     # Transfer all scalar metrics together so detailed CSV logging adds only one GPU sync per batch.
     packed = torch.stack([
         cost_values.mean(),
         cost_values.std(unbiased=False),
-        as_scalar_tensor(reinforce_loss),
-        as_scalar_tensor(bl_loss),
-        as_scalar_tensor(loss),
+        reinforce_loss_values.mean(),
+        reinforce_loss_values.std(unbiased=False),
+        reinforce_loss_se,
+        baseline_loss_value_tensor,
+        total_loss_values.mean(),
+        total_loss_values.std(unbiased=False),
+        total_loss_se,
         log_likelihood.detach().float().mean(),
         as_scalar_tensor(bl_val.detach().float().mean() if torch.is_tensor(bl_val) else bl_val),
         advantage_values.mean(),
@@ -254,12 +271,19 @@ def train_batch(
         cost_values.square().sum(),
         advantage_values.sum(),
         advantage_values.square().sum(),
+        reinforce_loss_values.sum(),
+        reinforce_loss_values.square().sum(),
+        total_loss_values.sum(),
+        total_loss_values.square().sum(),
     ]).cpu().tolist()
     (
-        cost_mean, cost_std, reinforce_loss_value, baseline_loss_value, total_loss_value,
+        cost_mean, cost_std, reinforce_loss_value, reinforce_loss_std,
+        reinforce_loss_standard_error, baseline_loss_value, total_loss_value,
+        total_loss_std, total_loss_standard_error,
         log_likelihood_mean, baseline_value_mean, advantage_mean, advantage_std, grad_norm,
         grad_norm_clipped, critic_grad_norm, critic_grad_norm_clipped, cost_sum, cost_sumsq,
-        advantage_sum, advantage_sumsq,
+        advantage_sum, advantage_sumsq, reinforce_loss_sum, reinforce_loss_sumsq,
+        total_loss_sum, total_loss_sumsq,
     ) = packed
 
     if opts.use_cuda:
@@ -280,8 +304,12 @@ def train_batch(
         'cost_mean': cost_mean,
         'cost_std': cost_std,
         'reinforce_loss': reinforce_loss_value,
+        'reinforce_loss_std': reinforce_loss_std,
+        'reinforce_loss_standard_error': reinforce_loss_standard_error,
         'baseline_loss': baseline_loss_value,
         'total_loss': total_loss_value,
+        'total_loss_std': total_loss_std,
+        'total_loss_standard_error': total_loss_standard_error,
         'log_likelihood_mean': log_likelihood_mean,
         'nll_mean': -log_likelihood_mean,
         'baseline_value_mean': baseline_value_mean,
@@ -301,4 +329,8 @@ def train_batch(
         '_cost_sumsq': cost_sumsq,
         '_advantage_sum': advantage_sum,
         '_advantage_sumsq': advantage_sumsq,
+        '_reinforce_loss_sum': reinforce_loss_sum,
+        '_reinforce_loss_sumsq': reinforce_loss_sumsq,
+        '_total_loss_sum': total_loss_sum,
+        '_total_loss_sumsq': total_loss_sumsq,
     }

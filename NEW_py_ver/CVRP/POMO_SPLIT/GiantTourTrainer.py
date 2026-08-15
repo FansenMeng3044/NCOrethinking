@@ -1,3 +1,4 @@
+import math
 import os
 import time
 import traceback
@@ -176,14 +177,20 @@ class GiantTourTrainer:
 
         score_values = -best_reward.detach().float()
         loss_values = (-advantage * log_prob).detach().float().mean(dim=1)
+        loss_standard_error = (
+            loss_values.std(unbiased=True) / math.sqrt(batch_size)
+            if batch_size > 1 else loss_values.new_tensor(0.0)
+        )
         packed = torch.stack([
             score_values.mean(), score_values.std(unbiased=False), (-reward.detach().float()).mean(),
-            loss_values.mean(), loss_values.std(unbiased=False), advantage.detach().float().mean(),
+            loss_values.mean(), loss_values.std(unbiased=False), loss_standard_error,
+            advantage.detach().float().mean(),
             advantage.detach().float().std(unbiased=False), log_prob.detach().float().mean(),
             grad_norm, score_values.sum(), score_values.square().sum(), loss_values.sum(),
             loss_values.square().sum(),
         ]).cpu().tolist()
-        (score_value, score_std, solution_cost_mean, loss_value, loss_std, advantage_mean,
+        (score_value, score_std, solution_cost_mean, loss_value, loss_std,
+         loss_standard_error_value, advantage_mean,
          advantage_std, log_prob_mean, grad_norm_value, score_sum, score_sumsq,
          loss_sum, loss_sumsq) = packed
         if self.device.type == "cuda":
@@ -197,7 +204,8 @@ class GiantTourTrainer:
         return {
             "batch_size": batch_size, "score_mean": score_value, "score_std": score_std,
             "solution_cost_mean": solution_cost_mean, "loss_mean": loss_value,
-            "loss_std": loss_std, "advantage_mean": advantage_mean,
+            "loss_std": loss_std, "loss_standard_error": loss_standard_error_value,
+            "advantage_mean": advantage_mean,
             "advantage_std": advantage_std, "log_prob_mean": log_prob_mean,
             "nll_mean": -log_prob_mean, "grad_norm": grad_norm_value,
             "step_seconds": step_seconds,

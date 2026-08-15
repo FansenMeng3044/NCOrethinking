@@ -51,14 +51,16 @@ class POMOTrainingMetrics:
     BATCH_FIELDS = [
         "epoch", "batch_id", "global_step", "samples_seen", "batch_size", "learning_rate",
         "score_mean", "score_std", "solution_cost_mean", "loss_mean", "loss_std",
-        "advantage_mean", "advantage_std", "log_prob_mean", "nll_mean", "grad_norm",
+        "loss_standard_error", "advantage_mean", "advantage_std", "log_prob_mean",
+        "nll_mean", "grad_norm",
         "step_seconds", "throughput_instances_per_second", "gpu_memory_allocated_mb",
         "gpu_memory_reserved_mb", "gpu_peak_allocated_mb", "gpu_peak_reserved_mb",
     ]
     EPOCH_FIELDS = [
         "global_step_end", "epoch_examples", "cumulative_examples", "train_batches",
         "learning_rate_start", "learning_rate_end", "train_score_mean", "train_score_std",
-        "train_loss_mean", "train_loss_std", "grad_norm_mean", "grad_norm_max",
+        "train_loss_mean", "train_loss_std", "train_loss_standard_error",
+        "grad_norm_mean", "grad_norm_max",
         "training_seconds", "checkpoint_seconds", "epoch_total_seconds",
         "cumulative_elapsed_seconds", "throughput_instances_per_second",
         "gpu_peak_allocated_mb", "gpu_peak_reserved_mb", "checkpoint_saved",
@@ -119,7 +121,7 @@ class POMOTrainingMetrics:
                     "compute_capability": "{}.{}".format(props.major, props.minor),
                 })
         return {
-            "schema_version": 1,
+            "schema_version": 2,
             "run_type": self.run_type,
             "started_at_utc": self.start_utc,
             "command": sys.argv,
@@ -231,6 +233,10 @@ class POMOTrainingMetrics:
         score_var = max(0.0, acc["score_sumsq"] / n - score_mean * score_mean)
         loss_mean = acc["loss_sum"] / n
         loss_var = max(0.0, acc["loss_sumsq"] / n - loss_mean * loss_mean)
+        loss_sample_var = (
+            max(0.0, (acc["loss_sumsq"] - acc["loss_sum"] ** 2 / n) / (n - 1))
+            if n > 1 else 0.0
+        )
         epoch = int(values["epoch"])
         if score_mean < self.best_train_score:
             self.best_train_score = score_mean
@@ -245,6 +251,7 @@ class POMOTrainingMetrics:
             "train_score_std": math.sqrt(score_var),
             "train_loss_mean": loss_mean,
             "train_loss_std": math.sqrt(loss_var),
+            "train_loss_standard_error": math.sqrt(loss_sample_var / n),
             "grad_norm_mean": acc["grad_norm_sum"] / batches,
             "grad_norm_max": acc["grad_norm_max"],
             "gpu_peak_allocated_mb": acc["gpu_peak_allocated_mb"],

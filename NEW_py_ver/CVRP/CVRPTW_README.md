@@ -87,7 +87,10 @@ All four TW training entry points retain the structured training recorder used
 by their original CVRP counterparts.  Every run writes `training_metrics.csv`
 inside its run directory.  It contains run metadata, batch rows, epoch
 aggregates, checkpoint events, timing, throughput, GPU memory, losses, costs,
-gradient norms and the final status row.  Use `--metrics-log-interval` to thin
+gradient norms and the final status row.  Loss dispersion includes batch-level
+standard deviation/standard error and epoch-level standard deviation/standard
+error recomputed from all examples in the epoch.  Use
+`--metrics-log-interval` to thin
 batch rows without changing epoch aggregation and `--metrics-flush-interval`
 to control disk flushing.  AM-TW and AM-Split-TW can be plotted directly with
 `AM_SPLIT/plot_training_metrics.py`; POMO-TW and POMO-Split-TW use the same
