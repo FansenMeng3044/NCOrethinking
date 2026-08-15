@@ -53,6 +53,8 @@ def strict_route_counts(problem, batch, tours):
         capacity=problem.VEHICLE_CAPACITY,
         depot_start=batch["depot_start"], depot_end=batch["depot_end"],
         speed=problem.SPEED,
+        loc_scaler=problem.LOC_SCALER,
+        epsilon=problem.EPSILON,
     )
     return replay.route_counts, replay.feasible
 

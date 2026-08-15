@@ -2,6 +2,7 @@ from typing import NamedTuple
 
 import torch
 
+from CVRPTWCore import VRPTW_EPSILON
 from utils.boolmask import mask_long2bool, mask_long_scatter
 
 
@@ -26,6 +27,7 @@ class StateCVRPTW(NamedTuple):
     i: torch.Tensor
 
     VEHICLE_CAPACITY = 1.0
+    EPSILON = VRPTW_EPSILON
 
     @property
     def visited(self):
@@ -149,7 +151,8 @@ class StateCVRPTW(NamedTuple):
             ).bool()
         demand = self.demand[self.ids, :]
         exceeds_capacity = (
-            demand + self.used_capacity[:, :, None] > self.VEHICLE_CAPACITY + 1e-6
+            demand + self.used_capacity[:, :, None]
+            > self.VEHICLE_CAPACITY + self.EPSILON
         )
 
         coords = self.coords[self.ids, :, :]
@@ -170,11 +173,11 @@ class StateCVRPTW(NamedTuple):
             self.current_time[:, :, None] + travel / speed,
             candidate_tw_start,
         )
-        out_of_window = service_start > candidate_tw_end + 1e-6
+        out_of_window = service_start > candidate_tw_end + self.EPSILON
         return_distance = (coords - coords[:, :, :1, :]).norm(p=2, dim=-1)
         cannot_return = (
             service_start + candidate_service + return_distance / speed
-            > depot_end + 1e-6
+            > depot_end + self.EPSILON
         )
         mask_customers = (
             visited_customers | exceeds_capacity | out_of_window[:, :, 1:]

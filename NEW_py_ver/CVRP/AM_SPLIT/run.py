@@ -57,6 +57,7 @@ def run(opts):
             depot_end=opts.depot_end,
             speed=opts.speed,
             service_duration=opts.service_duration,
+            loc_scaler=opts.loc_scaler,
         )
 
     # Load data from load_path

@@ -4,30 +4,47 @@ import pickle
 import torch
 from torch.utils.data import Dataset
 
-from CVRPTWCore import get_random_problems, replay_cvrptw_actions, tensors_from_dict
+from CVRPTWCore import (
+    VRPTW_CAPACITY,
+    VRPTW_DEPOT_END,
+    VRPTW_DEPOT_START,
+    VRPTW_EPSILON,
+    VRPTW_SERVICE_DURATION,
+    VRPTW_SPEED,
+    get_random_problems,
+    replay_cvrptw_actions,
+    tensors_from_dict,
+)
 from problems.cvrptw.state_cvrptw import StateCVRPTW
 from utils.beam_search import beam_search
 
 
 class CVRPTW:
     NAME = "cvrptw"
-    VEHICLE_CAPACITY = 1.0
-    DEPOT_START = 0.0
-    DEPOT_END = 3.0
-    SPEED = 1.0
-    SERVICE_DURATION = 0.2
+    VEHICLE_CAPACITY = VRPTW_CAPACITY
+    DEPOT_START = VRPTW_DEPOT_START
+    DEPOT_END = VRPTW_DEPOT_END
+    SPEED = VRPTW_SPEED
+    SERVICE_DURATION = VRPTW_SERVICE_DURATION
+    EPSILON = VRPTW_EPSILON
+    LOC_SCALER = None
 
     @classmethod
     def configure(
-        cls, capacity=1.0, depot_start=0.0, depot_end=3.0,
-        speed=1.0, service_duration=0.2, **_unused
+        cls, capacity=VRPTW_CAPACITY, depot_start=VRPTW_DEPOT_START,
+        depot_end=VRPTW_DEPOT_END, speed=VRPTW_SPEED,
+        service_duration=VRPTW_SERVICE_DURATION, loc_scaler=None,
+        epsilon=VRPTW_EPSILON, **_unused
     ):
         cls.VEHICLE_CAPACITY = float(capacity)
         cls.DEPOT_START = float(depot_start)
         cls.DEPOT_END = float(depot_end)
         cls.SPEED = float(speed)
         cls.SERVICE_DURATION = float(service_duration)
+        cls.LOC_SCALER = loc_scaler
+        cls.EPSILON = float(epsilon)
         StateCVRPTW.VEHICLE_CAPACITY = cls.VEHICLE_CAPACITY
+        StateCVRPTW.EPSILON = cls.EPSILON
 
     @classmethod
     def get_costs(cls, dataset, pi):
@@ -43,6 +60,8 @@ class CVRPTW:
             depot_start=dataset.get("depot_start", cls.DEPOT_START),
             depot_end=dataset.get("depot_end", cls.DEPOT_END),
             speed=cls.SPEED,
+            loc_scaler=cls.LOC_SCALER,
+            epsilon=cls.EPSILON,
         )
         if not replay.feasible.all():
             raise ValueError("Attention Model produced an infeasible CVRPTW solution")

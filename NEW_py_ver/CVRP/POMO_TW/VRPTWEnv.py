@@ -4,6 +4,12 @@ from pathlib import Path
 import torch
 
 from CVRPTWCore import (
+    VRPTW_CAPACITY,
+    VRPTW_DEPOT_END,
+    VRPTW_DEPOT_START,
+    VRPTW_EPSILON,
+    VRPTW_SERVICE_DURATION,
+    VRPTW_SPEED,
     augment_problems_by_8,
     get_random_problems,
     replay_cvrptw_actions,
@@ -20,6 +26,7 @@ class ResetState:
     node_service_time: torch.Tensor = None
     node_tw_start: torch.Tensor = None
     node_tw_end: torch.Tensor = None
+    prob_emb: torch.Tensor = None
 
 
 @dataclass
@@ -27,12 +34,15 @@ class StepState:
     BATCH_IDX: torch.Tensor = None
     POMO_IDX: torch.Tensor = None
     START_NODE: torch.Tensor = None
+    PROBLEM: str = None
     selected_count: int = None
     current_node: torch.Tensor = None
     ninf_mask: torch.Tensor = None
     finished: torch.Tensor = None
     load: torch.Tensor = None
     current_time: torch.Tensor = None
+    length: torch.Tensor = None
+    open: torch.Tensor = None
     route_length: torch.Tensor = None
     route_count: torch.Tensor = None
     current_coord: torch.Tensor = None
@@ -47,17 +57,21 @@ class VRPTWEnv:
     """
 
     def __init__(self, **env_params):
+        self.problem = "VRPTW"
         self.env_params = dict(env_params)
         self.problem_size = env_params["problem_size"]
         self.pomo_size = env_params["pomo_size"]
         if self.pomo_size > self.problem_size:
             raise ValueError("pomo_size cannot exceed problem_size")
-        self.capacity = float(env_params.get("capacity", 1.0))
-        self.speed = float(env_params.get("speed", 1.0))
-        self.depot_start = float(env_params.get("depot_start", 0.0))
-        self.depot_end = float(env_params.get("depot_end", 3.0))
-        self.service_duration = float(env_params.get("service_duration", 0.2))
-        self.epsilon = float(env_params.get("epsilon", 1e-5))
+        self.capacity = float(env_params.get("capacity", VRPTW_CAPACITY))
+        self.speed = float(env_params.get("speed", VRPTW_SPEED))
+        self.depot_start = float(env_params.get("depot_start", VRPTW_DEPOT_START))
+        self.depot_end = float(env_params.get("depot_end", VRPTW_DEPOT_END))
+        self.service_duration = float(
+            env_params.get("service_duration", VRPTW_SERVICE_DURATION)
+        )
+        self.epsilon = float(env_params.get("epsilon", VRPTW_EPSILON))
+        self.loc_scaler = env_params.get("loc_scaler")
         self.device = torch.device(env_params.get("device", "cpu"))
 
         self.saved_problems = None
@@ -131,13 +145,25 @@ class VRPTWEnv:
             self.batch_size, self.pomo_size
         )
         self.reset_state = ResetState(
-            depot_xy, node_xy, node_demand, service_time, tw_start, tw_end
+            depot_xy=depot_xy,
+            node_xy=node_xy,
+            node_demand=node_demand,
+            node_service_time=service_time,
+            node_tw_start=tw_start,
+            node_tw_end=tw_end,
+            prob_emb=torch.tensor(
+                [[1.0, 0.0, 0.0, 0.0, 1.0]], device=self.device
+            ),
         )
         self.step_state.BATCH_IDX = self.BATCH_IDX
         self.step_state.POMO_IDX = self.POMO_IDX
         self.step_state.START_NODE = torch.arange(
             1, self.pomo_size + 1, device=self.device
         )[None].expand(self.batch_size, -1)
+        self.step_state.PROBLEM = self.problem
+        self.step_state.open = torch.zeros(
+            self.batch_size, self.pomo_size, device=self.device
+        )
 
     def reset(self):
         if self.batch_size is None:
@@ -245,6 +271,7 @@ class VRPTWEnv:
         self.step_state.finished = self.finished
         self.step_state.load = self.load
         self.step_state.current_time = self.current_time
+        self.step_state.length = self.route_length
         self.step_state.route_length = self.route_length
         self.step_state.route_count = self.route_count
         self.step_state.current_coord = self.current_coord
@@ -253,7 +280,15 @@ class VRPTWEnv:
         gather = self.selected_node_list[:, :, :, None].expand(-1, -1, -1, 2)
         all_xy = self.depot_node_xy[:, None].expand(-1, self.pomo_size, -1, -1)
         ordered = all_xy.gather(2, gather)
-        return (ordered - ordered.roll(shifts=-1, dims=2)).norm(p=2, dim=-1).sum(2)
+        segment_lengths = (
+            ordered - ordered.roll(shifts=-1, dims=2)
+        ).norm(p=2, dim=-1)
+        if self.loc_scaler is not None:
+            scaler = float(self.loc_scaler)
+            if scaler <= 0:
+                raise ValueError("loc_scaler must be positive")
+            segment_lengths = torch.round(segment_lengths * scaler) / scaler
+        return segment_lengths.sum(2)
 
     def strict_replay(self):
         if not bool(self.finished.all()):
@@ -275,6 +310,8 @@ class VRPTWEnv:
             depot_start=self.depot_start,
             depot_end=self.depot_end,
             speed=self.speed,
+            loc_scaler=self.loc_scaler,
+            epsilon=self.epsilon,
         )
 
     @staticmethod

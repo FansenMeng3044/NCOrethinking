@@ -1,6 +1,14 @@
 import torch
 
-from CVRPTWCore import split_giant_tours_tw
+from CVRPTWCore import (
+    VRPTW_CAPACITY,
+    VRPTW_DEPOT_END,
+    VRPTW_DEPOT_START,
+    VRPTW_EPSILON,
+    VRPTW_SERVICE_DURATION,
+    VRPTW_SPEED,
+    split_giant_tours_tw,
+)
 from problems.am_split.state_am_split import StateAMSplit
 from problems.cvrptw.problem_cvrptw import CVRPTW, CVRPTWDataset
 from split_decoder import raw_giant_tour_cost
@@ -10,17 +18,21 @@ class AMSplitTW:
     """XY-only Attention Model followed by exact capacity-and-TW Split."""
 
     NAME = "am_split_tw"
-    VEHICLE_CAPACITY = 1.0
-    DEPOT_START = 0.0
-    DEPOT_END = 3.0
-    SPEED = 1.0
-    SERVICE_DURATION = 0.2
+    VEHICLE_CAPACITY = VRPTW_CAPACITY
+    DEPOT_START = VRPTW_DEPOT_START
+    DEPOT_END = VRPTW_DEPOT_END
+    SPEED = VRPTW_SPEED
+    SERVICE_DURATION = VRPTW_SERVICE_DURATION
+    EPSILON = VRPTW_EPSILON
+    LOC_SCALER = None
     TRAIN_REWARD = "split"
 
     @classmethod
     def configure(
-        cls, capacity=1.0, depot_start=0.0, depot_end=3.0,
-        speed=1.0, service_duration=0.2, train_reward="split", **_unused
+        cls, capacity=VRPTW_CAPACITY, depot_start=VRPTW_DEPOT_START,
+        depot_end=VRPTW_DEPOT_END, speed=VRPTW_SPEED,
+        service_duration=VRPTW_SERVICE_DURATION, train_reward="split",
+        loc_scaler=None, epsilon=VRPTW_EPSILON, **_unused
     ):
         if train_reward not in ("split", "raw"):
             raise ValueError("train_reward must be 'split' or 'raw'")
@@ -29,6 +41,8 @@ class AMSplitTW:
         cls.DEPOT_END = float(depot_end)
         cls.SPEED = float(speed)
         cls.SERVICE_DURATION = float(service_duration)
+        cls.LOC_SCALER = loc_scaler
+        cls.EPSILON = float(epsilon)
         cls.TRAIN_REWARD = train_reward
         CVRPTW.configure(
             capacity=capacity,
@@ -36,6 +50,8 @@ class AMSplitTW:
             depot_end=depot_end,
             speed=speed,
             service_duration=service_duration,
+            loc_scaler=loc_scaler,
+            epsilon=epsilon,
         )
 
     @classmethod
@@ -62,6 +78,8 @@ class AMSplitTW:
             depot_start=dataset.get("depot_start", cls.DEPOT_START),
             depot_end=dataset.get("depot_end", cls.DEPOT_END),
             speed=cls.SPEED,
+            loc_scaler=cls.LOC_SCALER,
+            epsilon=cls.EPSILON,
             return_predecessors=return_predecessors,
         )
 

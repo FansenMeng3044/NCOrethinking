@@ -68,6 +68,8 @@ def get_options(args=None):
                         help='CVRPTW vehicle speed')
     parser.add_argument('--service_duration', type=float, default=0.2,
                         help='CVRPTW random-instance customer service duration')
+    parser.add_argument('--loc_scaler', type=float, default=None,
+                        help='Optional canonical per-edge distance rounding scale')
 
     # Misc
     parser.add_argument('--log_step', type=int, default=50, help='Log info every log_step steps')

@@ -1,6 +1,7 @@
 """Shared multi-vehicle CVRPTW semantics for AM and POMO experiments.
 
-The environment represented here is the classical homogeneous-fleet CVRPTW:
+The canonical behaviour is the supplied standard ``VRPTWEnv.py``.  The
+environment represented here is the classical homogeneous-fleet CVRPTW:
 each depot-delimited route is driven by a fresh, fully loaded vehicle whose
 clock starts at ``depot_start``.  Routes are generated sequentially by the
 neural decoder, but are independent in problem time and may execute in
@@ -15,6 +16,16 @@ import torch
 
 
 TensorOrFloat = Union[torch.Tensor, float]
+
+
+# Defaults and numerical tolerance from the canonical VRPTWEnv.py.  Keeping
+# them here prevents AM, POMO and both Split variants from drifting apart.
+VRPTW_CAPACITY = 1.0
+VRPTW_SPEED = 1.0
+VRPTW_DEPOT_START = 0.0
+VRPTW_DEPOT_END = 3.0
+VRPTW_SERVICE_DURATION = 0.2
+VRPTW_EPSILON = 1e-5
 
 
 @dataclass
@@ -48,12 +59,12 @@ def get_random_problems(
     problem_size: int,
     *,
     device=None,
-    depot_start: float = 0.0,
-    depot_end: float = 3.0,
-    speed: float = 1.0,
-    service_duration: float = 0.2,
+    depot_start: float = VRPTW_DEPOT_START,
+    depot_end: float = VRPTW_DEPOT_END,
+    speed: float = VRPTW_SPEED,
+    service_duration: float = VRPTW_SERVICE_DURATION,
 ) -> Tuple[torch.Tensor, ...]:
-    """Generate the same feasible-per-route distribution as ``VRPTWEnv.py``.
+    """Generate the canonical ``VRPTWEnv.py`` training distribution.
 
     Every customer is guaranteed to be feasible on its own route
     ``depot -> customer -> depot``.  This is sufficient for the unlimited
@@ -67,9 +78,6 @@ def get_random_problems(
 
     depot_xy = torch.rand(batch_size, 1, 2, device=device)
     node_xy = torch.rand(batch_size, problem_size, 2, device=device)
-    node_demand = torch.randint(
-        1, 10, (batch_size, problem_size), device=device
-    ).float() / demand_scaler(problem_size)
     service_time = torch.full(
         (batch_size, problem_size),
         float(service_duration),
@@ -80,22 +88,44 @@ def get_random_problems(
     travel_time = (node_xy - depot_xy).norm(p=2, dim=-1) / speed
     earliest_center = depot_start + travel_time
     latest_center = depot_end - travel_time - service_time
-    if (latest_center < earliest_center).any():
-        # With the supported defaults this cannot happen.  Keep the failure
-        # explicit for custom horizons instead of recursing indefinitely.
-        raise ValueError(
-            "depot horizon is too short for the requested service duration"
+    # These two expressions intentionally retain the ordering used by the
+    # reference implementation, including its RNG consumption order.
+    centers = (
+        (earliest_center - latest_center) * torch.rand_like(travel_time)
+        + latest_center
+    )
+    half_width = (
+        (service_time / 2.0 - depot_end / 3.0) * torch.rand_like(travel_time)
+        + depot_end / 3.0
+    )
+    tw_start = torch.clamp(
+        centers - half_width, min=depot_start, max=depot_end
+    )
+    tw_end = torch.clamp(
+        centers + half_width, min=depot_start, max=depot_end
+    )
+
+    # Match the reference environment: reject the whole generated batch when
+    # any customer is not feasible on its own fresh-vehicle route.
+    single_route_completion = (
+        torch.maximum(depot_start + travel_time, tw_start)
+        + service_time
+        + travel_time
+    )
+    if (single_route_completion > depot_end + VRPTW_EPSILON).any():
+        return get_random_problems(
+            batch_size,
+            problem_size,
+            device=device,
+            depot_start=depot_start,
+            depot_end=depot_end,
+            speed=speed,
+            service_duration=service_duration,
         )
-    centers = earliest_center + torch.rand_like(travel_time) * (
-        latest_center - earliest_center
-    )
-    max_half_width = (depot_end - depot_start) / 3.0
-    min_half_width = service_time / 2.0
-    half_width = min_half_width + torch.rand_like(travel_time) * (
-        max_half_width - min_half_width
-    )
-    tw_start = torch.clamp(centers - half_width, min=depot_start, max=depot_end)
-    tw_end = torch.clamp(centers + half_width, min=depot_start, max=depot_end)
+
+    node_demand = torch.randint(
+        1, 10, (batch_size, problem_size), device=device
+    ).float() / demand_scaler(problem_size)
 
     return depot_xy, node_xy, node_demand, service_time, tw_start, tw_end
 
@@ -186,12 +216,13 @@ def split_giant_tours_tw(
     tw_end: torch.Tensor,
     giant_tours: torch.Tensor,
     *,
-    capacity: float = 1.0,
-    depot_start: TensorOrFloat = 0.0,
-    depot_end: TensorOrFloat = 3.0,
-    speed: float = 1.0,
+    capacity: float = VRPTW_CAPACITY,
+    depot_start: TensorOrFloat = VRPTW_DEPOT_START,
+    depot_end: TensorOrFloat = VRPTW_DEPOT_END,
+    speed: float = VRPTW_SPEED,
+    loc_scaler: Optional[float] = None,
     return_predecessors: bool = False,
-    epsilon: float = 1e-6,
+    epsilon: float = VRPTW_EPSILON,
 ) -> SplitResult:
     """Optimal hard-capacity/hard-TW Split for a fixed customer order.
 
@@ -253,8 +284,11 @@ def split_giant_tours_tw(
         if problem_size > 1
         else ordered_xy.new_zeros(route_count, 0)
     )
+    cost_depot_distance = _round_segment_distance(depot_distance, loc_scaler)
+    cost_consecutive = _round_segment_distance(consecutive, loc_scaler)
     edge_prefix = torch.cat(
-        (ordered_xy.new_zeros(route_count, 1), consecutive.cumsum(dim=1)), dim=1
+        (ordered_xy.new_zeros(route_count, 1), cost_consecutive.cumsum(dim=1)),
+        dim=1,
     )
     demand_prefix = torch.cat(
         (ordered_demand.new_zeros(route_count, 1), ordered_demand.cumsum(dim=1)),
@@ -307,9 +341,9 @@ def split_giant_tours_tw(
         segment_load = demand_prefix[:, end + 1, None] - demand_prefix[:, : end + 1]
         internal_distance = edge_prefix[:, end, None] - edge_prefix[:, : end + 1]
         segment_cost = (
-            depot_distance[:, : end + 1]
+            cost_depot_distance[:, : end + 1]
             + internal_distance
-            + depot_distance[:, end, None]
+            + cost_depot_distance[:, end, None]
         )
         can_return = (
             completion[:, starts] + depot_distance[:, end, None] / speed
@@ -417,11 +451,12 @@ def replay_cvrptw_actions(
     tw_end: torch.Tensor,
     actions: torch.Tensor,
     *,
-    capacity: float = 1.0,
-    depot_start: TensorOrFloat = 0.0,
-    depot_end: TensorOrFloat = 3.0,
-    speed: float = 1.0,
-    epsilon: float = 1e-6,
+    capacity: float = VRPTW_CAPACITY,
+    depot_start: TensorOrFloat = VRPTW_DEPOT_START,
+    depot_end: TensorOrFloat = VRPTW_DEPOT_END,
+    speed: float = VRPTW_SPEED,
+    loc_scaler: Optional[float] = None,
+    epsilon: float = VRPTW_EPSILON,
 ) -> ReplayResult:
     """Strictly replay depot-delimited routes and return per-instance checks."""
 
@@ -459,7 +494,7 @@ def replay_cvrptw_actions(
             node_xy[batch_index, customer_index],
         )
         travel = (selected_coord - current_coord).norm(p=2, dim=-1)
-        distances += travel
+        distances += _round_segment_distance(travel, loc_scaler)
 
         if (~is_depot).any():
             active = ~is_depot
@@ -490,7 +525,7 @@ def replay_cvrptw_actions(
 
     # AM may omit the final depot action; close the last route implicitly.
     return_distance = (current_coord - depot_xy[:, 0]).norm(p=2, dim=-1)
-    distances += return_distance
+    distances += _round_segment_distance(return_distance, loc_scaler)
     time_ok &= current_time + return_distance / speed <= horizon + epsilon
     all_once = (visit_count == 1).all(dim=1)
     feasible = all_once & capacity_ok & time_ok
@@ -507,3 +542,14 @@ def _expand_batch_scalar(value, batch_size, repeat, reference):
     if tensor.size(1) != 1:
         raise ValueError("depot time tensors must be scalar or have one value per batch")
     return tensor[:, None, :].expand(-1, repeat, -1).reshape(batch_size * repeat, 1)
+
+
+def _round_segment_distance(distance, loc_scaler):
+    """Apply the reference environment's optional per-edge distance rounding."""
+
+    if loc_scaler is None:
+        return distance
+    scaler = float(loc_scaler)
+    if scaler <= 0:
+        raise ValueError("loc_scaler must be positive")
+    return torch.round(distance * scaler) / scaler

@@ -3,6 +3,12 @@ from dataclasses import dataclass
 import torch
 
 from CVRPTWCore import (
+    VRPTW_CAPACITY,
+    VRPTW_DEPOT_END,
+    VRPTW_DEPOT_START,
+    VRPTW_EPSILON,
+    VRPTW_SERVICE_DURATION,
+    VRPTW_SPEED,
     augment_problems_by_8,
     get_random_problems,
     reconstruct_routes,
@@ -38,11 +44,15 @@ class GiantTourTWEnv:
         self.pomo_size = env_params["pomo_size"]
         if self.pomo_size > self.problem_size:
             raise ValueError("pomo_size cannot exceed problem_size")
-        self.capacity = float(env_params.get("capacity", 1.0))
-        self.speed = float(env_params.get("speed", 1.0))
-        self.depot_start = float(env_params.get("depot_start", 0.0))
-        self.depot_end = float(env_params.get("depot_end", 3.0))
-        self.service_duration = float(env_params.get("service_duration", 0.2))
+        self.capacity = float(env_params.get("capacity", VRPTW_CAPACITY))
+        self.speed = float(env_params.get("speed", VRPTW_SPEED))
+        self.depot_start = float(env_params.get("depot_start", VRPTW_DEPOT_START))
+        self.depot_end = float(env_params.get("depot_end", VRPTW_DEPOT_END))
+        self.service_duration = float(
+            env_params.get("service_duration", VRPTW_SERVICE_DURATION)
+        )
+        self.epsilon = float(env_params.get("epsilon", VRPTW_EPSILON))
+        self.loc_scaler = env_params.get("loc_scaler")
         self.device = torch.device(env_params.get("device", "cpu"))
         self.saved_problems = None
         self.saved_index = 0
@@ -150,6 +160,8 @@ class GiantTourTWEnv:
                 depot_start=self.depot_start,
                 depot_end=self.depot_end,
                 speed=self.speed,
+                loc_scaler=self.loc_scaler,
+                epsilon=self.epsilon,
                 return_predecessors=True,
             )
         return self.step_state, -self.last_split_result.costs, True

@@ -152,6 +152,8 @@ class GiantTourTWTester(CVRPTester):
                 depot_start=self.env.depot_start,
                 depot_end=self.env.depot_end,
                 speed=self.env.speed,
+                loc_scaler=self.env.loc_scaler,
+                epsilon=self.env.epsilon,
             )
             distance_matches = torch.isclose(
                 replay.distances, distance_aug, rtol=1e-5, atol=1e-5

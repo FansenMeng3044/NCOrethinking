@@ -113,6 +113,7 @@ def load_model(path, epoch=None):
             depot_end=args.get('depot_end', 3.0),
             speed=args.get('speed', 1.0),
             service_duration=args.get('service_duration', 0.2),
+            loc_scaler=args.get('loc_scaler'),
         )
 
     model_class = {
