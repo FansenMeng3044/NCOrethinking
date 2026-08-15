@@ -372,6 +372,42 @@ def reconstruct_routes(
     return routes
 
 
+def split_routes_to_actions(
+    giant_tours: torch.Tensor, predecessors: torch.Tensor
+) -> torch.Tensor:
+    """Convert Split predecessor chains to padded depot-delimited actions.
+
+    Each returned sequence starts at depot 0 and closes every independent
+    vehicle route at depot 0.  Additional right-padding zeros are harmless to
+    strict replay because they represent vehicles remaining at the depot.
+    """
+
+    if giant_tours.dim() == 1:
+        giant_tours = giant_tours[None]
+        predecessors = predecessors[None]
+    if giant_tours.dim() != 2 or predecessors.dim() != 2:
+        raise ValueError("giant_tours and predecessors must be rank-1 or rank-2")
+    if predecessors.shape != (giant_tours.size(0), giant_tours.size(1) + 1):
+        raise ValueError("predecessors must have shape (batch, n+1)")
+
+    sequences = []
+    for tour, pred in zip(giant_tours, predecessors):
+        sequence = [0]
+        for route in reconstruct_routes(tour, pred):
+            sequence.extend(route)
+            sequence.append(0)
+        sequences.append(sequence)
+    max_length = max(map(len, sequences))
+    actions = torch.zeros(
+        len(sequences), max_length, dtype=torch.long, device=giant_tours.device
+    )
+    for row, sequence in enumerate(sequences):
+        actions[row, : len(sequence)] = torch.as_tensor(
+            sequence, dtype=torch.long, device=giant_tours.device
+        )
+    return actions
+
+
 def replay_cvrptw_actions(
     depot_xy: torch.Tensor,
     node_xy: torch.Tensor,

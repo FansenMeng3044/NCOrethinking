@@ -24,6 +24,8 @@ def main():
     parser.add_argument("--depot-end", type=float, default=3.0)
     parser.add_argument("--service-duration", type=float, default=0.2)
     parser.add_argument("--cuda-device", type=int, default=0)
+    parser.add_argument("--metrics-log-interval", type=int, default=1)
+    parser.add_argument("--metrics-flush-interval", type=int, default=50)
     parser.add_argument("--no-cuda", action="store_true")
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
@@ -63,8 +65,8 @@ def main():
         "train_batch_size": args.batch_size,
         "logging": {
             "model_save_interval": 200,
-            "metrics_log_interval": 1,
-            "metrics_flush_interval": 50,
+            "metrics_log_interval": args.metrics_log_interval,
+            "metrics_flush_interval": args.metrics_flush_interval,
         },
         "model_load": {"enable": False},
     }

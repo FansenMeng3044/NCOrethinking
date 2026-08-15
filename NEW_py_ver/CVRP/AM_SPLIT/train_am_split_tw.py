@@ -28,6 +28,8 @@ def parse_args():
     parser.add_argument("--output-dir", default=str(THIS_DIR / "outputs"))
     parser.add_argument("--resume", default=None)
     parser.add_argument("--seed", type=int, default=1234)
+    parser.add_argument("--metrics-log-interval", type=int, default=1)
+    parser.add_argument("--metrics-flush-interval", type=int, default=50)
     parser.add_argument("--no-cuda", action="store_true")
     parser.add_argument("--no-tensorboard", action="store_true")
     parser.add_argument("--no-progress-bar", action="store_true")
@@ -57,6 +59,8 @@ def main():
         "--run_name", args.run_name,
         "--output_dir", args.output_dir,
         "--seed", str(args.seed),
+        "--metrics_log_interval", str(args.metrics_log_interval),
+        "--metrics_flush_interval", str(args.metrics_flush_interval),
         "--normalization", "batch",
         "--n_encode_layers", "3",
     ]

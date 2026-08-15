@@ -34,6 +34,21 @@ negative total Euclidean distance over all vehicle routes.
 hard-TW Split, route reconstruction, and strict replay.  Both AM and POMO call
 that implementation.
 
+## Hard-TW Split
+
+The Split decoder keeps the policy's customer permutation fixed.  For every
+contiguous subsequence `tour[start:end+1]`, it simulates one fresh vehicle from
+`depot_start`, including travel, waiting and service.  The segment is admitted
+only when its total demand fits the vehicle, every service starts by the
+customer due time, and the vehicle returns by `depot_end`.
+
+Every feasible segment becomes an edge in an acyclic auxiliary graph.  Dynamic
+programming finds a depot-to-end shortest path whose edge weight is
+`depot -> first customer + internal customer distances + last customer -> depot`.
+Thus the current objective is minimum total travel distance subject to hard
+capacity/TW constraints.  Vehicle count, waiting, service and completion time
+are not objective terms; route count is reported separately.
+
 ## Fixed dataset
 
 Generate one dataset and use the same file for every model:
@@ -68,6 +83,16 @@ Every entry point supports `--smoke` for a small CPU run.  Existing CVRP
 checkpoints are not shape-compatible with TW-aware AM/POMO models and must not
 be used as CVRPTW checkpoints.
 
+All four TW training entry points retain the structured training recorder used
+by their original CVRP counterparts.  Every run writes `training_metrics.csv`
+inside its run directory.  It contains run metadata, batch rows, epoch
+aggregates, checkpoint events, timing, throughput, GPU memory, losses, costs,
+gradient norms and the final status row.  Use `--metrics-log-interval` to thin
+batch rows without changing epoch aggregation and `--metrics-flush-interval`
+to control disk flushing.  AM-TW and AM-Split-TW can be plotted directly with
+`AM_SPLIT/plot_training_metrics.py`; POMO-TW and POMO-Split-TW use the same
+POMO CSV schema as the original POMO and POMO-Split trainers.
+
 ## Evaluation
 
 POMO entry points accept the same canonical dataset and augmentation 1 or 8:
@@ -77,8 +102,15 @@ python NEW_py_ver/CVRP/POMO_TW/test_n100.py DATASET \
   --checkpoint-dir RUN_DIR --epoch 200 --augmentation 8
 
 python NEW_py_ver/CVRP/POMO_SPLIT_TW/test_n100.py DATASET \
-  --checkpoint-dir RUN_DIR --epoch 200 --augmentation 8
+  --checkpoint-dir RUN_DIR --epoch 200 --augmentation 8 \
+  --output checkpoint_result.json
 ```
+
+POMO-Split-TW selects the best `(augmentation, POMO start)` candidate, rebuilds
+its explicit depot-delimited routes from the Split predecessor chain, and
+strictly replays only that selected solution.  Its JSON includes 1x/8x mean
+distance and standard error, mean vehicle count, replay counts and the overall
+feasibility flag.
 
 AM-TW and AM-Split-TW share an evaluator with strict replay and vehicle-count
 reporting:

@@ -10,7 +10,11 @@ NEW_PY_DIR = os.path.abspath(os.path.join(CVRP_DIR, ".."))
 AM_DIR = os.path.join(CVRP_DIR, "AM_SPLIT")
 sys.path[:0] = [AM_DIR, CVRP_DIR, NEW_PY_DIR]
 
-from CVRPTWCore import replay_cvrptw_actions, split_giant_tours_tw
+from CVRPTWCore import (
+    replay_cvrptw_actions,
+    split_giant_tours_tw,
+    split_routes_to_actions,
+)
 from POMO_SPLIT.GiantTourModel import GiantTourModel
 from POMO_TW.VRPTWEnv import VRPTWEnv
 from POMO_TW.VRPTWModel import VRPTWModel
@@ -45,6 +49,15 @@ class SharedSemanticsTest(unittest.TestCase):
         self.assertAlmostEqual(result.costs.item(), 4.4, places=5)
         self.assertEqual(result.route_counts.item(), 2)
         self.assertEqual(result.predecessors[0].tolist(), [-1, 0, 1])
+        actions = split_routes_to_actions(tour, result.predecessors)
+        self.assertEqual(actions[0].tolist(), [0, 1, 0, 2, 0])
+        replay = replay_cvrptw_actions(
+            depot, nodes, demand, service, tw_start, tw_end, actions,
+            depot_end=5.0,
+        )
+        self.assertTrue(replay.feasible.item())
+        self.assertEqual(replay.route_counts.item(), result.route_counts.item())
+        self.assertAlmostEqual(replay.distances.item(), result.costs.item(), places=5)
 
     def test_pomo_depot_resets_capacity_and_time_but_reward_is_total_distance(self):
         env = VRPTWEnv(

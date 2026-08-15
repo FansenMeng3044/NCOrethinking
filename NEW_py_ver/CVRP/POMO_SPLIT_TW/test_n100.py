@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 import argparse
+import json
 import os
 import sys
+from pathlib import Path
 
 
+LAUNCH_DIR = Path.cwd()
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(THIS_DIR)
 sys.path.insert(0, os.path.abspath(os.path.join(THIS_DIR, "..")))
@@ -24,7 +27,14 @@ def main():
     parser.add_argument("--augmentation", type=int, choices=(1, 8), default=8)
     parser.add_argument("--cuda-device", type=int, default=0)
     parser.add_argument("--no-cuda", action="store_true")
+    parser.add_argument("--output", default=None)
     args = parser.parse_args()
+    dataset = Path(args.dataset).expanduser()
+    if not dataset.is_absolute():
+        dataset = LAUNCH_DIR / dataset
+    checkpoint_dir = Path(args.checkpoint_dir).expanduser()
+    if not checkpoint_dir.is_absolute():
+        checkpoint_dir = LAUNCH_DIR / checkpoint_dir
     env_params = {
         "problem_size": args.problem_size, "pomo_size": args.problem_size,
         "capacity": 1.0, "speed": 1.0, "depot_start": 0.0, "depot_end": 3.0,
@@ -36,15 +46,24 @@ def main():
     }
     tester_params = {
         "use_cuda": not args.no_cuda, "cuda_device_num": args.cuda_device,
-        "model_load": {"path": args.checkpoint_dir, "epoch": args.epoch},
+        "model_load": {"path": str(checkpoint_dir.resolve()), "epoch": args.epoch},
         "test_episodes": args.instances, "test_batch_size": args.batch_size,
         "augmentation_enable": args.augmentation == 8, "aug_factor": args.augmentation,
-        "test_data_load": {"enable": True, "filename": args.dataset},
+        "test_data_load": {"enable": True, "filename": str(dataset.resolve())},
     }
     create_logger(log_file={"desc": "test_pomo_split_cvrptw", "filename": "log.txt"})
     tester = GiantTourTWTester(env_params, model_params, tester_params)
     copy_all_src(tester.result_folder)
-    tester.run()
+    result = tester.run()
+    text = json.dumps(result, indent=2)
+    print(text)
+    if args.output:
+        output = Path(args.output).expanduser()
+        if not output.is_absolute():
+            output = LAUNCH_DIR / output
+        output = output.resolve()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
