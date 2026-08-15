@@ -11,11 +11,16 @@ import torch.nn.functional as F
 
 
 def load_problem(name):
-    from problems import TSP, CVRP, SDVRP, OP, PCTSPDet, PCTSPStoch, AMSplit
+    from problems import (
+        TSP, CVRP, SDVRP, OP, PCTSPDet, PCTSPStoch,
+        AMSplit, AMSplitTW, CVRPTW,
+    )
     problem = {
         'tsp': TSP,
         'am_split': AMSplit,
+        'am_split_tw': AMSplitTW,
         'cvrp': CVRP,
+        'cvrptw': CVRPTW,
         'sdvrp': SDVRP,
         'op': OP,
         'pctsp_det': PCTSPDet,
@@ -100,10 +105,14 @@ def load_model(path, epoch=None):
     args = load_args(os.path.join(path, 'args.json'))
 
     problem = load_problem(args['problem'])
-    if args['problem'] == 'am_split':
+    if args['problem'] in ('am_split', 'am_split_tw', 'cvrptw'):
         problem.configure(
             capacity=args.get('capacity', 1.0),
             train_reward=args.get('train_reward', 'split'),
+            depot_start=args.get('depot_start', 0.0),
+            depot_end=args.get('depot_end', 3.0),
+            speed=args.get('speed', 1.0),
+            service_duration=args.get('service_duration', 0.2),
         )
 
     model_class = {

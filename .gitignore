@@ -7,5 +7,7 @@ __pycache__/
 
 # Runtime-generated tester snapshots and reproduction outputs.
 NEW_py_ver/**/POMO/result/*_test__*/
+NEW_py_ver/CVRP/POMO_TW/result/
+NEW_py_ver/CVRP/POMO_SPLIT_TW/result/
 reproduction_outputs/
 

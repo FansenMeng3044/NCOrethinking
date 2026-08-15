@@ -7,13 +7,21 @@ import torch
 from torch.optim import Adam
 from torch.optim.lr_scheduler import MultiStepLR
 
-from GiantTourEnv import GiantTourEnv
-from GiantTourModel import GiantTourModel
+try:
+    from .GiantTourEnv import GiantTourEnv
+    from .GiantTourModel import GiantTourModel
+except ImportError:  # Keep the original standalone-script entry points working.
+    from GiantTourEnv import GiantTourEnv
+    from GiantTourModel import GiantTourModel
 from utils.utils import AverageMeter, LogData, TimeEstimator, get_result_folder
 from utils.training_metrics import POMOTrainingMetrics
 
 
 class GiantTourTrainer:
+    ENV_CLASS = GiantTourEnv
+    MODEL_CLASS = GiantTourModel
+    METRICS_NAME = "pomo_split_cvrp"
+
     def __init__(self, env_params, model_params, optimizer_params, trainer_params):
         self.env_params = env_params
         self.model_params = model_params
@@ -32,10 +40,10 @@ class GiantTourTrainer:
         if use_cuda:
             torch.cuda.set_device(self.device)
 
-        self.model = GiantTourModel(**model_params).to(self.device)
+        self.model = self.MODEL_CLASS(**model_params).to(self.device)
         env_params_with_device = dict(env_params)
         env_params_with_device["device"] = self.device
-        self.env = GiantTourEnv(**env_params_with_device)
+        self.env = self.ENV_CLASS(**env_params_with_device)
         self.optimizer = Adam(self.model.parameters(), **optimizer_params["optimizer"])
         self.scheduler = MultiStepLR(self.optimizer, **optimizer_params["scheduler"])
 
@@ -56,7 +64,7 @@ class GiantTourTrainer:
 
         self.time_estimator = TimeEstimator()
         self.metrics_logger = POMOTrainingMetrics(
-            self.result_folder, "pomo_split_cvrp", self.env_params, self.model_params,
+            self.result_folder, self.METRICS_NAME, self.env_params, self.model_params,
             self.optimizer_params, self.trainer_params, self.model, self.device
         )
 

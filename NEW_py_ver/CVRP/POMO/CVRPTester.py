@@ -4,13 +4,20 @@ import torch
 import os
 from logging import getLogger
 
-from CVRPEnv import CVRPEnv as Env
-from CVRPModel import CVRPModel as Model
+try:
+    from .CVRPEnv import CVRPEnv as Env
+    from .CVRPModel import CVRPModel as Model
+except ImportError:  # Keep the original standalone-script entry points working.
+    from CVRPEnv import CVRPEnv as Env
+    from CVRPModel import CVRPModel as Model
 
 from utils.utils import *
 
 
 class CVRPTester:
+    ENV_CLASS = Env
+    MODEL_CLASS = Model
+
     def __init__(self,
                  env_params,
                  model_params,
@@ -39,8 +46,10 @@ class CVRPTester:
         self.device = device
 
         # ENV and MODEL
-        self.env = Env(**self.env_params)
-        self.model = Model(**self.model_params)
+        env_params_with_device = dict(self.env_params)
+        env_params_with_device.setdefault('device', device)
+        self.env = self.ENV_CLASS(**env_params_with_device)
+        self.model = self.MODEL_CLASS(**self.model_params).to(device)
 
         # Restore
         model_load = tester_params['model_load']

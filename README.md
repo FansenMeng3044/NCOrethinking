@@ -16,3 +16,10 @@ They are based on ipynb files and easier to play with interactively.
 They are the updated codes, newly structured in 2021. <br>
 They are based on py files, so that they can be run on servers more easily.
 
+### Multi-vehicle CVRPTW
+
+The Python implementation now includes AM-TW, POMO-TW, and their xy-only
+giant-tour + hard-TW Split variants. See
+[`NEW_py_ver/CVRP/CVRPTW_README.md`](NEW_py_ver/CVRP/CVRPTW_README.md) for the
+shared route semantics, fixed-data format, training, evaluation, and tests.
+

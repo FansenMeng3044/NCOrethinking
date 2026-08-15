@@ -60,6 +60,14 @@ def get_options(args=None):
                         help="AM Split training objective: exact Split cost or raw giant-tour length")
     parser.add_argument('--capacity', type=float, default=1.0,
                         help='Vehicle capacity for AM Split (demands are normalized by default)')
+    parser.add_argument('--depot_start', type=float, default=0.0,
+                        help='CVRPTW vehicle-route start time')
+    parser.add_argument('--depot_end', type=float, default=3.0,
+                        help='CVRPTW latest route return time')
+    parser.add_argument('--speed', type=float, default=1.0,
+                        help='CVRPTW vehicle speed')
+    parser.add_argument('--service_duration', type=float, default=0.2,
+                        help='CVRPTW random-instance customer service duration')
 
     # Misc
     parser.add_argument('--log_step', type=int, default=50, help='Log info every log_step steps')

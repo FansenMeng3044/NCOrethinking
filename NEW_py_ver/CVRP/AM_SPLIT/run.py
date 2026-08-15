@@ -7,7 +7,10 @@ import traceback
 
 import torch
 import torch.optim as optim
-from tensorboard_logger import Logger as TbLogger
+try:
+    from tensorboard_logger import Logger as TbLogger
+except ImportError:
+    TbLogger = None
 
 from nets.critic_network import CriticNetwork
 from options import get_options
@@ -30,6 +33,10 @@ def run(opts):
     # Optionally configure tensorboard
     tb_logger = None
     if not opts.no_tensorboard:
+        if TbLogger is None:
+            raise ImportError(
+                "tensorboard_logger is required unless --no_tensorboard is used"
+            )
         tb_logger = TbLogger(os.path.join(opts.log_dir, "{}_{}".format(opts.problem, opts.graph_size), opts.run_name))
 
     os.makedirs(opts.save_dir)
@@ -42,8 +49,15 @@ def run(opts):
 
     # Figure out what's the problem
     problem = load_problem(opts.problem)
-    if opts.problem == 'am_split':
-        problem.configure(capacity=opts.capacity, train_reward=opts.train_reward)
+    if opts.problem in ('am_split', 'am_split_tw', 'cvrptw'):
+        problem.configure(
+            capacity=opts.capacity,
+            train_reward=opts.train_reward,
+            depot_start=opts.depot_start,
+            depot_end=opts.depot_end,
+            speed=opts.speed,
+            service_duration=opts.service_duration,
+        )
 
     # Load data from load_path
     load_data = {}

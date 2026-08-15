@@ -61,8 +61,10 @@ class AttentionModel(nn.Module):
         self.decode_type = None
         self.temp = 1.0
         self.allow_partial = problem.NAME == 'sdvrp'
-        self.is_vrp = problem.NAME == 'cvrp' or problem.NAME == 'sdvrp'
-        self.is_am_split = problem.NAME == 'am_split'
+        self.is_cvrptw = problem.NAME == 'cvrptw'
+        self.is_vrp = problem.NAME in ('cvrp', 'sdvrp', 'cvrptw')
+        self.is_am_split_tw = problem.NAME == 'am_split_tw'
+        self.is_am_split = problem.NAME in ('am_split', 'am_split_tw')
         self.is_orienteering = problem.NAME == 'op'
         self.is_pctsp = problem.NAME == 'pctsp'
 
@@ -79,10 +81,13 @@ class AttentionModel(nn.Module):
         # Problem specific context parameters (placeholder and step context dimension)
         if self.is_vrp or self.is_orienteering or self.is_pctsp:
             # Embedding of last node + remaining_capacity / remaining length / remaining prize to collect
-            step_context_dim = embedding_dim + 1
+            step_context_dim = embedding_dim + (2 if self.is_cvrptw else 1)
 
             if self.is_pctsp:
                 node_dim = 4  # x, y, expected_prize, penalty
+            elif self.is_cvrptw:
+                # x, y, demand, service time, ready time, due time
+                node_dim = 6
             else:
                 node_dim = 3  # x, y, demand / prize
 
@@ -92,7 +97,7 @@ class AttentionModel(nn.Module):
             if self.is_vrp and self.allow_partial:  # Need to include the demand if split delivery allowed
                 self.project_node_step = nn.Linear(1, 3 * embedding_dim, bias=False)
         else:  # TSP-like permutation decoder
-            assert problem.NAME in ("tsp", "am_split"), \
+            assert problem.NAME in ("tsp", "am_split", "am_split_tw"), \
                 "Unsupported problem: {}".format(problem.NAME)
             step_context_dim = 2 * embedding_dim  # Embeddings of first and last customer
             node_dim = 2  # x, y
@@ -208,7 +213,10 @@ class AttentionModel(nn.Module):
 
         if self.is_vrp or self.is_orienteering or self.is_pctsp:
             if self.is_vrp:
-                features = ('demand', )
+                features = (
+                    ('demand', 'service_time', 'tw_start', 'tw_end')
+                    if self.is_cvrptw else ('demand', )
+                )
             elif self.is_orienteering:
                 features = ('prize', )
             else:
@@ -400,7 +408,11 @@ class AttentionModel(nn.Module):
                     (
                         embeddings[:, 0:1, :].expand(batch_size, num_steps, embeddings.size(-1)),
                         # used capacity is 0 after visiting depot
-                        self.problem.VEHICLE_CAPACITY - torch.zeros_like(state.used_capacity[:, :, None])
+                        self.problem.VEHICLE_CAPACITY - torch.zeros_like(state.used_capacity[:, :, None]),
+                        *(
+                            (state.current_time[:, :, None],)
+                            if self.is_cvrptw else ()
+                        )
                     ),
                     -1
                 )
@@ -414,7 +426,11 @@ class AttentionModel(nn.Module):
                                 .view(batch_size, num_steps, 1)
                                 .expand(batch_size, num_steps, embeddings.size(-1))
                         ).view(batch_size, num_steps, embeddings.size(-1)),
-                        self.problem.VEHICLE_CAPACITY - state.used_capacity[:, :, None]
+                        self.problem.VEHICLE_CAPACITY - state.used_capacity[:, :, None],
+                        *(
+                            (state.current_time[:, :, None],)
+                            if self.is_cvrptw else ()
+                        )
                     ),
                     -1
                 )

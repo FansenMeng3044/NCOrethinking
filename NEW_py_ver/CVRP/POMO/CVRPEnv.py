@@ -2,7 +2,10 @@
 from dataclasses import dataclass
 import torch
 
-from CVRProblemDef import get_random_problems, augment_xy_data_by_8_fold
+try:
+    from .CVRProblemDef import get_random_problems, augment_xy_data_by_8_fold
+except ImportError:  # Keep the original standalone-script entry points working.
+    from CVRProblemDef import get_random_problems, augment_xy_data_by_8_fold
 
 
 @dataclass

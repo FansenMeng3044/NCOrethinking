@@ -2,8 +2,14 @@ from dataclasses import dataclass
 
 import torch
 
-from CVRProblemDef import augment_xy_data_by_8_fold, get_random_problems
-from SplitDecoder import reconstruct_routes, split_giant_tours
+try:
+    from POMO.CVRProblemDef import augment_xy_data_by_8_fold, get_random_problems
+except ImportError:  # Keep the original standalone-script entry points working.
+    from CVRProblemDef import augment_xy_data_by_8_fold, get_random_problems
+try:
+    from .SplitDecoder import reconstruct_routes, split_giant_tours
+except ImportError:  # Keep the original standalone-script entry points working.
+    from SplitDecoder import reconstruct_routes, split_giant_tours
 
 
 @dataclass

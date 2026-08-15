@@ -5,8 +5,12 @@ import traceback
 import torch
 from logging import getLogger
 
-from CVRPEnv import CVRPEnv as Env
-from CVRPModel import CVRPModel as Model
+try:
+    from .CVRPEnv import CVRPEnv as Env
+    from .CVRPModel import CVRPModel as Model
+except ImportError:  # Keep the original standalone-script entry points working.
+    from CVRPEnv import CVRPEnv as Env
+    from CVRPModel import CVRPModel as Model
 
 from torch.optim import Adam as Optimizer
 from torch.optim.lr_scheduler import MultiStepLR as Scheduler
@@ -16,6 +20,10 @@ from utils.training_metrics import POMOTrainingMetrics
 
 
 class CVRPTrainer:
+    ENV_CLASS = Env
+    MODEL_CLASS = Model
+    METRICS_NAME = 'pomo_cvrp'
+
     def __init__(self,
                  env_params,
                  model_params,
@@ -46,8 +54,10 @@ class CVRPTrainer:
         self.device = device
 
         # Main Components
-        self.model = Model(**self.model_params)
-        self.env = Env(**self.env_params)
+        self.model = self.MODEL_CLASS(**self.model_params).to(device)
+        env_params_with_device = dict(self.env_params)
+        env_params_with_device.setdefault('device', device)
+        self.env = self.ENV_CLASS(**env_params_with_device)
         self.optimizer = Optimizer(self.model.parameters(), **self.optimizer_params['optimizer'])
         self.scheduler = Scheduler(self.optimizer, **self.optimizer_params['scheduler'])
 
@@ -67,7 +77,7 @@ class CVRPTrainer:
         # utility
         self.time_estimator = TimeEstimator()
         self.metrics_logger = POMOTrainingMetrics(
-            self.result_folder, 'pomo_cvrp', self.env_params, self.model_params,
+            self.result_folder, self.METRICS_NAME, self.env_params, self.model_params,
             self.optimizer_params, self.trainer_params, self.model, self.device
         )
 

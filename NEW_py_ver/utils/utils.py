@@ -33,7 +33,10 @@ import logging
 import logging.config
 import pytz
 import numpy as np
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+except ImportError:  # Training itself does not require plot generation.
+    plt = None
 import json
 import shutil
 
@@ -240,6 +243,8 @@ def util_save_log_image_with_label(result_file_prefix,
                                    img_params,
                                    result_log: LogData,
                                    labels=None):
+    if plt is None:
+        raise ImportError("matplotlib is required to save log images")
     dirname = os.path.dirname(result_file_prefix)
     if not os.path.exists(dirname):
         os.makedirs(dirname)
