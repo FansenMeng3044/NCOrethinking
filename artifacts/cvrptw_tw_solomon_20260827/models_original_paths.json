@@ -1,0 +1,60 @@
+{
+  "models": [
+    {
+      "name": "pomo_tw_n50",
+      "architecture": "pomo_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/pomo_tw_n50/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_tw_n50",
+      "architecture": "pomo_split_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/pomo_split_tw_n50/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_tw_n50",
+      "architecture": "am_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/am_tw_n50_resume60_attempt1/cvrptw_50/am_tw_n50_resume60_fixedlr_20260826T215744/epoch-100.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_split_tw_n50",
+      "architecture": "am_split_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/am_split_tw_n50/am_split_tw_50/am_split_tw_n50_fixedlr_20260822_154648_20260822T155710/epoch-100.pt",
+      "enabled": true
+    },
+    {
+      "name": "pomo_tw_n100",
+      "architecture": "pomo_tw",
+      "size": 100,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/pomo_tw_n100_resume1000_attempt1/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_tw_n100",
+      "architecture": "pomo_split_tw",
+      "size": 100,
+      "checkpoint": "/root/autodl-tmp/cvrptw6_fixedlr_20260822_154648/outputs/pomo_split_tw_n100_resume1600_attempt1/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_tw_n100_historical",
+      "architecture": "am_tw",
+      "size": 100,
+      "checkpoint": "/root/autodl-tmp/tw4_official_resume_20260817_131657/outputs/am_tw_standard_fix_resume80_port37047/cvrptw_100/am_tw_official_standard_fix_resume80_port37047_20260819T142203/epoch-100.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_split_tw_n100_historical",
+      "architecture": "am_split_tw",
+      "size": 100,
+      "checkpoint": "/root/autodl-tmp/tw4_official_resume_20260817_131657/outputs/am_split_tw_standard_fix_fresh/am_split_tw_100/am_split_tw_official_standard_fix_fresh_20260817_1541_20260817T154251/epoch-100.pt",
+      "enabled": true
+    }
+  ]
+}

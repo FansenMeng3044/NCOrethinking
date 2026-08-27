@@ -1,0 +1,23 @@
+{
+  "original_name": "cvrptw6_fixedlr_20260822_154648.tar.zst",
+  "original_bytes": 213533638,
+  "original_sha256": "563dfba38cda40844ffbfe772e9f34b5f2eabf9378327bc088ab7bd7313aad0c",
+  "chunk_bytes": 94371840,
+  "chunks": [
+    {
+      "path": "cvrptw6_fixedlr_20260822_154648.tar.zst.part-000",
+      "bytes": 94371840,
+      "sha256": "0c1a3177d77e408c97b854bbc9dda2e4d95a18f0ea812db85e7169dd0900153a"
+    },
+    {
+      "path": "cvrptw6_fixedlr_20260822_154648.tar.zst.part-001",
+      "bytes": 94371840,
+      "sha256": "79c6a0c8f134691fffce12e765dc63e1e823f8240c127d8cf1ed4fe78cc0fb7e"
+    },
+    {
+      "path": "cvrptw6_fixedlr_20260822_154648.tar.zst.part-002",
+      "bytes": 24789958,
+      "sha256": "8aa3d0b5c90a9b0b3aecbadc835bad66e779435dd284c33c11180d16f45293a0"
+    }
+  ]
+}
