@@ -1,0 +1,15 @@
+branch=main
+commit=84f8ee999be52ab0f04dca1635155b36cf773e8e
+tracked_diff_begin
+tracked_diff_end
+status_porcelain_begin
+?? NEW_py_ver/CVRP/AM_TW_RL4CO/
+?? NEW_py_ver/CVRP/AM_TW_SPLIT_RL4CO/
+?? NEW_py_ver/CVRP/POMO_TW_RL4CO/
+?? NEW_py_ver/CVRP/POMO_TW_SPLIT_RL4CO/
+?? NEW_py_ver/CVRP/RL4CO_CVRPTW/
+?? NEW_py_ver/CVRP/RL4CO_TW_SPLIT/
+?? NEW_py_ver/CVRP/_smoke_cvrptw/
+?? reproduction_data/fixed_testsets/cvrptw100_n10000_seed1234.csv
+?? reproduction_data/fixed_testsets/cvrptw50_n10000_seed1234.csv
+status_porcelain_end

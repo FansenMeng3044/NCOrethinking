@@ -1,0 +1,55 @@
+{
+  "checkpoint_sha256": {
+    "am_n100": "450c46de4a257605d66b5705cb38f0fd265ec3587a2c7bd866d0605ee463dfce",
+    "am_split_n100": "b669a5251c8aba3ba97d74df3c6ea1fc8e0cda0066be1bb76e9855d9d1ce2f44",
+    "pomo_n100": "74bf36630f179b69d69ceae4997d6b03994815677c0c6bf4000b4936feb29af8",
+    "pomo_split_n100": "887e1e7a24df1cdb4877b11a188ecda2648e006d8cea7f849866e51332b6fbac"
+  },
+  "complete": true,
+  "dataset": "CVRPLIB XML100",
+  "evaluator_source_sha256": {
+    "AUDIT.md": "3bba63b2349a41386b372e8b1e511d431c81f2d0eb3ca0235084ca13f41162ec",
+    "README.md": "ffbd4d45ad5e5c262b1839c3145150172eee48b4278d402173ab8f69dc47cafb",
+    "evaluate_xml100.py": "57d073bbc20ce0be18784ee20284ec82e5581267f72c37889a6f8d9cf2a20377",
+    "plot_xml100_solution.py": "128768b563b5fffd8f3933f634bedf388740f85575500f68db86682285daad85",
+    "prepare_xml100.py": "f023a409c5d1a25ff7591fca98fdfb307f39fb53c3236484dd8d0c5224f28079",
+    "run_xml100.sh": "a9c5314480f53d86a4a784b19c33314b9809125a49143a08fc4a34ee8e41677b",
+    "summarize_xml100.py": "1456307d7f908d87c0999b7059397cf52ef4f3d2054012c1f728564ca8e0b2de",
+    "verify_xml100_results.py": "cc1360a7d4f7b3536596e0112003f66f8f15b3d5634442baf5d66064d8ded571",
+    "xml100_io.py": "4fb3ca75b2c44e65310325f6e1b58de7aa29e41d610fabb266259576cd7ba2bc"
+  },
+  "maximum_gap_percent": 112.1682075753057,
+  "maximum_no_aug_gap_percent": 1480.5877483443708,
+  "models": [
+    "am_n100",
+    "am_split_n100",
+    "pomo_n100",
+    "pomo_split_n100"
+  ],
+  "results": "/root/autodl-tmp/xml100_eval_n100_20260827/results/xml100_n100_final_20260827/xml100_results.csv",
+  "route_verification": "every status=ok route was checked by an implementation separate from the evaluator; it covers every customer exactly once, obeys capacity, and exactly matches an integer-arithmetic per-edge EUC_2D cost",
+  "rows": 40000,
+  "rows_per_model": {
+    "am_n100": 10000,
+    "am_split_n100": 10000,
+    "pomo_n100": 10000,
+    "pomo_split_n100": 10000
+  },
+  "run_manifest": "/root/autodl-tmp/xml100_eval_n100_20260827/results/xml100_n100_final_20260827/run_manifest.json",
+  "schema_version": 1,
+  "status_counts": {
+    "am_n100": {
+      "ok": 10000
+    },
+    "am_split_n100": {
+      "ok": 10000
+    },
+    "pomo_n100": {
+      "ok": 10000
+    },
+    "pomo_split_n100": {
+      "ok": 10000
+    }
+  },
+  "unique_model_instance_rows": 40000
+}

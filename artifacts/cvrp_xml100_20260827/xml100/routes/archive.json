@@ -1,0 +1,7 @@
+{
+  "file": "xml100/routes/xml100_n100_final_20260827.tar.zst",
+  "bytes": 19647660,
+  "sha256": "13aac16b0a65fdbf965f8e78b03a02cfe80e6ff45a8741dbd9de46cd0c90bf96",
+  "route_json_count": 40000,
+  "contains": "full output directory including solutions/<model>/<instance>.json and top-level reports"
+}

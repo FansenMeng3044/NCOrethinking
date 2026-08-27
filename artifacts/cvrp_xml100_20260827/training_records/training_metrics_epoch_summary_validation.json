@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "epoch_rows": 8400,
+  "model_count": 8,
+  "learning_rate_requirement": 0.0001,
+  "all_learning_rates_exact": true,
+  "models": [
+    {
+      "model": "am_n100",
+      "epoch_rows": 100,
+      "final_epoch": 100,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "",
+      "final_train_cost_mean": "16.721378705596923",
+      "final_train_loss_mean": "",
+      "final_validation_cost_mean": "16.68877601623535"
+    },
+    {
+      "model": "am_n50",
+      "epoch_rows": 100,
+      "final_epoch": 100,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "",
+      "final_train_cost_mean": "11.038701237106324",
+      "final_train_loss_mean": "",
+      "final_validation_cost_mean": "11.011093139648438"
+    },
+    {
+      "model": "am_split_n100",
+      "epoch_rows": 100,
+      "final_epoch": 100,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "",
+      "final_train_cost_mean": "17.730606227874755",
+      "final_train_loss_mean": "",
+      "final_validation_cost_mean": "17.692928314208984"
+    },
+    {
+      "model": "am_split_n50",
+      "epoch_rows": 100,
+      "final_epoch": 100,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "",
+      "final_train_cost_mean": "11.490038565826415",
+      "final_train_loss_mean": "",
+      "final_validation_cost_mean": "11.46714973449707"
+    },
+    {
+      "model": "pomo_n100",
+      "epoch_rows": 2000,
+      "final_epoch": 2000,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "15.954821633911132",
+      "final_train_cost_mean": "",
+      "final_train_loss_mean": "-0.36486597633361817",
+      "final_validation_cost_mean": ""
+    },
+    {
+      "model": "pomo_n50",
+      "epoch_rows": 2000,
+      "final_epoch": 2000,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "10.55138671875",
+      "final_train_cost_mean": "",
+      "final_train_loss_mean": "-0.20120665543079377",
+      "final_validation_cost_mean": ""
+    },
+    {
+      "model": "pomo_split_n100",
+      "epoch_rows": 2000,
+      "final_epoch": 2000,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "16.895990869140626",
+      "final_train_cost_mean": "",
+      "final_train_loss_mean": "-0.2269567798614502",
+      "final_validation_cost_mean": ""
+    },
+    {
+      "model": "pomo_split_n50",
+      "epoch_rows": 2000,
+      "final_epoch": 2000,
+      "learning_rate_end_values": [
+        "0.0001"
+      ],
+      "final_train_score_mean": "11.034133178710938",
+      "final_train_cost_mean": "",
+      "final_train_loss_mean": "-0.12238510630130768",
+      "final_validation_cost_mean": ""
+    }
+  ]
+}

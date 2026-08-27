@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "name": "pomo_n50",
+      "architecture": "pomo",
+      "training_size": 50,
+      "checkpoint": "checkpoints/pomo_n50/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "679c767092fd64e7924d1c9a9ba5f4a4adaaf729316ab9dd37573206281bbcf5",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_n50",
+      "architecture": "pomo_split",
+      "training_size": 50,
+      "checkpoint": "checkpoints/pomo_split_n50/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "23c779ae80b5a368b40da9c36fe9a651297b6c1c65a8e50e0033937625422d8f",
+      "enabled": true
+    },
+    {
+      "name": "am_n50",
+      "architecture": "am",
+      "training_size": 50,
+      "checkpoint": "checkpoints/am_n50/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "bcdcdcf5ebc9b7ffdb70b6f2350a39b13b32829d1d92f5ad397e85e5ae2319c0",
+      "enabled": true
+    },
+    {
+      "name": "am_split_n50",
+      "architecture": "am_split",
+      "training_size": 50,
+      "checkpoint": "checkpoints/am_split_n50/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "725d735097cb8b21c0cab5bcbaaf421ca76e939ad36141c9a4932b77cd36aaba",
+      "enabled": true
+    },
+    {
+      "name": "pomo_n100",
+      "architecture": "pomo",
+      "training_size": 100,
+      "checkpoint": "checkpoints/pomo_n100/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "74bf36630f179b69d69ceae4997d6b03994815677c0c6bf4000b4936feb29af8",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_n100",
+      "architecture": "pomo_split",
+      "training_size": 100,
+      "checkpoint": "checkpoints/pomo_split_n100/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "887e1e7a24df1cdb4877b11a188ecda2648e006d8cea7f849866e51332b6fbac",
+      "enabled": true
+    },
+    {
+      "name": "am_n100",
+      "architecture": "am",
+      "training_size": 100,
+      "checkpoint": "checkpoints/am_n100/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "450c46de4a257605d66b5705cb38f0fd265ec3587a2c7bd866d0605ee463dfce",
+      "enabled": true
+    },
+    {
+      "name": "am_split_n100",
+      "architecture": "am_split",
+      "training_size": 100,
+      "checkpoint": "checkpoints/am_split_n100/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "b669a5251c8aba3ba97d74df3c6ea1fc8e0cda0066be1bb76e9855d9d1ce2f44",
+      "enabled": true
+    }
+  ]
+}

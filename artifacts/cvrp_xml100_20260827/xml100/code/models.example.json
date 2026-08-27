@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "name": "pomo_n50",
+      "architecture": "pomo",
+      "training_size": 50,
+      "checkpoint": "/absolute/path/to/pomo_n50/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_n50",
+      "architecture": "pomo_split",
+      "training_size": 50,
+      "checkpoint": "/absolute/path/to/pomo_split_n50/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "am_n50",
+      "architecture": "am",
+      "training_size": 50,
+      "checkpoint": "/absolute/path/to/am_n50/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "am_split_n50",
+      "architecture": "am_split",
+      "training_size": 50,
+      "checkpoint": "/absolute/path/to/am_split_n50/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "pomo_n100",
+      "architecture": "pomo",
+      "training_size": 100,
+      "checkpoint": "/absolute/path/to/pomo_n100/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_n100",
+      "architecture": "pomo_split",
+      "training_size": 100,
+      "checkpoint": "/absolute/path/to/pomo_split_n100/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "am_n100",
+      "architecture": "am",
+      "training_size": 100,
+      "checkpoint": "/absolute/path/to/am_n100/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    },
+    {
+      "name": "am_split_n100",
+      "architecture": "am_split",
+      "training_size": 100,
+      "checkpoint": "/absolute/path/to/am_split_n100/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "REPLACE_WITH_64_HEX_SHA256",
+      "enabled": true
+    }
+  ]
+}

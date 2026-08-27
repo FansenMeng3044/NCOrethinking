@@ -1,0 +1,14 @@
+{
+  "server": "connect.bjb2.seetacloud.com",
+  "repository_commit": "84f8ee999be52ab0f04dca1635155b36cf773e8e",
+  "paths": {
+    "pomo_n50": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/training/pomo_cvrp50/checkpoint-2000.pt",
+    "pomo_n100": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/training/pomo_cvrp100/checkpoint-2000.pt",
+    "pomo_split_n50": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/training/pomo_split_cvrp50/checkpoint-2000.pt",
+    "pomo_split_n100": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/training/pomo_split_cvrp100/checkpoint-2000.pt",
+    "am_n50": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/outputs/cvrp_50/am_official_cvrp50_20260808T185228/epoch-100.pt",
+    "am_n100": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/am_then_amsplit_official100_20260806_223605/outputs/cvrp_100/am_official100_sequential_20260806T223752/epoch-100.pt",
+    "am_split_n50": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300/outputs/am_split_50/am_split_official_cvrp50_split_20260809T095733/epoch-100.pt",
+    "am_split_n100": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/am_then_amsplit_official100_20260806_223605/outputs/am_split_100/am_split_official100_sequential_split_20260808T005256/epoch-100.pt"
+  }
+}

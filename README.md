@@ -23,3 +23,12 @@ giant-tour + hard-TW Split variants. See
 [`NEW_py_ver/CVRP/CVRPTW_README.md`](NEW_py_ver/CVRP/CVRPTW_README.md) for the
 shared route semantics, fixed-data format, training, evaluation, and tests.
 
+### Reproducibility archives
+
+- [`artifacts/cvrp_xml100_20260827`](artifacts/cvrp_xml100_20260827): final
+  eight non-TW CVRP checkpoints (n50/n100), full training evidence, the official
+  XML100 release, audited evaluation code, 40,000 verified n100 results and
+  routes, and plotting-ready figures/scripts.
+- [`artifacts/cvrptw_tw_solomon_20260827`](artifacts/cvrptw_tw_solomon_20260827):
+  final CVRPTW checkpoints, training records, and Solomon evaluation archive.
+

@@ -1,0 +1,23 @@
+{
+  "models": [
+    "am_n100",
+    "am_split_n100",
+    "pomo_n100",
+    "pomo_split_n100"
+  ],
+  "no_aug_pairwise_rows": 6,
+  "pairwise_rows": 6,
+  "primary_metric": "report success rate first; when success rate is 100%, use the instance-weighted arithmetic mean optimality gap (%); otherwise the gap mean is conditional on success",
+  "results": "/root/autodl-tmp/xml100_eval_n100_20260827/results/xml100_n100_final_20260827/xml100_results.csv",
+  "rows": 40000,
+  "secondary_metrics": [
+    "no-augmentation mean/median/tail optimality gaps",
+    "median and tail gaps",
+    "mean absolute cost error",
+    "explicit success/failure counts",
+    "macro mean across the 378 XML100 groups",
+    "paired wins/ties/losses and two-sided Wilcoxon signed-rank with Holm correction"
+  ],
+  "summary_rows": 1592,
+  "warning": "Mean raw cost is descriptive only and should not be used to rank methods across heterogeneous XML100 groups; use per-instance gap and paired comparisons."
+}

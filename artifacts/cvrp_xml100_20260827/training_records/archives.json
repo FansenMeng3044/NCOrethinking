@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "excludes": [
+    "*.pt",
+    "__pycache__",
+    "*.pyc",
+    "pids",
+    "*.pid"
+  ],
+  "archives": [
+    {
+      "logical_name": "am_then_amsplit_official100_20260806_223605.tar.zst",
+      "original_experiment": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/am_then_amsplit_official100_20260806_223605",
+      "parts": [
+        {
+          "file": "training_records/am_then_amsplit_official100_20260806_223605.tar.zst",
+          "bytes": 53775407,
+          "sha256": "ea9cc08d79ebc0fbf8cc698c9b894fe960bf0572757a36f390e0fc4c555f2b83"
+        }
+      ],
+      "reconstructed_bytes": 53775407,
+      "reconstructed_sha256": "ea9cc08d79ebc0fbf8cc698c9b894fe960bf0572757a36f390e0fc4c555f2b83",
+      "contents": "training_records/am_then_amsplit_official100_20260806_223605.contents.txt"
+    },
+    {
+      "logical_name": "eight_models_cvrp50_100_20260806_230300.tar.zst",
+      "original_experiment": "/root/autodl-tmp/NCOrethinking/NEW_py_ver/CVRP/AM_SPLIT/experiments/eight_models_cvrp50_100_20260806_230300",
+      "parts": [
+        {
+          "file": "training_records/eight_models_cvrp50_100_20260806_230300.tar.zst.part-000",
+          "bytes": 94371840,
+          "sha256": "1f5aa8418713f0aaa07a5a52b5b0387af10661ff51aaf1c9d1bc44808ff8757c"
+        },
+        {
+          "file": "training_records/eight_models_cvrp50_100_20260806_230300.tar.zst.part-001",
+          "bytes": 94371840,
+          "sha256": "84981ba00e47e7ba3d20213261f0f7468bff0dee0bb91442ed114d0c84d78ec5"
+        },
+        {
+          "file": "training_records/eight_models_cvrp50_100_20260806_230300.tar.zst.part-002",
+          "bytes": 3899970,
+          "sha256": "030beda80e999dad0ea9828a9338b1276249e0e75bf4979c5c04a9cfe0c9c199"
+        }
+      ],
+      "reconstructed_bytes": 192643650,
+      "reconstructed_sha256": "21172349617cc899144d6e26811c4e27e4ccc3f0383445f00acca54227ba2875",
+      "contents": "training_records/eight_models_cvrp50_100_20260806_230300.contents.txt"
+    }
+  ]
+}

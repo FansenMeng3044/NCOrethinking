@@ -1,0 +1,154 @@
+{
+  "am_n100": {
+    "bytes": 31092198,
+    "epoch_field": 100,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/am_n100/epoch-100.pt",
+    "required_key": "model",
+    "required_key_present": true,
+    "sha256": "450c46de4a257605d66b5705cb38f0fd265ec3587a2c7bd866d0605ee463dfce",
+    "top_level_keys": [
+      "baseline",
+      "cuda_rng_state",
+      "epoch",
+      "model",
+      "optimizer",
+      "rng_state"
+    ]
+  },
+  "am_n50": {
+    "bytes": 25332198,
+    "epoch_field": 100,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/am_n50/epoch-100.pt",
+    "required_key": "model",
+    "required_key_present": true,
+    "sha256": "bcdcdcf5ebc9b7ffdb70b6f2350a39b13b32829d1d92f5ad397e85e5ae2319c0",
+    "top_level_keys": [
+      "baseline",
+      "cuda_rng_state",
+      "epoch",
+      "model",
+      "optimizer",
+      "rng_state"
+    ]
+  },
+  "am_split_n100": {
+    "bytes": 23537530,
+    "epoch_field": 100,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/am_split_n100/epoch-100.pt",
+    "required_key": "model",
+    "required_key_present": true,
+    "sha256": "b669a5251c8aba3ba97d74df3c6ea1fc8e0cda0066be1bb76e9855d9d1ce2f44",
+    "top_level_keys": [
+      "baseline",
+      "cuda_rng_state",
+      "epoch",
+      "model",
+      "optimizer",
+      "rng_state"
+    ]
+  },
+  "am_split_n50": {
+    "bytes": 17537530,
+    "epoch_field": 100,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/am_split_n50/epoch-100.pt",
+    "required_key": "model",
+    "required_key_present": true,
+    "sha256": "725d735097cb8b21c0cab5bcbaaf421ca76e939ad36141c9a4932b77cd36aaba",
+    "top_level_keys": [
+      "baseline",
+      "cuda_rng_state",
+      "epoch",
+      "model",
+      "optimizer",
+      "rng_state"
+    ]
+  },
+  "pomo_n100": {
+    "bytes": 15237818,
+    "epoch_field": 2000,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/pomo_n100/checkpoint-2000.pt",
+    "required_key": "model_state_dict",
+    "required_key_present": true,
+    "sha256": "74bf36630f179b69d69ceae4997d6b03994815677c0c6bf4000b4936feb29af8",
+    "top_level_keys": [
+      "epoch",
+      "model_state_dict",
+      "optimizer_state_dict",
+      "result_log",
+      "scheduler_state_dict"
+    ]
+  },
+  "pomo_n50": {
+    "bytes": 15237818,
+    "epoch_field": 2000,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/pomo_n50/checkpoint-2000.pt",
+    "required_key": "model_state_dict",
+    "required_key_present": true,
+    "sha256": "679c767092fd64e7924d1c9a9ba5f4a4adaaf729316ab9dd37573206281bbcf5",
+    "top_level_keys": [
+      "epoch",
+      "model_state_dict",
+      "optimizer_state_dict",
+      "result_log",
+      "scheduler_state_dict"
+    ]
+  },
+  "pomo_split_n100": {
+    "bytes": 15430610,
+    "epoch_field": 2000,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/pomo_split_n100/checkpoint-2000.pt",
+    "required_key": "model_state_dict",
+    "required_key_present": true,
+    "sha256": "887e1e7a24df1cdb4877b11a188ecda2648e006d8cea7f849866e51332b6fbac",
+    "top_level_keys": [
+      "env_params",
+      "epoch",
+      "model_params",
+      "model_state_dict",
+      "optimizer_state_dict",
+      "result_log",
+      "scheduler_state_dict"
+    ]
+  },
+  "pomo_split_n50": {
+    "bytes": 15430610,
+    "epoch_field": 2000,
+    "optimizer_learning_rates": [
+      0.0001
+    ],
+    "path": "checkpoints/pomo_split_n50/checkpoint-2000.pt",
+    "required_key": "model_state_dict",
+    "required_key_present": true,
+    "sha256": "23c779ae80b5a368b40da9c36fe9a651297b6c1c65a8e50e0033937625422d8f",
+    "top_level_keys": [
+      "env_params",
+      "epoch",
+      "model_params",
+      "model_state_dict",
+      "optimizer_state_dict",
+      "result_log",
+      "scheduler_state_dict"
+    ]
+  }
+}

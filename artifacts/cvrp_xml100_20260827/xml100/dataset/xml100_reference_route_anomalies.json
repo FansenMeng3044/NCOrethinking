@@ -1,0 +1,741 @@
+{
+  "anomalies": [
+    {
+      "declared_cost": 24425,
+      "errors": [
+        "duplicate customers: [33]"
+      ],
+      "instance": "XML100_1121_04",
+      "route_cost_even_if_infeasible": 24425
+    },
+    {
+      "declared_cost": 26311,
+      "errors": [
+        "duplicate customers: [85]"
+      ],
+      "instance": "XML100_1171_03",
+      "route_cost_even_if_infeasible": 26311
+    },
+    {
+      "declared_cost": 39996,
+      "errors": [
+        "duplicate customers: [13]"
+      ],
+      "instance": "XML100_1171_05",
+      "route_cost_even_if_infeasible": 39996
+    },
+    {
+      "declared_cost": 47406,
+      "errors": [
+        "duplicate customers: [16, 18, 24, 54, 60, 63, 97]"
+      ],
+      "instance": "XML100_1171_09",
+      "route_cost_even_if_infeasible": 47406
+    },
+    {
+      "declared_cost": 33938,
+      "errors": [
+        "duplicate customers: [76]"
+      ],
+      "instance": "XML100_1171_10",
+      "route_cost_even_if_infeasible": 33938
+    },
+    {
+      "declared_cost": 33296,
+      "errors": [
+        "duplicate customers: [33]"
+      ],
+      "instance": "XML100_1171_12",
+      "route_cost_even_if_infeasible": 33296
+    },
+    {
+      "declared_cost": 44221,
+      "errors": [
+        "duplicate customers: [22]"
+      ],
+      "instance": "XML100_1171_18",
+      "route_cost_even_if_infeasible": 44221
+    },
+    {
+      "declared_cost": 42486,
+      "errors": [
+        "duplicate customers: [14, 88, 99]"
+      ],
+      "instance": "XML100_1171_20",
+      "route_cost_even_if_infeasible": 42486
+    },
+    {
+      "declared_cost": 36016,
+      "errors": [
+        "duplicate customers: [52]"
+      ],
+      "instance": "XML100_1171_23",
+      "route_cost_even_if_infeasible": 36016
+    },
+    {
+      "declared_cost": 30127,
+      "errors": [
+        "duplicate customers: [1, 3]"
+      ],
+      "instance": "XML100_1271_01",
+      "route_cost_even_if_infeasible": 30127
+    },
+    {
+      "declared_cost": 24027,
+      "errors": [
+        "duplicate customers: [44]"
+      ],
+      "instance": "XML100_1271_05",
+      "route_cost_even_if_infeasible": 24027
+    },
+    {
+      "declared_cost": 47431,
+      "errors": [
+        "duplicate customers: [24]"
+      ],
+      "instance": "XML100_1271_06",
+      "route_cost_even_if_infeasible": 47431
+    },
+    {
+      "declared_cost": 27371,
+      "errors": [
+        "duplicate customers: [3, 80]"
+      ],
+      "instance": "XML100_1271_11",
+      "route_cost_even_if_infeasible": 27371
+    },
+    {
+      "declared_cost": 47450,
+      "errors": [
+        "duplicate customers: [26]"
+      ],
+      "instance": "XML100_1271_12",
+      "route_cost_even_if_infeasible": 47450
+    },
+    {
+      "declared_cost": 58452,
+      "errors": [
+        "duplicate customers: [60, 77]"
+      ],
+      "instance": "XML100_1271_15",
+      "route_cost_even_if_infeasible": 59317
+    },
+    {
+      "declared_cost": 26323,
+      "errors": [
+        "duplicate customers: [53]"
+      ],
+      "instance": "XML100_1271_16",
+      "route_cost_even_if_infeasible": 26323
+    },
+    {
+      "declared_cost": 23881,
+      "errors": [
+        "duplicate customers: [63]"
+      ],
+      "instance": "XML100_1271_19",
+      "route_cost_even_if_infeasible": 23881
+    },
+    {
+      "declared_cost": 25309,
+      "errors": [
+        "duplicate customers: [57]"
+      ],
+      "instance": "XML100_1271_21",
+      "route_cost_even_if_infeasible": 25309
+    },
+    {
+      "declared_cost": 33607,
+      "errors": [
+        "missing customers: [1]",
+        "duplicate customers: [19, 25, 35, 48, 66, 73, 78, 86]"
+      ],
+      "instance": "XML100_1271_23",
+      "route_cost_even_if_infeasible": 34294
+    },
+    {
+      "declared_cost": 8198,
+      "errors": [
+        "missing customers: [3, 15, 20, 23, 27, 33, 38, 43, 47, 52, 57, 71, 72, 78, 79, 81, 82, 83, 89, 96]"
+      ],
+      "instance": "XML100_1356_16",
+      "route_cost_even_if_infeasible": 5816
+    },
+    {
+      "declared_cost": 35880,
+      "errors": [
+        "duplicate customers: [11]"
+      ],
+      "instance": "XML100_1361_14",
+      "route_cost_even_if_infeasible": 35880
+    },
+    {
+      "declared_cost": 62002,
+      "errors": [
+        "missing customers: [33, 66]",
+        "duplicate customers: [1, 10, 19, 23, 31, 35, 38, 79, 82, 96]"
+      ],
+      "instance": "XML100_1371_05",
+      "route_cost_even_if_infeasible": 62002
+    },
+    {
+      "declared_cost": 44785,
+      "errors": [
+        "duplicate customers: [98]"
+      ],
+      "instance": "XML100_1371_11",
+      "route_cost_even_if_infeasible": 44785
+    },
+    {
+      "declared_cost": 37943,
+      "errors": [
+        "duplicate customers: [81]"
+      ],
+      "instance": "XML100_1371_14",
+      "route_cost_even_if_infeasible": 37943
+    },
+    {
+      "declared_cost": 42965,
+      "errors": [
+        "duplicate customers: [8, 11, 76]"
+      ],
+      "instance": "XML100_1371_16",
+      "route_cost_even_if_infeasible": 42965
+    },
+    {
+      "declared_cost": 20341,
+      "errors": [
+        "duplicate customers: [88]"
+      ],
+      "instance": "XML100_1371_18",
+      "route_cost_even_if_infeasible": 20341
+    },
+    {
+      "declared_cost": 40033,
+      "errors": [
+        "duplicate customers: [10]"
+      ],
+      "instance": "XML100_1371_19",
+      "route_cost_even_if_infeasible": 40033
+    },
+    {
+      "declared_cost": 29602,
+      "errors": [
+        "duplicate customers: [59]"
+      ],
+      "instance": "XML100_1371_23",
+      "route_cost_even_if_infeasible": 29602
+    },
+    {
+      "declared_cost": 41108,
+      "errors": [
+        "missing customers: [11, 18, 21, 44, 48]",
+        "duplicate customers: [13, 34, 59, 64, 72, 82, 88]"
+      ],
+      "instance": "XML100_1371_24",
+      "route_cost_even_if_infeasible": 40884
+    },
+    {
+      "declared_cost": 26418,
+      "errors": [
+        "duplicate customers: [19, 39]"
+      ],
+      "instance": "XML100_1371_26",
+      "route_cost_even_if_infeasible": 26418
+    },
+    {
+      "declared_cost": 16816,
+      "errors": [
+        "missing customers: [100]"
+      ],
+      "instance": "XML100_1372_01",
+      "route_cost_even_if_infeasible": 16815
+    },
+    {
+      "declared_cost": 26233,
+      "errors": [
+        "duplicate customers: [58]"
+      ],
+      "instance": "XML100_1372_21",
+      "route_cost_even_if_infeasible": 26233
+    },
+    {
+      "declared_cost": 25220,
+      "errors": [
+        "duplicate customers: [64]"
+      ],
+      "instance": "XML100_2141_09",
+      "route_cost_even_if_infeasible": 25220
+    },
+    {
+      "declared_cost": 25356,
+      "errors": [
+        "duplicate customers: [29]"
+      ],
+      "instance": "XML100_2171_02",
+      "route_cost_even_if_infeasible": 25356
+    },
+    {
+      "declared_cost": 26239,
+      "errors": [
+        "duplicate customers: [16]"
+      ],
+      "instance": "XML100_2171_06",
+      "route_cost_even_if_infeasible": 26239
+    },
+    {
+      "declared_cost": 26128,
+      "errors": [
+        "duplicate customers: [28, 38, 69]"
+      ],
+      "instance": "XML100_2171_11",
+      "route_cost_even_if_infeasible": 26128
+    },
+    {
+      "declared_cost": 26218,
+      "errors": [
+        "missing customers: [14, 56, 76]"
+      ],
+      "instance": "XML100_2171_14",
+      "route_cost_even_if_infeasible": 26151
+    },
+    {
+      "declared_cost": 33596,
+      "errors": [
+        "duplicate customers: [6, 8, 16, 82]"
+      ],
+      "instance": "XML100_2171_15",
+      "route_cost_even_if_infeasible": 33596
+    },
+    {
+      "declared_cost": 33671,
+      "errors": [
+        "duplicate customers: [64, 73, 96]"
+      ],
+      "instance": "XML100_2171_18",
+      "route_cost_even_if_infeasible": 33671
+    },
+    {
+      "declared_cost": 28196,
+      "errors": [
+        "missing customers: [46]"
+      ],
+      "instance": "XML100_2171_21",
+      "route_cost_even_if_infeasible": 28196
+    },
+    {
+      "declared_cost": 17708,
+      "errors": [
+        "duplicate customers: [33]"
+      ],
+      "instance": "XML100_2172_03",
+      "route_cost_even_if_infeasible": 17708
+    },
+    {
+      "declared_cost": 27392,
+      "errors": [
+        "duplicate customers: [17, 74]"
+      ],
+      "instance": "XML100_2271_02",
+      "route_cost_even_if_infeasible": 28061
+    },
+    {
+      "declared_cost": 25487,
+      "errors": [
+        "duplicate customers: [26]"
+      ],
+      "instance": "XML100_2271_04",
+      "route_cost_even_if_infeasible": 25487
+    },
+    {
+      "declared_cost": 20359,
+      "errors": [
+        "duplicate customers: [13]"
+      ],
+      "instance": "XML100_2271_05",
+      "route_cost_even_if_infeasible": 20359
+    },
+    {
+      "declared_cost": 22623,
+      "errors": [
+        "duplicate customers: [62, 66]"
+      ],
+      "instance": "XML100_2271_15",
+      "route_cost_even_if_infeasible": 22995
+    },
+    {
+      "declared_cost": 28862,
+      "errors": [
+        "duplicate customers: [90]"
+      ],
+      "instance": "XML100_2271_16",
+      "route_cost_even_if_infeasible": 28862
+    },
+    {
+      "declared_cost": 26318,
+      "errors": [
+        "duplicate customers: [51, 55, 62, 63]"
+      ],
+      "instance": "XML100_2271_18",
+      "route_cost_even_if_infeasible": 26318
+    },
+    {
+      "declared_cost": 23742,
+      "errors": [
+        "duplicate customers: [50]"
+      ],
+      "instance": "XML100_2271_20",
+      "route_cost_even_if_infeasible": 23742
+    },
+    {
+      "declared_cost": 23577,
+      "errors": [
+        "duplicate customers: [45, 51, 60, 76, 90]"
+      ],
+      "instance": "XML100_2271_25",
+      "route_cost_even_if_infeasible": 23577
+    },
+    {
+      "declared_cost": 23588,
+      "errors": [
+        "duplicate customers: [86]"
+      ],
+      "instance": "XML100_2271_26",
+      "route_cost_even_if_infeasible": 23588
+    },
+    {
+      "declared_cost": 15281,
+      "errors": [
+        "duplicate customers: [68]"
+      ],
+      "instance": "XML100_2272_09",
+      "route_cost_even_if_infeasible": 15281
+    },
+    {
+      "declared_cost": 19185,
+      "errors": [
+        "duplicate customers: [18]"
+      ],
+      "instance": "XML100_2272_15",
+      "route_cost_even_if_infeasible": 19185
+    },
+    {
+      "declared_cost": 28596,
+      "errors": [
+        "duplicate customers: [14]"
+      ],
+      "instance": "XML100_2371_02",
+      "route_cost_even_if_infeasible": 28596
+    },
+    {
+      "declared_cost": 29213,
+      "errors": [
+        "duplicate customers: [95]"
+      ],
+      "instance": "XML100_2371_05",
+      "route_cost_even_if_infeasible": 29213
+    },
+    {
+      "declared_cost": 30592,
+      "errors": [
+        "duplicate customers: [38]"
+      ],
+      "instance": "XML100_2371_06",
+      "route_cost_even_if_infeasible": 30592
+    },
+    {
+      "declared_cost": 24574,
+      "errors": [
+        "duplicate customers: [4, 31]"
+      ],
+      "instance": "XML100_2371_09",
+      "route_cost_even_if_infeasible": 24574
+    },
+    {
+      "declared_cost": 23448,
+      "errors": [
+        "duplicate customers: [11]"
+      ],
+      "instance": "XML100_2371_12",
+      "route_cost_even_if_infeasible": 23448
+    },
+    {
+      "declared_cost": 30116,
+      "errors": [
+        "duplicate customers: [5, 69]"
+      ],
+      "instance": "XML100_2371_14",
+      "route_cost_even_if_infeasible": 30116
+    },
+    {
+      "declared_cost": 23186,
+      "errors": [
+        "duplicate customers: [68]"
+      ],
+      "instance": "XML100_2371_22",
+      "route_cost_even_if_infeasible": 23186
+    },
+    {
+      "declared_cost": 55378,
+      "errors": [
+        "duplicate customers: [4]"
+      ],
+      "instance": "XML100_3141_01",
+      "route_cost_even_if_infeasible": 55378
+    },
+    {
+      "declared_cost": 34633,
+      "errors": [
+        "duplicate customers: [38]"
+      ],
+      "instance": "XML100_3141_10",
+      "route_cost_even_if_infeasible": 34633
+    },
+    {
+      "declared_cost": 45240,
+      "errors": [
+        "duplicate customers: [79]"
+      ],
+      "instance": "XML100_3141_20",
+      "route_cost_even_if_infeasible": 45240
+    },
+    {
+      "declared_cost": 48495,
+      "errors": [
+        "duplicate customers: [51]"
+      ],
+      "instance": "XML100_3171_02",
+      "route_cost_even_if_infeasible": 48495
+    },
+    {
+      "declared_cost": 49924,
+      "errors": [
+        "duplicate customers: [96]"
+      ],
+      "instance": "XML100_3171_05",
+      "route_cost_even_if_infeasible": 49924
+    },
+    {
+      "declared_cost": 59841,
+      "errors": [
+        "missing customers: [17]"
+      ],
+      "instance": "XML100_3171_06",
+      "route_cost_even_if_infeasible": 59839
+    },
+    {
+      "declared_cost": 54546,
+      "errors": [
+        "duplicate customers: [6, 38]"
+      ],
+      "instance": "XML100_3171_08",
+      "route_cost_even_if_infeasible": 54546
+    },
+    {
+      "declared_cost": 56257,
+      "errors": [
+        "duplicate customers: [73]"
+      ],
+      "instance": "XML100_3171_11",
+      "route_cost_even_if_infeasible": 56257
+    },
+    {
+      "declared_cost": 56458,
+      "errors": [
+        "duplicate customers: [2]"
+      ],
+      "instance": "XML100_3171_12",
+      "route_cost_even_if_infeasible": 56458
+    },
+    {
+      "declared_cost": 61025,
+      "errors": [
+        "duplicate customers: [60]"
+      ],
+      "instance": "XML100_3171_13",
+      "route_cost_even_if_infeasible": 61025
+    },
+    {
+      "declared_cost": 68469,
+      "errors": [
+        "missing customers: [2]",
+        "duplicate customers: [7, 8, 32, 44, 68, 70]"
+      ],
+      "instance": "XML100_3171_14",
+      "route_cost_even_if_infeasible": 68468
+    },
+    {
+      "declared_cost": 63015,
+      "errors": [
+        "duplicate customers: [34]"
+      ],
+      "instance": "XML100_3171_16",
+      "route_cost_even_if_infeasible": 63015
+    },
+    {
+      "declared_cost": 58038,
+      "errors": [
+        "duplicate customers: [6, 44, 70]"
+      ],
+      "instance": "XML100_3171_19",
+      "route_cost_even_if_infeasible": 58038
+    },
+    {
+      "declared_cost": 40406,
+      "errors": [
+        "duplicate customers: [87]"
+      ],
+      "instance": "XML100_3171_24",
+      "route_cost_even_if_infeasible": 40406
+    },
+    {
+      "declared_cost": 30465,
+      "errors": [
+        "duplicate customers: [37]"
+      ],
+      "instance": "XML100_3222_20",
+      "route_cost_even_if_infeasible": 30465
+    },
+    {
+      "declared_cost": 24268,
+      "errors": [
+        "duplicate customers: [11]"
+      ],
+      "instance": "XML100_3241_07",
+      "route_cost_even_if_infeasible": 24268
+    },
+    {
+      "declared_cost": 47835,
+      "errors": [
+        "duplicate customers: [47]"
+      ],
+      "instance": "XML100_3271_10",
+      "route_cost_even_if_infeasible": 47835
+    },
+    {
+      "declared_cost": 60790,
+      "errors": [
+        "missing customers: [8]",
+        "duplicate customers: [99]"
+      ],
+      "instance": "XML100_3271_11",
+      "route_cost_even_if_infeasible": 60219
+    },
+    {
+      "declared_cost": 57378,
+      "errors": [
+        "duplicate customers: [16, 98]"
+      ],
+      "instance": "XML100_3271_22",
+      "route_cost_even_if_infeasible": 57378
+    },
+    {
+      "declared_cost": 45406,
+      "errors": [
+        "duplicate customers: [64]"
+      ],
+      "instance": "XML100_3271_24",
+      "route_cost_even_if_infeasible": 45406
+    },
+    {
+      "declared_cost": 36510,
+      "errors": [
+        "duplicate customers: [49, 51, 77]"
+      ],
+      "instance": "XML100_3271_25",
+      "route_cost_even_if_infeasible": 36853
+    },
+    {
+      "declared_cost": 39692,
+      "errors": [
+        "duplicate customers: [11, 39]"
+      ],
+      "instance": "XML100_3271_26",
+      "route_cost_even_if_infeasible": 39692
+    },
+    {
+      "declared_cost": 55839,
+      "errors": [
+        "duplicate customers: [91]"
+      ],
+      "instance": "XML100_3341_23",
+      "route_cost_even_if_infeasible": 55839
+    },
+    {
+      "declared_cost": 53678,
+      "errors": [
+        "duplicate customers: [33]"
+      ],
+      "instance": "XML100_3371_03",
+      "route_cost_even_if_infeasible": 53678
+    },
+    {
+      "declared_cost": 48471,
+      "errors": [
+        "duplicate customers: [13, 34]"
+      ],
+      "instance": "XML100_3371_05",
+      "route_cost_even_if_infeasible": 49082
+    },
+    {
+      "declared_cost": 38631,
+      "errors": [
+        "duplicate customers: [99]"
+      ],
+      "instance": "XML100_3371_07",
+      "route_cost_even_if_infeasible": 38631
+    },
+    {
+      "declared_cost": 48708,
+      "errors": [
+        "duplicate customers: [77]"
+      ],
+      "instance": "XML100_3371_09",
+      "route_cost_even_if_infeasible": 48708
+    },
+    {
+      "declared_cost": 55824,
+      "errors": [
+        "duplicate customers: [14, 43]"
+      ],
+      "instance": "XML100_3371_20",
+      "route_cost_even_if_infeasible": 55824
+    },
+    {
+      "declared_cost": 42883,
+      "errors": [
+        "duplicate customers: [53]"
+      ],
+      "instance": "XML100_3371_22",
+      "route_cost_even_if_infeasible": 42883
+    },
+    {
+      "declared_cost": 42388,
+      "errors": [
+        "duplicate customers: [80]"
+      ],
+      "instance": "XML100_3371_25",
+      "route_cost_even_if_infeasible": 42388
+    },
+    {
+      "declared_cost": 65592,
+      "errors": [
+        "duplicate customers: [88]"
+      ],
+      "instance": "XML100_3371_26",
+      "route_cost_even_if_infeasible": 65592
+    },
+    {
+      "declared_cost": 32189,
+      "errors": [
+        "duplicate customers: [82]"
+      ],
+      "instance": "XML100_3372_19",
+      "route_cost_even_if_infeasible": 32189
+    }
+  ],
+  "archive_sha256": "ef3814ee4c26e7f1d09cf33a4c0da564109de04ee393afa3b46c7eb33473b24b",
+  "count": 91,
+  "dataset": "CVRPLIB XML100",
+  "important": "These are anomalies in released reference-route text only. Official optimal values remain usable because every .sol Cost matches OptimalCosts.ods. No official file was modified."
+}
