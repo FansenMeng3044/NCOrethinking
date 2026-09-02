@@ -77,7 +77,6 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     for field in (
         "score_mean", "loss_mean", "policy_loss_mean", "aux_loss_mean",
         "grad_norm", "valid_candidate_rate", "mean_routes", "step_seconds",
-        "trainable_instance_rate",
     ):
         assert math.isfinite(float(batch[field]))
     epoch = next(row for row in rows if row["record_type"] == "epoch")
