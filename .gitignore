@@ -11,3 +11,7 @@ NEW_py_ver/CVRP/POMO_TW/result/
 NEW_py_ver/CVRP/POMO_SPLIT_TW/result/
 reproduction_outputs/
 
+# The local upstream checkout is reconstructed from the pinned commit plus the
+# tracked XY-Split overlay below; do not vendor its large data/checkpoint files.
+/third_party/Routing-MVMoE/
+
