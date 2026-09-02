@@ -54,6 +54,7 @@ class MVMoESplitTrainingMetrics:
         "policy_loss_mean", "aux_loss_mean", "loss_mean", "loss_std",
         "loss_standard_error", "advantage_mean", "advantage_std", "log_prob_mean",
         "nll_mean", "grad_norm", "valid_candidate_rate", "mean_routes",
+        "trainable_instance_rate", "trainable_instances",
         "step_seconds", "throughput_instances_per_second", "gpu_memory_allocated_mb",
         "gpu_memory_reserved_mb", "gpu_peak_allocated_mb", "gpu_peak_reserved_mb",
     ]
@@ -63,7 +64,9 @@ class MVMoESplitTrainingMetrics:
         "train_score_std", "train_policy_loss_mean", "train_aux_loss_mean",
         "train_loss_mean", "train_loss_std", "train_loss_standard_error",
         "train_valid_candidate_rate", "train_mean_routes", "grad_norm_mean",
+        "train_trainable_instance_rate", "trainable_examples",
         "grad_norm_max", "task_counts_json", "training_seconds", "checkpoint_seconds",
+        "task_trainable_counts_json",
         "epoch_total_seconds", "cumulative_elapsed_seconds",
         "throughput_instances_per_second", "checkpoint_saved", "checkpoint_path",
         "checkpoint_size_bytes", "last_completed_epoch",
@@ -194,6 +197,7 @@ class MVMoESplitTrainingMetrics:
         self._epoch = {
             "epoch": int(epoch),
             "examples": 0,
+            "trainable_examples": 0,
             "batches": 0,
             "score_sum": 0.0,
             "score_sumsq": 0.0,
@@ -208,6 +212,7 @@ class MVMoESplitTrainingMetrics:
             "gpu_peak_allocated_mb": 0.0,
             "gpu_peak_reserved_mb": 0.0,
             "task_counts": {},
+            "task_trainable_counts": {},
         }
         self.log_event("epoch_started", epoch=epoch)
 
@@ -215,16 +220,18 @@ class MVMoESplitTrainingMetrics:
         if self._epoch is None:
             raise RuntimeError("start_epoch must be called before log_batch")
         n = int(metrics["batch_size"])
+        trainable_n = int(metrics["trainable_instances"])
         self.samples_seen += n
         acc = self._epoch
         acc["examples"] += n
+        acc["trainable_examples"] += trainable_n
         acc["batches"] += 1
         for key in ("score_sum", "score_sumsq", "loss_sum", "loss_sumsq"):
             acc[key] += float(metrics[f"_{key}"])
-        acc["policy_loss_sum"] += float(metrics["policy_loss_mean"]) * n
-        acc["aux_loss_sum"] += float(metrics["aux_loss_mean"]) * n
+        acc["policy_loss_sum"] += float(metrics["policy_loss_mean"]) * trainable_n
+        acc["aux_loss_sum"] += float(metrics["aux_loss_mean"]) * trainable_n
         acc["valid_candidate_sum"] += float(metrics["valid_candidate_rate"]) * n
-        acc["route_sum"] += float(metrics["mean_routes"]) * n
+        acc["route_sum"] += float(metrics["mean_routes"]) * trainable_n
         acc["grad_norm_sum"] += float(metrics["grad_norm"])
         acc["grad_norm_max"] = max(acc["grad_norm_max"], float(metrics["grad_norm"]))
         acc["gpu_peak_allocated_mb"] = max(
@@ -235,6 +242,9 @@ class MVMoESplitTrainingMetrics:
         )
         problem = str(metrics["problem"])
         acc["task_counts"][problem] = acc["task_counts"].get(problem, 0) + n
+        acc["task_trainable_counts"][problem] = (
+            acc["task_trainable_counts"].get(problem, 0) + trainable_n
+        )
         if int(metrics["global_step"]) % self.log_interval == 0:
             row = {key: value for key, value in metrics.items() if not key.startswith("_")}
             row["samples_seen"] = self.samples_seen
@@ -264,7 +274,8 @@ class MVMoESplitTrainingMetrics:
         if self._epoch is None:
             raise RuntimeError("start_epoch must be called before log_epoch")
         acc = self._epoch
-        n = max(1, acc["examples"])
+        generated_n = max(1, acc["examples"])
+        n = max(1, acc["trainable_examples"])
         batches = max(1, acc["batches"])
         score_mean, score_std, _ = self._moments(acc["score_sum"], acc["score_sumsq"], n)
         loss_mean, loss_std, loss_se = self._moments(
@@ -278,6 +289,7 @@ class MVMoESplitTrainingMetrics:
         row.update({
             "event": "epoch_finished",
             "epoch_examples": acc["examples"],
+            "trainable_examples": acc["trainable_examples"],
             "cumulative_examples": self.samples_seen,
             "train_batches": acc["batches"],
             "train_score_mean": score_mean,
@@ -287,11 +299,15 @@ class MVMoESplitTrainingMetrics:
             "train_loss_mean": loss_mean,
             "train_loss_std": loss_std,
             "train_loss_standard_error": loss_se,
-            "train_valid_candidate_rate": acc["valid_candidate_sum"] / n,
+            "train_valid_candidate_rate": acc["valid_candidate_sum"] / generated_n,
+            "train_trainable_instance_rate": acc["trainable_examples"] / generated_n,
             "train_mean_routes": acc["route_sum"] / n,
             "grad_norm_mean": acc["grad_norm_sum"] / batches,
             "grad_norm_max": acc["grad_norm_max"],
             "task_counts_json": json.dumps(acc["task_counts"], sort_keys=True),
+            "task_trainable_counts_json": json.dumps(
+                acc["task_trainable_counts"], sort_keys=True
+            ),
             "gpu_peak_allocated_mb": acc["gpu_peak_allocated_mb"],
             "gpu_peak_reserved_mb": acc["gpu_peak_reserved_mb"],
             "cumulative_elapsed_seconds": time.perf_counter() - self.start_perf,

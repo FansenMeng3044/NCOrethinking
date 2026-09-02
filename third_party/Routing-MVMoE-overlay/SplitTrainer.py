@@ -33,6 +33,8 @@ class BatchMetrics:
     log_prob_mean: float
     nll_mean: float
     valid_candidate_rate: float
+    trainable_instance_rate: float
+    trainable_instances: int
     mean_routes: float
     grad_norm: float
     step_seconds: float
@@ -53,16 +55,22 @@ def valid_pomo_reinforce_loss(reward: torch.Tensor, log_prob: torch.Tensor):
         raise ValueError("reward and log_prob shapes must match")
     valid = torch.isfinite(reward)
     valid_count = valid.sum(dim=1, keepdim=True)
-    if (valid_count == 0).any():
-        bad = torch.nonzero(valid_count.squeeze(1) == 0).flatten().tolist()
+    trainable = valid_count.squeeze(1) > 0
+    if not trainable.any():
+        bad = torch.nonzero(~trainable).flatten().tolist()
         raise NoFeasibleCandidateError(
-            f"no Split-feasible POMO candidate for batch rows {bad}; constraints were not relaxed"
+            f"no Split-feasible POMO candidate for any batch row {bad}; "
+            "constraints were not relaxed"
         )
     safe_reward = torch.where(valid, reward, torch.zeros_like(reward))
-    baseline = safe_reward.sum(dim=1, keepdim=True) / valid_count
+    safe_count = valid_count.clamp_min(1)
+    baseline = safe_reward.sum(dim=1, keepdim=True) / safe_count
     advantage = torch.where(valid, reward - baseline, torch.zeros_like(reward))
-    per_instance = (-(advantage.detach() * log_prob) * valid).sum(dim=1) / valid_count.squeeze(1)
-    return per_instance.mean(), valid
+    per_instance = (
+        (-(advantage.detach() * log_prob) * valid).sum(dim=1)
+        / safe_count.squeeze(1)
+    )
+    return per_instance[trainable].mean(), valid
 
 
 class SplitTrainer:
@@ -159,22 +167,25 @@ class SplitTrainer:
             torch.arange(batch_size, device=self.device), best_index
         ].float()
         valid_count = valid.sum(dim=1, keepdim=True)
+        trainable = valid_count.squeeze(1) > 0
+        safe_count = valid_count.clamp_min(1)
         safe_reward = torch.where(valid, reward, torch.zeros_like(reward))
-        baseline = safe_reward.sum(dim=1, keepdim=True) / valid_count
+        baseline = safe_reward.sum(dim=1, keepdim=True) / safe_count
         advantage = torch.where(valid, reward - baseline, torch.zeros_like(reward))
         per_instance_policy_loss = (
             (-(advantage.detach() * log_prob) * valid).sum(dim=1)
-            / valid_count.squeeze(1)
+            / safe_count.squeeze(1)
         )
         aux_value = aux.detach()
-        per_instance_total_loss = per_instance_policy_loss.detach() + aux_value
-        score_values = -best_reward.detach().float()
+        per_instance_total_loss = per_instance_policy_loss.detach()[trainable] + aux_value
+        score_values = -best_reward.detach().float()[trainable]
         valid_costs = -reward.detach().float()[valid]
         valid_advantages = advantage.detach().float()[valid]
         valid_log_prob = log_prob.detach().float()[valid]
+        trainable_count = int(trainable.sum().item())
         loss_standard_error = (
-            per_instance_total_loss.float().std(unbiased=True) / batch_size ** 0.5
-            if batch_size > 1 else per_instance_total_loss.new_tensor(0.0)
+            per_instance_total_loss.float().std(unbiased=True) / trainable_count ** 0.5
+            if trainable_count > 1 else per_instance_total_loss.new_tensor(0.0)
         )
         packed = torch.stack([
             score_values.mean(),
@@ -190,7 +201,9 @@ class SplitTrainer:
             valid_log_prob.mean(),
             -valid_log_prob.mean(),
             valid.float().mean(),
-            route_counts.mean(),
+            trainable.float().mean(),
+            trainable.sum(),
+            route_counts[trainable].mean(),
             torch.as_tensor(grad_norm, device=self.device),
             score_values.sum(),
             score_values.square().sum(),
@@ -211,6 +224,8 @@ class SplitTrainer:
             log_prob_mean,
             nll_mean,
             valid_candidate_rate,
+            trainable_instance_rate,
+            trainable_instances,
             mean_routes,
             grad_norm_value,
             score_sum,
@@ -240,6 +255,8 @@ class SplitTrainer:
             log_prob_mean=log_prob_mean,
             nll_mean=nll_mean,
             valid_candidate_rate=valid_candidate_rate,
+            trainable_instance_rate=trainable_instance_rate,
+            trainable_instances=int(trainable_instances),
             mean_routes=mean_routes,
             grad_norm=grad_norm_value,
             step_seconds=step_seconds,

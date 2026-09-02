@@ -67,6 +67,24 @@ def test_no_feasible_candidate_fails_loudly_without_relaxation():
         )
 
 
+def test_untrainable_rows_are_skipped_without_relaxing_constraints():
+    from SplitTrainer import valid_pomo_reinforce_loss
+
+    reward = torch.tensor([
+        [float("-inf"), float("-inf")],
+        [-3.0, -5.0],
+    ])
+    log_prob = torch.tensor(
+        [[-1.0, -2.0], [-3.0, -4.0]], requires_grad=True
+    )
+    loss, valid = valid_pomo_reinforce_loss(reward, log_prob)
+    assert valid.tolist() == [[False, False], [True, True]]
+    assert torch.isfinite(loss)
+    loss.backward()
+    assert log_prob.grad[0].eq(0).all()
+    assert torch.isfinite(log_prob.grad).all()
+
+
 @pytest.mark.parametrize("problem", TRAIN_PROBLEMS)
 def test_adapter_separates_policy_and_constraint_views(problem):
     source = official_env(problem)
