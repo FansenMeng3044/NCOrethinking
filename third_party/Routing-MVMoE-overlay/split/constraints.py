@@ -21,11 +21,13 @@ def flags_from_problem(problem: str) -> Tuple[bool, bool, bool, bool]:
 
 @dataclass(frozen=True)
 class ConstraintSpec:
-    """Constraint-only view consumed by Split, never by the neural policy.
+    """Official constraint data used across decoder state, Split, and replay.
 
     MVMoE normalizes demands by per-instance vehicle capacity before exposing
-    them to an environment, hence ``capacity`` defaults to one.  Tensor fields
-    have batch as their first dimension.  Customer fields have shape (B, n).
+    them to an environment, hence ``capacity`` defaults to one.  B/L are
+    consumed during order decoding, while C/TW are consumed by Split.  Tensor
+    fields have batch as their first dimension. Customer fields have shape
+    (B, n).
     """
 
     problem: str

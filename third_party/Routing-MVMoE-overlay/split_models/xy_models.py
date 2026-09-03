@@ -13,6 +13,10 @@ from models.MOEModel_Light import MTL_Decoder as DirectLightDecoder
 from models.MOEModel_Light import MTL_Encoder as DirectLightEncoder
 
 
+BL_CONTEXT_DIM = 5
+BL_CANDIDATE_DIM = 4
+
+
 def _reshape_by_heads(qkv: torch.Tensor, head_num: int) -> torch.Tensor:
     batch, count, _ = qkv.shape
     return qkv.reshape(batch, count, head_num, -1).transpose(1, 2)
@@ -60,7 +64,7 @@ def _make_xy_encoder(kind: str, model_params) -> nn.Module:
 
 
 class XYOnlyDecoder(nn.Module):
-    """First/last customer query with no dynamic resource attributes."""
+    """Coordinate encoder query augmented only by dynamic B/L state."""
 
     def __init__(self, kind: str, **model_params):
         super().__init__()
@@ -70,6 +74,8 @@ class XYOnlyDecoder(nn.Module):
         qkv_dim = model_params["qkv_dim"]
         self.Wq_first = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
         self.Wq_last = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
+        self.Wq_bl = nn.Linear(BL_CONTEXT_DIM, head_num * qkv_dim, bias=False)
+        self.bl_candidate_score = nn.Linear(BL_CANDIDATE_DIM, 1, bias=False)
 
         if kind == "mtl":
             direct = DirectMTLDecoder(**model_params)
@@ -88,10 +94,13 @@ class XYOnlyDecoder(nn.Module):
         self.v = _reshape_by_heads(self.Wv(encoded_nodes), heads)
         self.single_head_key = encoded_nodes.transpose(1, 2)
 
-    def forward(self, encoded_first, encoded_last, ninf_mask):
+    def forward(
+        self, encoded_first, encoded_last, bl_context, bl_candidate, ninf_mask
+    ):
         heads = self.model_params["head_num"]
         q = _reshape_by_heads(self.Wq_first(encoded_first), heads)
         q = q + _reshape_by_heads(self.Wq_last(encoded_last), heads)
+        q = q + _reshape_by_heads(self.Wq_bl(bl_context), heads)
         out_concat = _multi_head_attention(q, self.k, self.v, ninf_mask)
         aux_loss = out_concat.new_zeros(())
         if isinstance(self.multi_head_combine, MoE):
@@ -99,6 +108,7 @@ class XYOnlyDecoder(nn.Module):
         else:
             attention_out = self.multi_head_combine(out_concat)
         score = torch.matmul(attention_out, self.single_head_key)
+        score = score + self.bl_candidate_score(bl_candidate).squeeze(3)
         score = self.model_params["logit_clipping"] * torch.tanh(
             score / self.model_params["sqrt_embedding_dim"]
         )
@@ -106,7 +116,7 @@ class XYOnlyDecoder(nn.Module):
 
 
 class XYOnlyLightDecoder(nn.Module):
-    """MVMoE-L decoder with its dense/MoE choice shifted to giant-tour step 1."""
+    """MVMoE-L decoder with coordinate encoding and dynamic B/L state."""
 
     def __init__(self, **model_params):
         super().__init__()
@@ -115,6 +125,8 @@ class XYOnlyLightDecoder(nn.Module):
         heads, qkv_dim = model_params["head_num"], model_params["qkv_dim"]
         self.Wq_first = nn.Linear(embedding_dim, heads * qkv_dim, bias=False)
         self.Wq_last = nn.Linear(embedding_dim, heads * qkv_dim, bias=False)
+        self.Wq_bl = nn.Linear(BL_CONTEXT_DIM, heads * qkv_dim, bias=False)
+        self.bl_candidate_score = nn.Linear(BL_CANDIDATE_DIM, 1, bias=False)
         direct = DirectLightDecoder(**model_params)
         self.Wk, self.Wv = direct.Wk, direct.Wv
         self.hierarchical_gating = direct.hierarchical_gating
@@ -132,10 +144,14 @@ class XYOnlyLightDecoder(nn.Module):
         self.single_head_key = encoded_nodes.transpose(1, 2)
         self.branch_probs = None
 
-    def forward(self, encoded_first, encoded_last, ninf_mask, temperature=1.0, step=1):
+    def forward(
+        self, encoded_first, encoded_last, bl_context, bl_candidate, ninf_mask,
+        temperature=1.0, step=1,
+    ):
         heads = self.model_params["head_num"]
         q = _reshape_by_heads(self.Wq_first(encoded_first), heads)
         q = q + _reshape_by_heads(self.Wq_last(encoded_last), heads)
+        q = q + _reshape_by_heads(self.Wq_bl(bl_context), heads)
         out_concat = _multi_head_attention(q, self.k, self.v, ninf_mask)
         aux_loss = out_concat.new_zeros(())
 
@@ -155,6 +171,7 @@ class XYOnlyLightDecoder(nn.Module):
             attention_out = self.multi_head_combine_dense(out_concat)
 
         score = torch.matmul(attention_out, self.single_head_key)
+        score = score + self.bl_candidate_score(bl_candidate).squeeze(3)
         score = self.model_params["logit_clipping"] * torch.tanh(
             score / self.model_params["sqrt_embedding_dim"]
         )
@@ -168,6 +185,8 @@ def _get_encoding(encoded_nodes, indices):
 
 
 class _XYOnlySplitModel(nn.Module):
+    """XY-only static encoding with B/L-aware autoregressive decoding."""
+
     kind = "mtl"
 
     def __init__(self, **model_params):
@@ -218,11 +237,15 @@ class _XYOnlySplitModel(nn.Module):
         encoded_last = _get_encoding(self.encoded_nodes, state.current_node)
         if self.kind == "moe_light":
             probs, decoder_aux = self.decoder(
-                encoded_first, encoded_last, state.ninf_mask,
+                encoded_first, encoded_last, state.bl_context,
+                state.bl_candidate, state.ninf_mask,
                 temperature=self.temperature, step=state.selected_count,
             )
         else:
-            probs, decoder_aux = self.decoder(encoded_first, encoded_last, state.ninf_mask)
+            probs, decoder_aux = self.decoder(
+                encoded_first, encoded_last, state.bl_context,
+                state.bl_candidate, state.ninf_mask
+            )
         self.aux_loss = self.aux_loss + decoder_aux
 
         if selected is None:
@@ -237,19 +260,19 @@ class _XYOnlySplitModel(nn.Module):
 
 
 class POMOMTLSplit(_XYOnlySplitModel):
-    """POMO-MTL-Split: dense multitask encoder/decoder, strict XY-only input."""
+    """POMO-MTL-Split: XY encoding, B/L decoding, and C/TW Split."""
 
     kind = "mtl"
 
 
 class MVMoE4ESplit(_XYOnlySplitModel):
-    """MVMoE/4E-Split: original MoE placements with strict XY-only input."""
+    """MVMoE/4E-Split: XY encoding, B/L decoding, and C/TW Split."""
 
     kind = "moe"
 
 
 class MVMoE4ELSplit(_XYOnlySplitModel):
-    """MVMoE/4E-L-Split: original light gating with strict XY-only input."""
+    """MVMoE/4E-L-Split: XY encoding, B/L decoding, and C/TW Split."""
 
     kind = "moe_light"
 

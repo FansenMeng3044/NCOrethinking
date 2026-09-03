@@ -66,7 +66,7 @@ def valid_pomo_reinforce_loss(reward: torch.Tensor, log_prob: torch.Tensor):
 
 
 class SplitTrainer:
-    """Six-task trainer for strict XY-only giant-tour policies."""
+    """Six-task trainer for XY-encoded, B/L-aware giant-tour policies."""
 
     def __init__(self, args, env_params, model_params, optimizer_params, trainer_params):
         self.args = args
@@ -85,8 +85,12 @@ class SplitTrainer:
 
         if args.checkpoint:
             checkpoint = torch.load(args.checkpoint, map_location=self.device, weights_only=False)
-            if not checkpoint.get("xy_only", False):
-                raise ValueError("refusing to load a direct/non-XY-only checkpoint")
+            if not checkpoint.get("xy_encoder_only", checkpoint.get("xy_only", False)):
+                raise ValueError("refusing to load a checkpoint without XY-only static encoding")
+            if checkpoint.get("decoder_constraints") != ["B", "L"]:
+                raise ValueError("checkpoint does not use the B/L-aware decoder")
+            if checkpoint.get("split_constraints") != ["C", "TW"]:
+                raise ValueError("checkpoint does not use the C/TW-only Split protocol")
             if checkpoint.get("model_type") != args.model_type:
                 raise ValueError("checkpoint model_type does not match the requested Split model")
             self.model.load_state_dict(checkpoint["model_state_dict"], strict=True)
@@ -347,6 +351,10 @@ class SplitTrainer:
                 "epoch": epoch,
                 "model_type": self.args.model_type,
                 "xy_only": True,
+                "xy_encoder_only": True,
+                "decoder_constraints": ["B", "L"],
+                "split_constraints": ["C", "TW"],
+                "constraint_factorization_version": 1,
                 "split_reward": True,
                 "training_problems": [cls.__name__.removesuffix("Env") for cls in self.env_classes],
                 "model_state_dict": self.model.state_dict(),

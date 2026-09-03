@@ -1,4 +1,4 @@
-"""Exact fixed-order decoders for the XY-only MVMoE experiments."""
+"""Exact C/TW fixed-order decoders for the factorized MVMoE experiments."""
 
 from .constraints import ALL_PROBLEMS, ConstraintSpec, flags_from_problem
 from .decoder import SplitResult, reconstruct_routes, split_giant_tours

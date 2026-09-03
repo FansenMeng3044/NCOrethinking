@@ -3,8 +3,9 @@ from dataclasses import fields
 import pytest
 import torch
 
+from split import ConstraintSpec, verify_routes
 from split.constraints import flags_from_problem
-from split_envs import GiantTourEnv, MVMoEInstanceAdapter
+from split_envs import AdaptedInstance, GiantTourEnv, MVMoEInstanceAdapter, PolicyView
 from split_models import MVMoE4ELSplit, MVMoE4ESplit, POMOMTLSplit
 from utils import get_env
 
@@ -81,21 +82,54 @@ def test_adapter_separates_policy_and_constraint_views(problem):
     ) == flags_from_problem(problem)
 
 
-def test_action_mask_is_only_depot_plus_visited_customers():
-    env = GiantTourEnv.from_official_env(official_env("VRPBLTW"), pomo_size=8)
+def test_backhaul_starts_follow_official_full_empty_load_rule():
+    source = official_env("VRPB", batch=1, n=20, pomo=1)
+    env = GiantTourEnv.from_official_env(source, pomo_size=1)
     _, _, _ = env.reset()
     assert torch.isneginf(env.ninf_mask[:, :, 0]).all()
-    assert (env.ninf_mask[:, :, 1:] == 0).all()
-    first = env.START_NODE
-    env.step(first)
-    for b in range(env.batch_size):
-        for p in range(env.pomo_size):
-            masked = torch.nonzero(torch.isneginf(env.ninf_mask[b, p])).flatten().tolist()
-            assert masked == [0, int(first[b, p])]
+    demand = env.instance.split_view.demand[0]
+    assert (demand[env.START_NODE[0] - 1] > 0).all()
+    assert torch.isneginf(env.ninf_mask[0, 0, 1:][demand < 0]).all()
+
+    linehauls = torch.nonzero(demand > 0).flatten() + 1
+    for customer in linehauls:
+        if env.selected_count == 0:
+            selected = env.START_NODE
+        elif not torch.isneginf(env.ninf_mask[0, 0, customer]):
+            selected = customer.reshape(1, 1)
+        else:
+            continue
+        env.step(selected)
+    assert (env.ninf_mask[0, 0, 1:][demand < 0] == 0).all()
+
+
+def test_length_decoder_creates_mandatory_routes_before_ctw_split():
+    depot = torch.tensor([[[0.0, 0.0]]])
+    nodes = torch.tensor([[[0.4, 0.0], [-0.4, 0.0], [0.0, 0.4]]])
+    spec = ConstraintSpec(
+        problem="VRPL",
+        demand=torch.tensor([[0.2, 0.2, 0.2]]),
+        capacity=torch.tensor([1.0]),
+        has_route_limit=True,
+        route_limit=torch.tensor([1.1]),
+    )
+    env = GiantTourEnv(
+        AdaptedInstance(PolicyView(depot, nodes), spec), pomo_size=1
+    )
+    env.reset()
+    for customer in (1, 2, 3):
+        _, reward, done = env.step(torch.tensor([[customer]]))
+    assert done
+    assert env.mandatory_breaks.tolist() == [[[True, True, True]]]
+    routes = env.get_routes(0, 0)
+    assert routes == [[1], [2], [3]]
+    replay = verify_routes(depot, nodes, routes, spec)
+    assert replay.feasible, replay.reason
+    assert torch.isfinite(reward).all()
 
 
 @pytest.mark.parametrize("model_class", MODEL_CLASSES)
-def test_policy_is_identical_when_constraints_change_but_xy_does_not(model_class):
+def test_policy_remains_blind_to_c_and_tw_when_xy_does_not_change(model_class):
     torch.manual_seed(7)
     cvrp = official_env("CVRP", batch=1)
     vrptw = official_env("VRPTW", batch=1)
@@ -119,12 +153,15 @@ def test_policy_is_identical_when_constraints_change_but_xy_does_not(model_class
 
 @pytest.mark.parametrize("model_class", MODEL_CLASSES)
 @pytest.mark.parametrize("problem", TRAIN_PROBLEMS)
-def test_three_models_have_finite_forward_backward_on_all_six_training_tasks(model_class, problem):
+@pytest.mark.parametrize("problem_size", (50, 100))
+def test_three_models_have_finite_forward_backward_at_both_sizes(
+    model_class, problem, problem_size,
+):
     from SplitTrainer import valid_pomo_reinforce_loss
 
     torch.manual_seed(123)
-    source = official_env(problem, batch=2, n=20, pomo=8)
-    env = GiantTourEnv.from_official_env(source, pomo_size=8)
+    source = official_env(problem, batch=1, n=problem_size, pomo=4)
+    env = GiantTourEnv.from_official_env(source, pomo_size=4)
     model = model_class(**params()).train()
     reset, _, _ = env.reset()
     model.pre_forward(reset)
@@ -141,6 +178,12 @@ def test_three_models_have_finite_forward_backward_on_all_six_training_tasks(mod
         loss = loss + aux.mean()
     assert valid.any(dim=1).all()
     assert torch.isfinite(loss)
+    for pomo_index in range(env.pomo_size):
+        routes = env.get_routes(0, pomo_index)
+        replay = verify_routes(
+            env.depot_xy, env.node_xy, routes, env.instance.split_view
+        )
+        assert replay.feasible, replay.reason
     loss.backward()
     gradients = [p.grad for p in model.parameters() if p.grad is not None]
     assert gradients
@@ -148,3 +191,4 @@ def test_three_models_have_finite_forward_backward_on_all_six_training_tasks(mod
     assert model.encoder.embedding_node.input_size == 2 if hasattr(model.encoder.embedding_node, "input_size") else model.encoder.embedding_node.in_features == 2
     assert model.decoder.Wq_first.in_features == params()["embedding_dim"]
     assert model.decoder.Wq_last.in_features == params()["embedding_dim"]
+    assert model.decoder.Wq_bl.in_features == 5

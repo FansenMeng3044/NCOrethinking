@@ -46,10 +46,38 @@ def make_instance(problem, loc_scaler=None):
     return depot_xy, node_xy, spec
 
 
-def brute_force(depot_xy, node_xy, tour, spec):
+def decoder_breaks(depot_xy, node_xy, tours, spec):
+    breaks = torch.zeros_like(tours, dtype=torch.bool)
+    breaks[:, :, 0] = True
+    if not spec.has_route_limit:
+        return breaks
+    limit = float(spec.route_limit.reshape(-1)[0].item())
+    depot = depot_xy[0, 0]
+    for batch in range(tours.size(0)):
+        for pomo in range(tours.size(1)):
+            current = depot
+            length = 0.0
+            for position, customer in enumerate(tours[batch, pomo].tolist()):
+                xy = node_xy[batch, customer - 1]
+                extension = length + float(torch.linalg.vector_norm(xy - current).item())
+                required = extension
+                if not spec.open_route:
+                    required += float(torch.linalg.vector_norm(xy - depot).item())
+                if position and required > limit + 1e-6:
+                    breaks[batch, pomo, position] = True
+                    length = float(torch.linalg.vector_norm(xy - depot).item())
+                else:
+                    length = extension
+                current = xy
+    return breaks
+
+
+def brute_force(depot_xy, node_xy, tour, spec, mandatory_breaks):
     n = len(tour)
     best = (float("inf"), None, None)
     for bits in itertools.product((0, 1), repeat=n - 1):
+        if any(mandatory_breaks[position] and not bits[position - 1] for position in range(1, n)):
+            continue
         routes, start = [], 0
         for position, split_here in enumerate(bits, start=1):
             if split_here:
@@ -68,13 +96,19 @@ def test_dynamic_program_matches_exhaustive_partitions(problem, loc_scaler):
     depot_xy, node_xy, spec = make_instance(problem, loc_scaler)
     tours = torch.tensor([[
         [1, 2, 3, 4, 5, 6],
-        [2, 5, 1, 6, 3, 4],
-        [4, 1, 2, 5, 3, 6],
+        [2, 1, 3, 5, 4, 6],
+        [3, 1, 2, 6, 5, 4],
     ]], dtype=torch.long)
-    result = split_giant_tours(depot_xy, node_xy, tours, spec, return_predecessors=True)
+    mandatory = decoder_breaks(depot_xy, node_xy, tours, spec)
+    result = split_giant_tours(
+        depot_xy, node_xy, tours, spec,
+        mandatory_breaks=mandatory, return_predecessors=True,
+    )
     for p in range(tours.size(1)):
         tour = tours[0, p].tolist()
-        brute_cost, _, brute_result = brute_force(depot_xy, node_xy, tour, spec)
+        brute_cost, _, brute_result = brute_force(
+            depot_xy, node_xy, tour, spec, mandatory[0, p].tolist()
+        )
         if math.isfinite(brute_cost):
             assert result.feasible[0, p]
             assert result.costs[0, p].item() == pytest.approx(brute_cost, abs=1e-9)
@@ -90,13 +124,38 @@ def test_dynamic_program_matches_exhaustive_partitions(problem, loc_scaler):
             assert result.route_counts[0, p].item() == -1
 
 
-def test_backhaul_start_semantics_match_official_environment():
+def test_mandatory_breaks_are_enforced_by_ctw_split():
     depot_xy, node_xy, spec = make_instance("VRPB")
-    # Customer 4 is a pickup. With unserved deliveries in the suffix, the
-    # official environment starts full, so 4 cannot be the first route action.
-    tour = torch.tensor([[[4, 1, 2, 3, 5, 6]]])
-    result = split_giant_tours(depot_xy, node_xy, tour, spec)
-    assert not result.feasible.item()
+    tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
+    mandatory = torch.tensor([[[True, False, True, False, True, False]]])
+    result = split_giant_tours(
+        depot_xy, node_xy, tour, spec,
+        mandatory_breaks=mandatory, return_predecessors=True,
+    )
+    routes = reconstruct_routes(tour[0, 0], result.predecessors[0, 0])
+    starts = []
+    position = 0
+    for route in routes:
+        starts.append(position)
+        position += len(route)
+    assert {0, 2, 4}.issubset(starts)
+
+
+def test_rejects_missing_initial_mandatory_break():
+    depot_xy, node_xy, spec = make_instance("CVRP")
+    tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
+    with pytest.raises(ValueError, match="first customer"):
+        split_giant_tours(
+            depot_xy, node_xy, tour, spec,
+            mandatory_breaks=torch.zeros_like(tour, dtype=torch.bool),
+        )
+
+
+def test_bl_problem_rejects_missing_decoder_boundaries():
+    depot_xy, node_xy, spec = make_instance("VRPL")
+    tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
+    with pytest.raises(ValueError, match="require decoder-supplied"):
+        split_giant_tours(depot_xy, node_xy, tour, spec)
 
 
 def test_open_route_omits_return_edge_and_return_constraints():

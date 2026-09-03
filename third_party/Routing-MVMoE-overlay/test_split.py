@@ -1,4 +1,4 @@
-"""Evaluate one XY-only Split checkpoint on any/all 16 official environments."""
+"""Evaluate one B/L-decoder + C/TW-Split checkpoint on official environments."""
 
 import argparse
 import csv
@@ -14,6 +14,7 @@ from utils import get_env, seed_everything
 
 def evaluate_batch(model, source, pomo_size, augmentation):
     env = GiantTourEnv.from_official_env(source, pomo_size=pomo_size)
+    actual_pomo_size = env.pomo_size
     reset, _, _ = env.reset()
     model.pre_forward(reset)
     state, reward, done = env.pre_step()
@@ -25,8 +26,8 @@ def evaluate_batch(model, source, pomo_size, augmentation):
     if aug_batch % augmentation:
         raise ValueError("augmented batch is not divisible by augmentation")
     batch = aug_batch // augmentation
-    costs = env.last_split_result.costs.reshape(augmentation, batch, pomo_size)
-    feasible = env.last_split_result.feasible.reshape(augmentation, batch, pomo_size)
+    costs = env.last_split_result.costs.reshape(augmentation, batch, actual_pomo_size)
+    feasible = env.last_split_result.feasible.reshape(augmentation, batch, actual_pomo_size)
     masked = costs.masked_fill(~feasible, float("inf"))
     flat = masked.permute(1, 0, 2).reshape(batch, -1)
     best_cost, best_flat = flat.min(dim=1)
@@ -36,8 +37,8 @@ def evaluate_batch(model, source, pomo_size, augmentation):
         if not torch.isfinite(best_cost[index]):
             records.append(("no_feasible_candidate", None, None))
             continue
-        augmentation_index = int(best_flat[index].item()) // pomo_size
-        pomo_index = int(best_flat[index].item()) % pomo_size
+        augmentation_index = int(best_flat[index].item()) // actual_pomo_size
+        pomo_index = int(best_flat[index].item()) % actual_pomo_size
         source_batch_index = augmentation_index * batch + index
         routes = env.get_routes(source_batch_index, pomo_index)
         replay = verify_routes(
@@ -79,8 +80,13 @@ def main():
     )
     seed_everything(args.seed)
     checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
-    if not checkpoint.get("xy_only") or not checkpoint.get("split_reward"):
-        raise ValueError("checkpoint is not marked as strict XY-only/post-Split training")
+    xy_encoder_only = checkpoint.get("xy_encoder_only", checkpoint.get("xy_only"))
+    if not xy_encoder_only or not checkpoint.get("split_reward"):
+        raise ValueError("checkpoint is not marked as XY-encoded/post-Split training")
+    if checkpoint.get("decoder_constraints") != ["B", "L"]:
+        raise ValueError("checkpoint does not use the B/L-aware decoder")
+    if checkpoint.get("split_constraints") != ["C", "TW"]:
+        raise ValueError("checkpoint does not use the C/TW-only Split protocol")
     if checkpoint.get("model_type") != args.model_type:
         raise ValueError("checkpoint model type mismatch")
     model_params = dict(checkpoint["model_params"])

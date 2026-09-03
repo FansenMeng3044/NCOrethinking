@@ -11,7 +11,10 @@ from utils import seed_everything
 
 def build_parser():
     parser = argparse.ArgumentParser(
-        description="Train strict XY-only POMO-MTL-Split / MVMoE-Split on official MVMoE tasks"
+        description=(
+            "Train XY-encoded POMO-MTL-Split / MVMoE-Split with B/L-aware "
+            "decoding and C/TW Split on official MVMoE tasks"
+        )
     )
     parser.add_argument("--problem", default="Train_ALL", choices=[
         "Train_ALL", "CVRP", "OVRP", "VRPB", "VRPL", "VRPTW", "OVRPTW"

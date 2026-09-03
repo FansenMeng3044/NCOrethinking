@@ -1,4 +1,4 @@
-# Strict XY-only giant-tour variants
+# XY-encoded, B/L-aware giant-tour variants
 
 This extension adds three models without editing the official MVMoE models or
 environments:
@@ -7,27 +7,33 @@ environments:
 - `MOE_SPLIT`: MVMoE/4E-Split;
 - `MOE_LIGHT_SPLIT`: MVMoE/4E-L-Split.
 
-## Experimental boundary
+## Constraint factorization
 
-The policy receives exactly `depot_xy` and `node_xy`. Customer embeddings have
-input dimension two. The direct decoder's dynamic
-`[load, current_time, length, open]` input is absent. The depot is permanently
-masked and the only other action mask is the visited-customer mask. Every
-complete rollout is therefore a customer permutation.
+The static encoder receives exactly `depot_xy` and `node_xy`; customer
+embeddings therefore retain input dimension two.  During autoregressive
+decoding, only the backhaul (B) and route-length (L) state is exposed.  Capacity
+(C) and time-window (TW) attributes never enter the neural model.
 
-`MVMoEInstanceAdapter` creates two disjoint views of an untouched official
-environment. `PolicyView` contains only coordinates. `ConstraintSpec` contains
-the normalized demand/capacity, open-route flag, signed backhaul demand, route
-limit, service durations, time windows, depot horizon, speed, and objective
-rounding configuration. Only the exact generalized Split decoder receives the
-latter.
+The decoder always emits exactly one permutation and never selects the depot.
+For each candidate it evaluates both continuation of the current hidden route
+and restart from the depot.  B uses MVMoE's signed-load transition, including
+its full/empty restart rule; L uses the official open- or closed-route length
+test.  If continuation is infeasible but restart is feasible, a hidden new
+route begins automatically.  These starts are saved as mandatory boundaries;
+a customer infeasible under both transitions is masked.
 
-The Split decoder implements all 16 official combinations compositionally. It
-uses MVMoE's exact semantics: signed load stays in `[0,1]` for backhauls; a
-backhaul route starts full while any linehaul remains and empty afterwards;
-open routes omit the return edge and return constraints; length and temporal
-feasibility use unrounded Euclidean distance; objective edges alone use
-`loc_scaler` rounding when configured.
+`MVMoEInstanceAdapter` leaves every official environment unchanged.  Its
+`PolicyView` contains only coordinates for static encoding.  B/L flags and
+their dynamic state are consumed only during giant-tour decoding.  The exact
+Split stage can add route boundaries for C/TW, but cannot merge across the
+decoder's mandatory B/L boundaries.
+
+The resulting pipeline implements all 16 official combinations
+compositionally.  Signed demands retain MVMoE's capacity accounting: a route
+starts full while any linehaul remains in the suffix and empty once only
+backhauls remain.  Open routes omit return distance and depot-return timing.
+L uses raw Euclidean distance in the decoder; TW uses raw distance in Split;
+objective edges alone use `loc_scaler` rounding when configured.
 
 ## Training
 
@@ -39,10 +45,11 @@ python train_split.py --problem Train_ALL --model_type MOE_SPLIT --problem_size 
 python train_split.py --problem Train_ALL --model_type MOE_LIGHT_SPLIT --problem_size 100 --pomo_size 100
 ```
 
-Reward is negative post-Split distance. Infeasible giant tours remain explicitly
-infeasible; they are never relaxed or repaired. The POMO baseline and policy
-loss are computed only over finite candidates, and training stops with a clear
-error if an instance has no feasible candidate. MoE auxiliary losses are kept.
+Reward is negative post-Split distance. The B/L construction is deterministic
+conditional on the selected order; no repair, sampling fallback, or constraint
+relaxation is applied.  The POMO baseline and policy loss are computed only
+over finite candidates, and training stops with a clear error if an instance
+has no feasible candidate. MoE auxiliary losses are kept.
 
 The official schedule is retained: 5,000 epochs, 20,000 generated instances per
 epoch, batch size 128, Adam at `1e-4`, a `0.1` learning-rate decay at milestone
@@ -72,8 +79,9 @@ distance.
 python -m pytest tests_split -q
 ```
 
-The suite compares dynamic programming with exhaustive boundary enumeration on
-all 16 combinations (with and without objective rounding), adapts every
-official environment, audits the policy state/action mask, verifies identical
-tours for identical coordinates under different constraints, and runs finite
-forward/backward checks for all three models on all six training tasks.
+The suite compares the restricted C/TW dynamic program with exhaustive boundary
+enumeration on all 16 combinations (with and without objective rounding),
+adapts every official environment at sizes 50 and 100, audits B/L transition
+masks and mandatory starts, verifies C/TW blindness under fixed coordinates, and runs
+finite forward/backward checks for all three models and both sizes on all six
+training tasks.

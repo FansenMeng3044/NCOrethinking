@@ -7,7 +7,7 @@ from split.constraints import ConstraintSpec, flags_from_problem
 
 @dataclass(frozen=True)
 class PolicyView:
-    """The complete and deliberately minimal observation of the policy."""
+    """Static coordinate view consumed by the neural encoder."""
 
     depot_xy: torch.Tensor
     node_xy: torch.Tensor
@@ -20,10 +20,12 @@ class AdaptedInstance:
 
 
 class MVMoEInstanceAdapter:
-    """Extract disjoint policy and Split views from a loaded official env.
+    """Extract coordinate and constraint views from a loaded official env.
 
     The adapter reads public state produced by ``env.load_problems``.  It never
-    calls or modifies the official environment's decoding transition.
+    calls or modifies the official environment's decoding transition.  B/L
+    fields are read by the giant-tour decoding environment; C/TW fields are
+    enforced by the downstream Split stage.
     """
 
     @staticmethod
