@@ -72,6 +72,10 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     assert checkpoint["decoder_constraints"] == ["B"]
     assert checkpoint["split_constraints"] == ["B", "L", "C", "TW"]
     assert checkpoint["constraint_factorization_version"] == 2
+    assert checkpoint["distributed"] is False
+    assert checkpoint["world_size"] == 1
+    assert checkpoint["global_batch_size"] == 2
+    assert checkpoint["local_batch_size"] == 2
     with metrics_path.open(newline="", encoding="utf-8") as stream:
         rows = list(csv.DictReader(stream))
     assert {row["record_type"] for row in rows} == {

@@ -1,9 +1,10 @@
 import argparse
 import math
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import torch
+import torch.distributed as dist
 
 from SplitTrainer import SplitTrainer
 from utils import seed_everything
@@ -64,62 +65,152 @@ def build_parser():
     parser.add_argument("--log_dir", default="./results_split")
     parser.add_argument("--gpu_id", type=int, default=0)
     parser.add_argument("--no_cuda", action="store_true")
+    parser.add_argument(
+        "--ddp",
+        action="store_true",
+        help="enable DistributedDataParallel; launch with torchrun",
+    )
+    parser.add_argument(
+        "--expected_world_size",
+        type=int,
+        default=0,
+        help="fail unless the torchrun world size matches this value (0 disables the check)",
+    )
+    parser.add_argument(
+        "--dist_backend",
+        choices=["nccl", "gloo"],
+        default=None,
+        help="distributed backend (default: nccl on CUDA, otherwise gloo)",
+    )
     return parser
+
+
+def _setup_runtime(args):
+    launched_world_size = int(os.environ.get("WORLD_SIZE", "1"))
+    if launched_world_size > 1 and not args.ddp:
+        raise RuntimeError("torchrun detected but --ddp was not specified")
+    if args.ddp and launched_world_size <= 1:
+        raise RuntimeError("--ddp requires torchrun with more than one process")
+
+    if args.ddp:
+        use_cuda = torch.cuda.is_available() and not args.no_cuda
+        backend = args.dist_backend or ("nccl" if use_cuda else "gloo")
+        if backend == "nccl" and not use_cuda:
+            raise RuntimeError("NCCL DDP requires CUDA")
+        dist.init_process_group(
+            backend=backend,
+            init_method="env://",
+            timeout=timedelta(minutes=30),
+        )
+        args.rank = dist.get_rank()
+        args.world_size = dist.get_world_size()
+        args.local_rank = int(os.environ.get("LOCAL_RANK", str(args.rank)))
+        if args.expected_world_size and args.world_size != args.expected_world_size:
+            raise RuntimeError(
+                f"expected world size {args.expected_world_size}, got {args.world_size}"
+            )
+        if use_cuda:
+            if args.local_rank >= torch.cuda.device_count():
+                raise RuntimeError("LOCAL_RANK exceeds the visible CUDA device count")
+            torch.cuda.set_device(args.local_rank)
+            args.device = torch.device("cuda", args.local_rank)
+        else:
+            args.device = torch.device("cpu")
+    else:
+        args.rank = 0
+        args.world_size = 1
+        args.local_rank = args.gpu_id
+        args.device = torch.device(
+            f"cuda:{args.gpu_id}"
+            if torch.cuda.is_available() and not args.no_cuda
+            else "cpu"
+        )
+        if args.device.type == "cuda":
+            torch.cuda.set_device(args.gpu_id)
+
+
+def _shared_log_path(args):
+    if args.rank == 0:
+        run_name = (
+            f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_"
+            f"{args.model_type.lower()}_n{args.problem_size}"
+        )
+    else:
+        run_name = None
+    if args.ddp:
+        values = [run_name]
+        dist.broadcast_object_list(values, src=0)
+        run_name = values[0]
+    return os.path.join(args.log_dir, run_name)
 
 
 def main():
     args = build_parser().parse_args()
     if args.pomo_size > args.problem_size:
         raise ValueError("pomo_size cannot exceed problem_size")
-    args.device = torch.device(
-        f"cuda:{args.gpu_id}" if torch.cuda.is_available() and not args.no_cuda else "cpu"
-    )
-    if args.device.type == "cuda":
-        torch.cuda.set_device(args.gpu_id)
-    seed_everything(args.seed)
-    args.log_path = os.path.join(
-        args.log_dir,
-        f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{args.model_type.lower()}_n{args.problem_size}",
-    )
-    model_params = {
-        "embedding_dim": args.embedding_dim,
-        "sqrt_embedding_dim": args.embedding_dim ** 0.5,
-        "encoder_layer_num": args.encoder_layer_num,
-        "decoder_layer_num": 1,
-        "qkv_dim": args.qkv_dim,
-        "head_num": args.head_num,
-        "logit_clipping": args.logit_clipping,
-        "ff_hidden_dim": args.ff_hidden_dim,
-        "num_experts": args.num_experts,
-        "eval_type": args.eval_type,
-        "norm": args.norm,
-        "norm_loc": args.norm_loc,
-        "expert_loc": args.expert_loc,
-        "problem": args.problem,
-        "topk": args.topk,
-        "routing_level": args.routing_level,
-        "routing_method": args.routing_method,
-        "device": args.device,
-    }
-    trainer = SplitTrainer(
-        args=args,
-        env_params={"problem_size": args.problem_size, "pomo_size": args.pomo_size},
-        model_params=model_params,
-        optimizer_params={
-            "optimizer": {"lr": args.lr, "weight_decay": args.weight_decay},
-            "scheduler": {"milestones": args.milestones, "gamma": args.gamma},
-        },
-        trainer_params={
-            "epochs": args.epochs,
-            "train_episodes": args.train_episodes,
-            "train_batch_size": args.train_batch_size,
-            "model_save_interval": args.model_save_interval,
-            "metrics_log_interval": args.metrics_log_interval,
-            "metrics_flush_interval": args.metrics_flush_interval,
-            "max_grad_norm": args.max_grad_norm,
-        },
-    )
-    trainer.run()
+    try:
+        _setup_runtime(args)
+        if args.ddp and (
+            args.routing_method != "input_choice"
+            or args.routing_level not in ("node", "instance")
+        ):
+            raise ValueError(
+                "rigorous DDP training currently supports input-choice MoE "
+                "with node- or instance-level routing"
+            )
+        if args.train_batch_size % args.world_size != 0:
+            raise ValueError("global train_batch_size must be divisible by world size")
+        if args.train_episodes % args.world_size != 0:
+            raise ValueError("train_episodes must be divisible by world size")
+
+        seed_everything(args.seed + args.rank)
+        args.log_path = _shared_log_path(args)
+        model_params = {
+            "embedding_dim": args.embedding_dim,
+            "sqrt_embedding_dim": args.embedding_dim ** 0.5,
+            "encoder_layer_num": args.encoder_layer_num,
+            "decoder_layer_num": 1,
+            "qkv_dim": args.qkv_dim,
+            "head_num": args.head_num,
+            "logit_clipping": args.logit_clipping,
+            "ff_hidden_dim": args.ff_hidden_dim,
+            "num_experts": args.num_experts,
+            "eval_type": args.eval_type,
+            "norm": args.norm,
+            "norm_loc": args.norm_loc,
+            "expert_loc": args.expert_loc,
+            "problem": args.problem,
+            "topk": args.topk,
+            "routing_level": args.routing_level,
+            "routing_method": args.routing_method,
+            "device": args.device,
+        }
+        trainer = SplitTrainer(
+            args=args,
+            env_params={"problem_size": args.problem_size, "pomo_size": args.pomo_size},
+            model_params=model_params,
+            optimizer_params={
+                "optimizer": {"lr": args.lr, "weight_decay": args.weight_decay},
+                "scheduler": {"milestones": args.milestones, "gamma": args.gamma},
+            },
+            trainer_params={
+                "epochs": args.epochs,
+                "train_episodes": args.train_episodes,
+                "train_batch_size": args.train_batch_size,
+                "model_save_interval": args.model_save_interval,
+                "metrics_log_interval": args.metrics_log_interval,
+                "metrics_flush_interval": args.metrics_flush_interval,
+                "max_grad_norm": args.max_grad_norm,
+                "distributed": args.ddp,
+                "world_size": args.world_size,
+                "global_batch_size": args.train_batch_size,
+                "local_batch_size": args.train_batch_size // args.world_size,
+            },
+        )
+        trainer.run()
+    finally:
+        if dist.is_available() and dist.is_initialized():
+            dist.destroy_process_group()
 
 
 if __name__ == "__main__":

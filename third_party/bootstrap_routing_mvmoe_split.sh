@@ -30,6 +30,7 @@ cp -a "${overlay_dir}/." "${upstream_dir}/"
 python -m py_compile \
     "${upstream_dir}/train_split.py" \
     "${upstream_dir}/SplitTrainer.py" \
-    "${upstream_dir}/training_metrics.py"
+    "${upstream_dir}/training_metrics.py" \
+    "${upstream_dir}/split_models/xy_models.py"
 
 printf '%s\n' "${upstream_dir}"

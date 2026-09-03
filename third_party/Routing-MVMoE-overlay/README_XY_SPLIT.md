@@ -63,6 +63,34 @@ and MoE auxiliary losses, gradient norm, Split-feasible candidate rate, mean
 route count, timing, throughput, and GPU memory. `--metrics_log_interval N`
 retains every Nth batch row; epoch, checkpoint, and summary rows are always kept.
 
+### Two-GPU DDP
+
+DDP treats `--train_batch_size` and `--train_episodes` as global quantities.
+The controlled two-GPU configuration therefore uses a local batch of 64 on
+each rank while retaining the official global batch of 128 and 20,000 global
+instances per epoch:
+
+```bash
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.run \
+  --standalone --nnodes=1 --nproc_per_node=2 train_split.py \
+  --ddp --expected_world_size 2 --problem Train_ALL \
+  --model_type MOE_SPLIT --problem_size 100 --pomo_size 100 \
+  --train_episodes 20000 --train_batch_size 128
+```
+
+Each optimizer update combines two equal 64-instance shards. Rank 0 selects
+and broadcasts the training task, so a global batch still contains one of the
+six official environments. Input-choice MoE load-balancing statistics are
+computed over the complete global batch, and the stochastic dense/MoE branch
+of 4E-L is synchronized across ranks. Metrics are globally reduced; only rank
+0 writes CSV files and atomic checkpoints. Checkpoints store the RNG state for
+each rank and can be resumed with the same world size. Consequently DDP changes
+only execution parallelism, not global batch size, instance budget, optimizer,
+learning-rate schedule, reward, or constraint factorization.
+
+On a six-GPU host, `../run_three_mvmoe_split_n100_ddp.sh` launches the three
+size-100 models concurrently on GPU pairs `0,1`, `2,3`, and `4,5`.
+
 ## Evaluation on all 16 environments
 
 ```bash
