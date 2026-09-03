@@ -46,34 +46,9 @@ def make_instance(problem, loc_scaler=None):
     return depot_xy, node_xy, spec
 
 
-def decoder_breaks(depot_xy, node_xy, tours, spec):
-    breaks = torch.zeros_like(tours, dtype=torch.bool)
-    breaks[:, :, 0] = True
-    if not spec.has_route_limit:
-        return breaks
-    limit = float(spec.route_limit.reshape(-1)[0].item())
-    depot = depot_xy[0, 0]
-    for batch in range(tours.size(0)):
-        for pomo in range(tours.size(1)):
-            current = depot
-            length = 0.0
-            for position, customer in enumerate(tours[batch, pomo].tolist()):
-                xy = node_xy[batch, customer - 1]
-                extension = length + float(torch.linalg.vector_norm(xy - current).item())
-                required = extension
-                if not spec.open_route:
-                    required += float(torch.linalg.vector_norm(xy - depot).item())
-                if position and required > limit + 1e-6:
-                    breaks[batch, pomo, position] = True
-                    length = float(torch.linalg.vector_norm(xy - depot).item())
-                else:
-                    length = extension
-                current = xy
-    return breaks
-
-
-def brute_force(depot_xy, node_xy, tour, spec, mandatory_breaks):
+def brute_force(depot_xy, node_xy, tour, spec, mandatory_breaks=None):
     n = len(tour)
+    mandatory_breaks = mandatory_breaks or [False] * n
     best = (float("inf"), None, None)
     for bits in itertools.product((0, 1), repeat=n - 1):
         if any(mandatory_breaks[position] and not bits[position - 1] for position in range(1, n)):
@@ -99,15 +74,13 @@ def test_dynamic_program_matches_exhaustive_partitions(problem, loc_scaler):
         [2, 1, 3, 5, 4, 6],
         [3, 1, 2, 6, 5, 4],
     ]], dtype=torch.long)
-    mandatory = decoder_breaks(depot_xy, node_xy, tours, spec)
     result = split_giant_tours(
-        depot_xy, node_xy, tours, spec,
-        mandatory_breaks=mandatory, return_predecessors=True,
+        depot_xy, node_xy, tours, spec, return_predecessors=True,
     )
     for p in range(tours.size(1)):
         tour = tours[0, p].tolist()
         brute_cost, _, brute_result = brute_force(
-            depot_xy, node_xy, tour, spec, mandatory[0, p].tolist()
+            depot_xy, node_xy, tour, spec
         )
         if math.isfinite(brute_cost):
             assert result.feasible[0, p]
@@ -124,7 +97,7 @@ def test_dynamic_program_matches_exhaustive_partitions(problem, loc_scaler):
             assert result.route_counts[0, p].item() == -1
 
 
-def test_mandatory_breaks_are_enforced_by_ctw_split():
+def test_mandatory_b_breaks_are_enforced_by_full_split():
     depot_xy, node_xy, spec = make_instance("VRPB")
     tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
     mandatory = torch.tensor([[[True, False, True, False, True, False]]])
@@ -151,11 +124,38 @@ def test_rejects_missing_initial_mandatory_break():
         )
 
 
-def test_bl_problem_rejects_missing_decoder_boundaries():
+def test_backhaul_is_rechecked_by_split_without_decoder_boundaries():
+    depot_xy, node_xy, spec = make_instance("VRPB")
+    tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
+    result = split_giant_tours(
+        depot_xy, node_xy, tour, spec, return_predecessors=True
+    )
+    assert result.feasible.item()
+    routes = reconstruct_routes(tour[0, 0], result.predecessors[0, 0])
+    replay = verify_routes(depot_xy, node_xy, routes, spec)
+    assert replay.feasible, replay.reason
+
+
+def test_split_rejects_backhaul_before_remaining_linehauls():
+    depot_xy, node_xy, spec = make_instance("VRPB")
+    # Customer 4 is a backhaul. A route cannot start there while positive
+    # linehaul demand remains globally unserved under MVMoE's full-load reset.
+    tour = torch.tensor([[[4, 1, 2, 3, 5, 6]]])
+    result = split_giant_tours(depot_xy, node_xy, tour, spec)
+    assert not result.feasible.item()
+    assert math.isinf(result.costs.item())
+
+
+def test_length_problem_needs_no_decoder_boundaries():
     depot_xy, node_xy, spec = make_instance("VRPL")
     tour = torch.tensor([[[1, 2, 3, 4, 5, 6]]])
-    with pytest.raises(ValueError, match="require decoder-supplied"):
-        split_giant_tours(depot_xy, node_xy, tour, spec)
+    result = split_giant_tours(
+        depot_xy, node_xy, tour, spec, return_predecessors=True
+    )
+    assert result.feasible.item()
+    routes = reconstruct_routes(tour[0, 0], result.predecessors[0, 0])
+    replay = verify_routes(depot_xy, node_xy, routes, spec)
+    assert replay.feasible, replay.reason
 
 
 def test_open_route_omits_return_edge_and_return_constraints():

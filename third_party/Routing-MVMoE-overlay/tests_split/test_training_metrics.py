@@ -69,9 +69,9 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     assert checkpoint["xy_only"] is True
     assert checkpoint["xy_encoder_only"] is True
-    assert checkpoint["decoder_constraints"] == ["B", "L"]
-    assert checkpoint["split_constraints"] == ["C", "TW"]
-    assert checkpoint["constraint_factorization_version"] == 1
+    assert checkpoint["decoder_constraints"] == ["B"]
+    assert checkpoint["split_constraints"] == ["B", "L", "C", "TW"]
+    assert checkpoint["constraint_factorization_version"] == 2
     with metrics_path.open(newline="", encoding="utf-8") as stream:
         rows = list(csv.DictReader(stream))
     assert {row["record_type"] for row in rows} == {

@@ -88,6 +88,7 @@ def test_backhaul_starts_follow_official_full_empty_load_rule():
     _, _, _ = env.reset()
     assert torch.isneginf(env.ninf_mask[:, :, 0]).all()
     demand = env.instance.split_view.demand[0]
+    assert torch.allclose(env.step_state.b_candidate[0, 0, 1:, 0], demand)
     assert (demand[env.START_NODE[0] - 1] > 0).all()
     assert torch.isneginf(env.ninf_mask[0, 0, 1:][demand < 0]).all()
 
@@ -103,7 +104,7 @@ def test_backhaul_starts_follow_official_full_empty_load_rule():
     assert (env.ninf_mask[0, 0, 1:][demand < 0] == 0).all()
 
 
-def test_length_decoder_creates_mandatory_routes_before_ctw_split():
+def test_length_is_invisible_to_decoder_and_enforced_by_split():
     depot = torch.tensor([[[0.0, 0.0]]])
     nodes = torch.tensor([[[0.4, 0.0], [-0.4, 0.0], [0.0, 0.4]]])
     spec = ConstraintSpec(
@@ -117,10 +118,12 @@ def test_length_decoder_creates_mandatory_routes_before_ctw_split():
         AdaptedInstance(PolicyView(depot, nodes), spec), pomo_size=1
     )
     env.reset()
+    assert env.step_state.b_context.tolist() == [[[0.0, 0.0]]]
+    assert not torch.isneginf(env.ninf_mask[0, 0, 1:]).any()
     for customer in (1, 2, 3):
         _, reward, done = env.step(torch.tensor([[customer]]))
     assert done
-    assert env.mandatory_breaks.tolist() == [[[True, True, True]]]
+    assert env.mandatory_breaks.tolist() == [[[True, False, False]]]
     routes = env.get_routes(0, 0)
     assert routes == [[1], [2], [3]]
     replay = verify_routes(depot, nodes, routes, spec)
@@ -129,16 +132,18 @@ def test_length_decoder_creates_mandatory_routes_before_ctw_split():
 
 
 @pytest.mark.parametrize("model_class", MODEL_CLASSES)
-def test_policy_remains_blind_to_c_and_tw_when_xy_does_not_change(model_class):
+def test_policy_remains_blind_to_l_c_and_tw_when_xy_does_not_change(model_class):
     torch.manual_seed(7)
     cvrp = official_env("CVRP", batch=1)
+    vrpl = official_env("VRPL", batch=1)
     vrptw = official_env("VRPTW", batch=1)
     # Force exactly the same policy observation while retaining different constraints.
+    vrpl.depot_node_xy = cvrp.depot_node_xy.clone()
     vrptw.depot_node_xy = cvrp.depot_node_xy.clone()
     model = model_class(**params()).eval()
 
     tours = []
-    for source in (cvrp, vrptw):
+    for source in (cvrp, vrpl, vrptw):
         torch.manual_seed(99)
         env = GiantTourEnv.from_official_env(source, pomo_size=8)
         reset, _, _ = env.reset()
@@ -149,6 +154,7 @@ def test_policy_remains_blind_to_c_and_tw_when_xy_does_not_change(model_class):
             state, _, done = env.step(selected)
         tours.append(env.selected_node_list.clone())
     assert torch.equal(tours[0], tours[1])
+    assert torch.equal(tours[0], tours[2])
 
 
 @pytest.mark.parametrize("model_class", MODEL_CLASSES)
@@ -191,4 +197,5 @@ def test_three_models_have_finite_forward_backward_at_both_sizes(
     assert model.encoder.embedding_node.input_size == 2 if hasattr(model.encoder.embedding_node, "input_size") else model.encoder.embedding_node.in_features == 2
     assert model.decoder.Wq_first.in_features == params()["embedding_dim"]
     assert model.decoder.Wq_last.in_features == params()["embedding_dim"]
-    assert model.decoder.Wq_bl.in_features == 5
+    assert model.decoder.Wq_b.in_features == 2
+    assert model.decoder.b_candidate_score.in_features == 3

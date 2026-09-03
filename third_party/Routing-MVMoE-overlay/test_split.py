@@ -1,4 +1,4 @@
-"""Evaluate one B/L-decoder + C/TW-Split checkpoint on official environments."""
+"""Evaluate one B-decoder + B/L/C/TW-Split checkpoint on official environments."""
 
 import argparse
 import csv
@@ -83,10 +83,12 @@ def main():
     xy_encoder_only = checkpoint.get("xy_encoder_only", checkpoint.get("xy_only"))
     if not xy_encoder_only or not checkpoint.get("split_reward"):
         raise ValueError("checkpoint is not marked as XY-encoded/post-Split training")
-    if checkpoint.get("decoder_constraints") != ["B", "L"]:
-        raise ValueError("checkpoint does not use the B/L-aware decoder")
-    if checkpoint.get("split_constraints") != ["C", "TW"]:
-        raise ValueError("checkpoint does not use the C/TW-only Split protocol")
+    if checkpoint.get("decoder_constraints") != ["B"]:
+        raise ValueError("checkpoint does not use the B-only decoder")
+    if checkpoint.get("split_constraints") != ["B", "L", "C", "TW"]:
+        raise ValueError("checkpoint does not use the B/L/C/TW Split protocol")
+    if checkpoint.get("constraint_factorization_version") != 2:
+        raise ValueError("checkpoint uses an incompatible constraint factorization")
     if checkpoint.get("model_type") != args.model_type:
         raise ValueError("checkpoint model type mismatch")
     model_params = dict(checkpoint["model_params"])

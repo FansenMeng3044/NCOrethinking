@@ -25,8 +25,8 @@ def test_every_official_environment_adapts_at_both_sizes(problem, problem_size):
     env = GiantTourEnv(adapted, pomo_size=8)
     reset, _, _ = env.reset()
     assert tuple(vars(reset)) == ("depot_xy", "node_xy")
-    assert env.step_state.bl_context.shape == (2, 8, 5)
-    assert env.step_state.bl_candidate.shape == (2, 8, problem_size + 1, 4)
+    assert env.step_state.b_context.shape == (2, 8, 2)
+    assert env.step_state.b_candidate.shape == (2, 8, problem_size + 1, 3)
 
 
 @pytest.mark.parametrize("problem_size", (50, 100))

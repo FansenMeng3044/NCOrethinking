@@ -24,10 +24,10 @@ class ConstraintSpec:
     """Official constraint data used across decoder state, Split, and replay.
 
     MVMoE normalizes demands by per-instance vehicle capacity before exposing
-    them to an environment, hence ``capacity`` defaults to one.  B/L are
-    consumed during order decoding, while C/TW are consumed by Split.  Tensor
-    fields have batch as their first dimension. Customer fields have shape
-    (B, n).
+    them to an environment, hence ``capacity`` defaults to one. B is consumed
+    during order decoding and then rechecked by Split; L, C, and TW are consumed
+    only by Split. Tensor fields have batch as their first dimension. Customer
+    fields have shape (B, n).
     """
 
     problem: str

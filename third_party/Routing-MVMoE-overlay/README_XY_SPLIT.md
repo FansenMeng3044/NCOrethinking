@@ -1,4 +1,4 @@
-# XY-encoded, B/L-aware giant-tour variants
+# XY-encoded, B-aware giant-tour variants
 
 This extension adds three models without editing the official MVMoE models or
 environments:
@@ -10,30 +10,32 @@ environments:
 ## Constraint factorization
 
 The static encoder receives exactly `depot_xy` and `node_xy`; customer
-embeddings therefore retain input dimension two.  During autoregressive
-decoding, only the backhaul (B) and route-length (L) state is exposed.  Capacity
-(C) and time-window (TW) attributes never enter the neural model.
+embeddings therefore retain input dimension two. During autoregressive
+decoding, only the backhaul (B) state is exposed. Route-length (L), ordinary
+capacity (C), and time-window (TW) attributes never enter the neural model.
 
 The decoder always emits exactly one permutation and never selects the depot.
-For each candidate it evaluates both continuation of the current hidden route
-and restart from the depot.  B uses MVMoE's signed-load transition, including
-its full/empty restart rule; L uses the official open- or closed-route length
-test.  If continuation is infeasible but restart is feasible, a hidden new
-route begins automatically.  These starts are saved as mandatory boundaries;
-a customer infeasible under both transitions is masked.
+For each candidate it evaluates both continuation of the current hidden B route
+and restart from the depot. B uses MVMoE's signed-load transition, including
+its normalized signed customer demand and full/empty restart rule. If
+continuation is infeasible but restart is feasible, a hidden new route begins
+automatically. These B starts form a feasibility witness; a customer infeasible
+under both B transitions is masked. L never affects decoder features, candidate
+scores, masks, or starts.
 
 `MVMoEInstanceAdapter` leaves every official environment unchanged.  Its
-`PolicyView` contains only coordinates for static encoding.  B/L flags and
-their dynamic state are consumed only during giant-tour decoding.  The exact
-Split stage can add route boundaries for C/TW, but cannot merge across the
-decoder's mandatory B/L boundaries.
+`PolicyView` contains only coordinates for static encoding. B flags and dynamic
+signed-load state are consumed during giant-tour decoding. The exact Split
+stage independently enforces B, L, C, and TW over all contiguous partitions.
+The decoder's hidden B boundaries are only a feasibility witness: Split may
+move, add, or remove them when selecting the minimum-cost feasible partition.
 
 The resulting pipeline implements all 16 official combinations
-compositionally.  Signed demands retain MVMoE's capacity accounting: a route
+compositionally. Signed demands retain MVMoE's capacity accounting: a route
 starts full while any linehaul remains in the suffix and empty once only
-backhauls remain.  Open routes omit return distance and depot-return timing.
-L uses raw Euclidean distance in the decoder; TW uses raw distance in Split;
-objective edges alone use `loc_scaler` rounding when configured.
+backhauls remain. Open routes omit return distance and depot-return timing.
+L and TW use raw distance only in Split; objective edges alone use `loc_scaler`
+rounding when configured.
 
 ## Training
 
@@ -45,7 +47,7 @@ python train_split.py --problem Train_ALL --model_type MOE_SPLIT --problem_size 
 python train_split.py --problem Train_ALL --model_type MOE_LIGHT_SPLIT --problem_size 100 --pomo_size 100
 ```
 
-Reward is negative post-Split distance. The B/L construction is deterministic
+Reward is negative post-Split distance. The B construction is deterministic
 conditional on the selected order; no repair, sampling fallback, or constraint
 relaxation is applied.  The POMO baseline and policy loss are computed only
 over finite candidates, and training stops with a clear error if an instance
@@ -79,9 +81,9 @@ distance.
 python -m pytest tests_split -q
 ```
 
-The suite compares the restricted C/TW dynamic program with exhaustive boundary
+The suite compares the B/L/C/TW dynamic program with exhaustive boundary
 enumeration on all 16 combinations (with and without objective rounding),
-adapts every official environment at sizes 50 and 100, audits B/L transition
-masks and mandatory starts, verifies C/TW blindness under fixed coordinates, and runs
-finite forward/backward checks for all three models and both sizes on all six
-training tasks.
+adapts every official environment at sizes 50 and 100, audits B transition
+masks and mandatory starts, verifies L/C/TW blindness under fixed coordinates,
+and runs finite forward/backward checks for all three models and both sizes on
+all six training tasks.

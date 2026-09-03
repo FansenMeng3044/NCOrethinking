@@ -9,8 +9,8 @@ from .adapter import AdaptedInstance, MVMoEInstanceAdapter
 
 @dataclass
 class PolicyResetState:
-    # Static node encoding remains strictly coordinate-only.  B/L enter only
-    # through the dynamic decoder state below.
+    # Static node encoding remains strictly coordinate-only.  B enters only
+    # through the dynamic decoder state below; L is reserved for Split.
     depot_xy: torch.Tensor
     node_xy: torch.Tensor
 
@@ -23,20 +23,21 @@ class PolicyStepState:
     selected_count: int = 0
     current_node: Optional[torch.Tensor] = None
     ninf_mask: Optional[torch.Tensor] = None
-    bl_context: Optional[torch.Tensor] = None
-    bl_candidate: Optional[torch.Tensor] = None
+    b_context: Optional[torch.Tensor] = None
+    b_candidate: Optional[torch.Tensor] = None
 
 
 class GiantTourEnv:
-    """B/L-aware POMO ordering environment followed by C/TW Split.
+    """B-aware POMO ordering environment followed by B/L/C/TW Split.
 
-    Node embeddings consume coordinates only.  During decoding, backhaul (B)
-    signed-load transitions and route length (L) are enforced by deterministic,
-    hidden route starts.  Each candidate is tested both as a continuation and
-    as the first customer of a new route under the official MVMoE semantics.
-    The policy still emits exactly one permutation and never selects the depot.
-    Split may add boundaries for capacity (C) and time windows (TW), but it is
-    forbidden to merge across the decoder's mandatory B/L starts.
+    Node embeddings consume coordinates only. During decoding, backhaul (B)
+    signed-load transitions are represented by deterministic hidden route
+    starts. Each candidate is tested both as a continuation and as the first
+    customer of a new route under the official MVMoE semantics. Route length
+    (L) is deliberately absent from decoder features, masks, and transitions.
+    The policy emits one permutation and never selects the depot. Final Split
+    independently enforces B/L/C/TW and is free to replace the decoder's hidden
+    B-feasibility witness with the best feasible contiguous partition.
     """
 
     _EPSILON = 1e-6
@@ -111,13 +112,9 @@ class GiantTourEnv:
             dtype=self.node_xy.dtype, device=self.device,
         )
         self.visited_ninf_mask[:, :, 0] = float("-inf")
-        self.current_route_length = torch.zeros(
+        self.current_backhaul_load = torch.zeros(
             self.batch_size, self.pomo_size, dtype=self.node_xy.dtype, device=self.device
         )
-        self.current_backhaul_load = torch.zeros_like(self.current_route_length)
-        self.current_coord = self.depot_xy[:, 0, None, :].expand(
-            -1, self.pomo_size, -1
-        ).clone()
         self.last_split_result = None
         self._update_action_mask()
         self._sync_state()
@@ -127,8 +124,8 @@ class GiantTourEnv:
         self.step_state.selected_count = self.selected_count
         self.step_state.current_node = self.current_node
         self.step_state.ninf_mask = self.ninf_mask
-        self.step_state.bl_context = self._bl_context()
-        self.step_state.bl_candidate = self.bl_candidate
+        self.step_state.b_context = self._b_context()
+        self.step_state.b_candidate = self.b_candidate
 
     def _expanded_customer_demand(self):
         return self.instance.split_view.demand[:, None, :].expand(
@@ -139,35 +136,22 @@ class GiantTourEnv:
         visited = torch.isneginf(self.visited_ninf_mask[:, :, 1:])
         return ((self._expanded_customer_demand() > 0) & ~visited).any(dim=2)
 
-    def _route_limit(self):
-        spec = self.instance.split_view
-        return spec.route_limit.reshape(self.batch_size, 1).expand(-1, self.pomo_size)
-
     def _capacity(self):
         spec = self.instance.split_view
         return spec.capacity.reshape(self.batch_size, 1).expand(-1, self.pomo_size)
 
-    def _bl_context(self):
-        """Return [B enabled, signed load, L enabled, used L fraction, open-L]."""
+    def _b_context(self):
+        """Return [B enabled, normalized signed load]; never expose L."""
         spec = self.instance.split_view
-        enabled_b = torch.full_like(self.current_route_length, float(spec.backhaul))
+        enabled_b = torch.full_like(self.current_backhaul_load, float(spec.backhaul))
         if spec.backhaul:
             backhaul_load = self.current_backhaul_load / self._capacity()
         else:
-            backhaul_load = torch.zeros_like(self.current_route_length)
-        enabled_l = torch.full_like(self.current_route_length, float(spec.has_route_limit))
-        if spec.has_route_limit:
-            used_fraction = self.current_route_length / self._route_limit()
-            open_l = torch.full_like(self.current_route_length, float(spec.open_route))
-        else:
-            used_fraction = torch.zeros_like(self.current_route_length)
-            open_l = torch.zeros_like(self.current_route_length)
-        return torch.stack(
-            (enabled_b, backhaul_load, enabled_l, used_fraction, open_l), dim=2
-        )
+            backhaul_load = torch.zeros_like(self.current_backhaul_load)
+        return torch.stack((enabled_b, backhaul_load), dim=2)
 
     def _candidate_transitions(self):
-        """Compute official B/L continuation and restart transitions."""
+        """Compute official B continuation and restart transitions only."""
         spec = self.instance.split_view
         demand = self._expanded_customer_demand()
         zeros = torch.zeros_like(demand)
@@ -194,41 +178,14 @@ class GiantTourEnv:
             continue_load = restart_load = zeros
             continue_b = restart_b = true
 
-        depot = self.depot_xy[:, 0, None, :]
-        node_xy = self.node_xy[:, None].expand(-1, self.pomo_size, -1, -1)
-        depot_for_pomo = depot[:, None].expand(-1, self.pomo_size, -1, -1)
-        restart_length = (node_xy - depot_for_pomo).norm(p=2, dim=3)
-        continue_length = self.current_route_length[:, :, None] + (
-            node_xy - self.current_coord[:, :, None, :]
-        ).norm(p=2, dim=3)
-        if spec.has_route_limit:
-            return_length = (node_xy - depot_for_pomo).norm(p=2, dim=3)
-            continue_required = continue_length
-            restart_required = restart_length
-            if not spec.open_route:
-                continue_required = continue_required + return_length
-                restart_required = restart_required + return_length
-            limit = self._route_limit()[:, :, None]
-            continue_l = continue_required <= limit + self._EPSILON
-            restart_l = restart_required <= limit + self._EPSILON
-        else:
-            continue_l = restart_l = true
-
-        can_continue = continue_b & continue_l
-        can_restart = restart_b & restart_l
-        return (
-            can_continue, can_restart, continue_load, restart_load,
-            continue_length, restart_length,
-        )
+        return continue_b, restart_b, continue_load, restart_load
 
     def _update_action_mask(self):
-        spec = self.instance.split_view
         self.ninf_mask = self.visited_ninf_mask.clone()
         transitions = self._candidate_transitions()
         (
             self._can_continue, self._can_restart,
             self._continue_load, self._restart_load,
-            self._continue_length, self._restart_length,
         ) = transitions
         if self.selected_count == 0:
             admissible = self._can_restart
@@ -238,27 +195,21 @@ class GiantTourEnv:
             ~admissible, float("-inf")
         )
 
-        is_backhaul = (
-            (self._expanded_customer_demand() < 0).to(self.node_xy.dtype)
-            if spec.backhaul else torch.zeros_like(self._continue_length)
-        )
-        restart_required = ((~self._can_continue) & self._can_restart).to(self.node_xy.dtype)
-        can_continue = self._can_continue.to(self.node_xy.dtype)
-        if spec.has_route_limit:
-            chosen_length = torch.where(
-                self._can_continue, self._continue_length, self._restart_length
-            )
-            length_fraction = chosen_length / self._route_limit()[:, :, None]
-        else:
-            length_fraction = torch.zeros_like(self._continue_length)
-        customer_features = torch.stack(
-            (is_backhaul, can_continue, restart_required, length_fraction), dim=3
-        )
-        self.bl_candidate = torch.zeros(
-            self.batch_size, self.pomo_size, self.problem_size + 1, 4,
+        spec = self.instance.split_view
+        self.b_candidate = torch.zeros(
+            self.batch_size, self.pomo_size, self.problem_size + 1, 3,
             dtype=self.node_xy.dtype, device=self.device,
         )
-        self.bl_candidate[:, :, 1:] = customer_features
+        if spec.backhaul:
+            customer_features = torch.stack(
+                (
+                    self._expanded_customer_demand() / self._capacity()[:, :, None],
+                    self._can_continue.to(self.node_xy.dtype),
+                    ((~self._can_continue) & self._can_restart).to(self.node_xy.dtype),
+                ),
+                dim=3,
+            )
+            self.b_candidate[:, :, 1:] = customer_features
 
     def pre_step(self):
         self._sync_state()
@@ -271,11 +222,8 @@ class GiantTourEnv:
             raise ValueError("the depot is not an action in a giant-tour policy")
         chosen_mask = self.ninf_mask[self.BATCH_IDX, self.POMO_IDX, selected]
         if torch.isneginf(chosen_mask).any():
-            raise ValueError("selected a customer forbidden by visit, B, or L constraints")
+            raise ValueError("selected a customer forbidden by visit or B constraints")
 
-        selected_xy = self.node_xy[:, None].expand(-1, self.pomo_size, -1, -1)[
-            self.BATCH_IDX, self.POMO_IDX, selected - 1
-        ]
         customer_index = selected - 1
         can_continue = self._can_continue[
             self.BATCH_IDX, self.POMO_IDX, customer_index
@@ -285,14 +233,7 @@ class GiantTourEnv:
         ]
         route_break = torch.ones_like(can_continue) if self.selected_count == 0 else ~can_continue
         if (route_break & ~can_restart).any():
-            raise RuntimeError("selected customer has no feasible B/L restart transition")
-        continue_length = self._continue_length[
-            self.BATCH_IDX, self.POMO_IDX, customer_index
-        ]
-        restart_length = self._restart_length[
-            self.BATCH_IDX, self.POMO_IDX, customer_index
-        ]
-        next_length = torch.where(route_break, restart_length, continue_length)
+            raise RuntimeError("selected customer has no feasible B restart transition")
         continue_load = self._continue_load[
             self.BATCH_IDX, self.POMO_IDX, customer_index
         ]
@@ -307,9 +248,7 @@ class GiantTourEnv:
         self.mandatory_breaks = torch.cat(
             (self.mandatory_breaks, route_break[:, :, None]), dim=2
         )
-        self.current_route_length = next_length
         self.current_backhaul_load = next_load
-        self.current_coord = selected_xy
         self.visited_ninf_mask[self.BATCH_IDX, self.POMO_IDX, selected] = float("-inf")
         self._update_action_mask()
         self._sync_state()
@@ -324,7 +263,6 @@ class GiantTourEnv:
                 self.node_xy,
                 self.selected_node_list,
                 self.instance.split_view,
-                mandatory_breaks=self.mandatory_breaks,
                 return_predecessors=True,
             )
         reward = -self.last_split_result.costs

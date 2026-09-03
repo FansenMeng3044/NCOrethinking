@@ -49,29 +49,17 @@ def test_split_is_no_worse_than_boundaries_of_official_feasible_direct_routes(pr
     adapted = MVMoEInstanceAdapter.from_official_env(source)
     direct_sequences = source.selected_node_list
     tours = []
-    mandatory_breaks = []
     for p in range(source.pomo_size):
-        sequence = direct_sequences[0, p].tolist()
         flattened = direct_sequences[0, p][direct_sequences[0, p] != 0]
         assert flattened.numel() == 20
         assert torch.equal(flattened.sort().values, torch.arange(1, 21))
         tours.append(flattened)
-        starts = []
-        previous = 0
-        for node in sequence:
-            if node != 0:
-                starts.append(previous == 0)
-            previous = node
-        assert len(starts) == 20 and starts[0]
-        mandatory_breaks.append(torch.tensor(starts, dtype=torch.bool))
     tours = torch.stack(tours, dim=0).unsqueeze(0)
-    mandatory_breaks = torch.stack(mandatory_breaks, dim=0).unsqueeze(0)
     split = split_giant_tours(
         adapted.policy_view.depot_xy,
         adapted.policy_view.node_xy,
         tours,
         adapted.split_view,
-        mandatory_breaks=mandatory_breaks,
         return_predecessors=True,
     )
     assert split.feasible.all()

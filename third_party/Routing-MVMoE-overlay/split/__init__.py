@@ -1,4 +1,4 @@
-"""Exact C/TW fixed-order decoders for the factorized MVMoE experiments."""
+"""Exact B/L/C/TW fixed-order decoders for factorized MVMoE experiments."""
 
 from .constraints import ALL_PROBLEMS, ConstraintSpec, flags_from_problem
 from .decoder import SplitResult, reconstruct_routes, split_giant_tours

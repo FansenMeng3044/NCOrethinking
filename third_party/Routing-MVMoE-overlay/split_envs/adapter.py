@@ -23,9 +23,9 @@ class MVMoEInstanceAdapter:
     """Extract coordinate and constraint views from a loaded official env.
 
     The adapter reads public state produced by ``env.load_problems``.  It never
-    calls or modifies the official environment's decoding transition.  B/L
-    fields are read by the giant-tour decoding environment; C/TW fields are
-    enforced by the downstream Split stage.
+    calls or modifies the official environment's decoding transition. B fields
+    are read by both the giant-tour decoder and Split. L/C/TW fields are read
+    only by the downstream Split stage.
     """
 
     @staticmethod

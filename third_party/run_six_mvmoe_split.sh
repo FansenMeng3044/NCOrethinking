@@ -37,8 +37,9 @@ start_task() {
         "problem_size=${size}" \
         "pomo_size=${size}" \
         "static_encoder_features=depot_xy,node_xy" \
-        "decoder_constraints=B,L" \
-        "split_constraints=C,TW" \
+        "decoder_constraints=B" \
+        "split_constraints=B,L,C,TW" \
+        "constraint_factorization_version=2" \
         "epochs=5000" \
         "train_episodes=20000" \
         "train_batch_size=128" \

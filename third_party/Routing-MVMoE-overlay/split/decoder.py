@@ -44,10 +44,8 @@ def _validate_tours(depot_xy, node_xy, giant_tours, spec):
     spec.validate(node_xy)
 
 
-def _validate_mandatory_breaks(giant_tours, spec, mandatory_breaks):
+def _validate_mandatory_breaks(giant_tours, mandatory_breaks):
     if mandatory_breaks is None:
-        if spec.backhaul or spec.has_route_limit:
-            raise ValueError("B/L problems require decoder-supplied mandatory_breaks")
         mandatory_breaks = torch.zeros_like(giant_tours, dtype=torch.bool)
         mandatory_breaks[:, :, 0] = True
         return mandatory_breaks
@@ -56,7 +54,7 @@ def _validate_mandatory_breaks(giant_tours, spec, mandatory_breaks):
     if mandatory_breaks.dtype != torch.bool:
         raise ValueError("mandatory_breaks must be boolean")
     if not mandatory_breaks[:, :, 0].all():
-        raise ValueError("the first customer must start a mandatory B/L segment")
+        raise ValueError("the first customer must start a mandatory B segment")
     return mandatory_breaks.to(device=giant_tours.device)
 
 
@@ -69,18 +67,20 @@ def split_giant_tours(
     return_predecessors: bool = False,
     epsilon: float = 1e-6,
 ) -> SplitResult:
-    """Exact O(n^2) C/TW Split inside decoder-supplied B/L segments.
+    """Exact O(n^2) B/L/C/TW Split over a fixed customer order.
 
     The implementation is vectorized over batch, POMO trajectories, and all
     candidate route starts.  Only the endpoint loop is sequential.  Constraint
     feasibility uses raw Euclidean distances, exactly like the official envs.
-    B/L are already encoded in the order and ``mandatory_breaks``; Split may
-    add C/TW boundaries but may never cross a mandatory decoder boundary.
-    Signed backhaul demands are still used for capacity accounting.  Optional
-    ``loc_scaler`` rounding is applied only to objective edges.
+    B is exposed during order decoding, but Split independently rechecks signed
+    B load semantics for every candidate segment and is free to choose better
+    B boundaries. L is not exposed during decoding and is enforced only here.
+    ``mandatory_breaks`` is an optional diagnostic restriction, not part of the
+    training pipeline. Optional ``loc_scaler`` rounding is applied only to
+    objective edges.
     """
     _validate_tours(depot_xy, node_xy, giant_tours, spec)
-    mandatory_breaks = _validate_mandatory_breaks(giant_tours, spec, mandatory_breaks)
+    mandatory_breaks = _validate_mandatory_breaks(giant_tours, mandatory_breaks)
     batch, n, _ = node_xy.shape
     pomo = giant_tours.size(1)
     rows = batch * pomo
@@ -138,6 +138,12 @@ def split_giant_tours(
         ordered_service = ordered_tw_start = ordered_tw_end = None
         depot_start = depot_end = speed = completion = None
 
+    if spec.has_route_limit:
+        route_limit = _as_batch_vector(spec.route_limit, batch, dtype, device)
+        route_limit = route_limit[:, None].expand(-1, pomo).reshape(rows)
+    else:
+        route_limit = None
+
     inf = torch.tensor(float("inf"), device=device, dtype=dtype)
     potential = torch.full((rows, n + 1), inf, device=device, dtype=dtype)
     potential[:, 0] = 0
@@ -167,6 +173,12 @@ def split_giant_tours(
             path_cost[:, :end] += between_cost[:, end - 1, None]
             path_raw[:, end] = depot_dist_raw[:, end]
             path_cost[:, end] = depot_dist_cost[:, end]
+
+        if spec.has_route_limit:
+            route_length = path_raw[:, :active]
+            if not spec.open_route:
+                route_length = route_length + depot_dist_raw[:, end, None]
+            valid[:, :active] &= route_length <= route_limit[:, None] + epsilon
 
         if spec.has_time_windows:
             if end > 0:

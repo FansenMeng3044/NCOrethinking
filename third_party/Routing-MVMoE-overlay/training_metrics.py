@@ -1,4 +1,4 @@
-"""Structured CSV logging for the B/L-decoder + C/TW-Split trainers."""
+"""Structured CSV logging for the B-decoder + B/L/C/TW-Split trainers."""
 
 import csv
 import json
