@@ -567,6 +567,9 @@ class SplitTrainer:
                     "split_constraints": ["B", "L", "C", "TW"],
                     "constraint_factorization_version": 2,
                     "split_reward": True,
+                    "split_backend": self.trainer_params.get(
+                        "split_backend", os.environ.get("NCO_SPLIT_BACKEND", "reference")
+                    ),
                     "training_problems": [
                         cls.__name__.removesuffix("Env")
                         for cls in self.env_classes

@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import os
 from typing import List, Optional
 
 import torch
@@ -66,6 +67,7 @@ def split_giant_tours(
     mandatory_breaks: Optional[torch.Tensor] = None,
     return_predecessors: bool = False,
     epsilon: float = 1e-6,
+    backend: Optional[str] = None,
 ) -> SplitResult:
     """Exact O(n^2) B/L/C/TW Split over a fixed customer order.
 
@@ -81,6 +83,28 @@ def split_giant_tours(
     """
     _validate_tours(depot_xy, node_xy, giant_tours, spec)
     mandatory_breaks = _validate_mandatory_breaks(giant_tours, mandatory_breaks)
+    selected_backend = (
+        backend if backend is not None
+        else os.environ.get("NCO_SPLIT_BACKEND", "reference")
+    ).strip().lower()
+    if selected_backend not in ("reference", "triton"):
+        raise ValueError(
+            "Split backend must be 'reference' or 'triton', "
+            f"got {selected_backend!r}"
+        )
+    if selected_backend == "triton":
+        from .triton_backend import split_giant_tours_triton
+
+        return split_giant_tours_triton(
+            depot_xy,
+            node_xy,
+            giant_tours,
+            spec,
+            mandatory_breaks=mandatory_breaks,
+            return_predecessors=return_predecessors,
+            epsilon=epsilon,
+        )
+
     batch, n, _ = node_xy.shape
     pomo = giant_tours.size(1)
     rows = batch * pomo

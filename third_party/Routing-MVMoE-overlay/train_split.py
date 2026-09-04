@@ -48,6 +48,15 @@ def build_parser():
     parser.add_argument("--train_batch_size", type=int, default=128)
     parser.add_argument("--model_save_interval", type=int, default=2500)
     parser.add_argument(
+        "--split_backend",
+        choices=["reference", "triton"],
+        default="reference",
+        help=(
+            "exact Split implementation to use; triton is a fused CUDA backend "
+            "validated against the reference dynamic program"
+        ),
+    )
+    parser.add_argument(
         "--metrics_log_interval",
         type=int,
         default=1,
@@ -150,6 +159,9 @@ def main():
         raise ValueError("pomo_size cannot exceed problem_size")
     try:
         _setup_runtime(args)
+        if args.split_backend == "triton" and args.device.type != "cuda":
+            raise RuntimeError("the Triton Split backend requires CUDA")
+        os.environ["NCO_SPLIT_BACKEND"] = args.split_backend
         if args.ddp and (
             args.routing_method != "input_choice"
             or args.routing_level not in ("node", "instance")
@@ -201,6 +213,7 @@ def main():
                 "metrics_log_interval": args.metrics_log_interval,
                 "metrics_flush_interval": args.metrics_flush_interval,
                 "max_grad_norm": args.max_grad_norm,
+                "split_backend": args.split_backend,
                 "distributed": args.ddp,
                 "world_size": args.world_size,
                 "global_batch_size": args.train_batch_size,
