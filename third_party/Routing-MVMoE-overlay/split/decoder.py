@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import torch
 
-from .constraints import ConstraintSpec
+from .constraints import FEASIBILITY_EPSILON, ConstraintSpec
 
 
 @dataclass
@@ -66,7 +66,7 @@ def split_giant_tours(
     spec: ConstraintSpec,
     mandatory_breaks: Optional[torch.Tensor] = None,
     return_predecessors: bool = False,
-    epsilon: float = 1e-6,
+    epsilon: float = FEASIBILITY_EPSILON,
     backend: Optional[str] = None,
 ) -> SplitResult:
     """Exact O(n^2) B/L/C/TW Split over a fixed customer order.

@@ -30,6 +30,12 @@ stage independently enforces B, L, C, and TW over all contiguous partitions.
 The decoder's hidden B boundaries are only a feasibility witness: Split may
 move, add, or remove them when selecting the minimum-cost feasible partition.
 
+All feasibility checks use the official MVMoE environment tolerance
+`round_error_epsilon = 1e-5`. The reference Split, fused Triton Split,
+backhaul-aware ordering state, and independent route replay share this single
+constant so generator acceptance and downstream validation agree at numerical
+boundaries.
+
 The resulting pipeline implements all 16 official combinations
 compositionally. Signed demands retain MVMoE's capacity accounting: a route
 starts full while any linehaul remains in the suffix and empty once only

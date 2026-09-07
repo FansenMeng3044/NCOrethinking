@@ -3,7 +3,14 @@ import math
 import pytest
 import torch
 
-from split import ALL_PROBLEMS, reconstruct_routes, split_giant_tours, verify_routes
+from split import (
+    ALL_PROBLEMS,
+    FEASIBILITY_EPSILON,
+    ConstraintSpec,
+    reconstruct_routes,
+    split_giant_tours,
+    verify_routes,
+)
 from split_envs import MVMoEInstanceAdapter
 from tests_split.test_exact_split import brute_force, make_instance
 from utils import get_env
@@ -116,6 +123,28 @@ def test_triton_enforces_mandatory_breaks_identically():
     mandatory[:, :, 10] = True
     mandatory[:, :, 25] = True
     _assert_same_result(depot, nodes, tours, spec, mandatory_breaks=mandatory)
+
+
+def test_triton_matches_official_generator_at_tw_boundary():
+    assert FEASIBILITY_EPSILON == 1e-5
+    depot = torch.tensor([[[0.0, 0.0]]], device="cuda")
+    nodes = torch.tensor([[[0.5, 0.0]]], device="cuda")
+    tours = torch.tensor([[[1]]], dtype=torch.long, device="cuda")
+    spec = ConstraintSpec(
+        problem="VRPTW",
+        demand=torch.tensor([[0.1]], device="cuda"),
+        capacity=torch.tensor([1.0], device="cuda"),
+        has_time_windows=True,
+        service_time=torch.tensor([[0.0]], device="cuda"),
+        tw_start=torch.tensor([[0.0]], device="cuda"),
+        tw_end=torch.tensor([[1.0]], device="cuda"),
+        depot_start=torch.tensor([0.0], device="cuda"),
+        depot_end=torch.tensor([1.0 - 5e-6], device="cuda"),
+        speed=torch.tensor([1.0], device="cuda"),
+    )
+    _assert_same_result(depot, nodes, tours, spec)
+    fused = split_giant_tours(depot, nodes, tours, spec, backend="triton")
+    assert fused.feasible.item()
 
 
 @pytest.mark.parametrize("problem", ALL_PROBLEMS)

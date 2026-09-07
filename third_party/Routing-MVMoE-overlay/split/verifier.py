@@ -3,7 +3,7 @@ from typing import Sequence
 
 import torch
 
-from .constraints import ConstraintSpec
+from .constraints import FEASIBILITY_EPSILON, ConstraintSpec
 
 
 @dataclass(frozen=True)
@@ -25,7 +25,7 @@ def verify_routes(
     routes: Sequence[Sequence[int]],
     spec: ConstraintSpec,
     batch_index: int = 0,
-    epsilon: float = 1e-6,
+    epsilon: float = FEASIBILITY_EPSILON,
 ) -> VerificationResult:
     """Independent Python/double replay of one decoded solution."""
     spec.validate(node_xy)

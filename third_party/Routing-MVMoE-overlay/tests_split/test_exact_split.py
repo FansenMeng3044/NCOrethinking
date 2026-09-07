@@ -4,7 +4,14 @@ import math
 import pytest
 import torch
 
-from split import ALL_PROBLEMS, ConstraintSpec, reconstruct_routes, split_giant_tours, verify_routes
+from split import (
+    ALL_PROBLEMS,
+    FEASIBILITY_EPSILON,
+    ConstraintSpec,
+    reconstruct_routes,
+    split_giant_tours,
+    verify_routes,
+)
 from split.constraints import flags_from_problem
 
 
@@ -166,3 +173,37 @@ def test_open_route_omits_return_edge_and_return_constraints():
     open_result = split_giant_tours(depot_xy, node_xy, tour, open_spec)
     assert open_result.feasible.item()
     assert open_result.costs.item() <= closed_result.costs.item()
+
+
+def test_default_tolerance_matches_official_generator_at_tw_boundary():
+    """A singleton accepted by the official generator must be accepted by Split."""
+    assert FEASIBILITY_EPSILON == 1e-5
+    depot_xy = torch.tensor([[[0.0, 0.0]]], dtype=torch.float64)
+    node_xy = torch.tensor([[[0.5, 0.0]]], dtype=torch.float64)
+    tour = torch.tensor([[[1]]], dtype=torch.long)
+    # Round trip is 1.0, exceeding the depot horizon by 5e-6: accepted by
+    # MVMoE's official tolerance, but rejected by the old 1e-6 boundary.
+    spec = ConstraintSpec(
+        problem="VRPTW",
+        demand=torch.tensor([[0.1]], dtype=torch.float64),
+        capacity=torch.tensor([1.0], dtype=torch.float64),
+        has_time_windows=True,
+        service_time=torch.tensor([[0.0]], dtype=torch.float64),
+        tw_start=torch.tensor([[0.0]], dtype=torch.float64),
+        tw_end=torch.tensor([[1.0]], dtype=torch.float64),
+        depot_start=torch.tensor([0.0], dtype=torch.float64),
+        depot_end=torch.tensor([1.0 - 5e-6], dtype=torch.float64),
+        speed=torch.tensor([1.0], dtype=torch.float64),
+    )
+
+    official = split_giant_tours(
+        depot_xy, node_xy, tour, spec, return_predecessors=True
+    )
+    strict = split_giant_tours(
+        depot_xy, node_xy, tour, spec, epsilon=1e-6
+    )
+    assert official.feasible.item()
+    assert not strict.feasible.item()
+    routes = reconstruct_routes(tour[0, 0], official.predecessors[0, 0])
+    replay = verify_routes(depot_xy, node_xy, routes, spec)
+    assert replay.feasible, replay.reason

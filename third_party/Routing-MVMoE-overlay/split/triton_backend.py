@@ -10,7 +10,7 @@ from typing import Optional
 
 import torch
 
-from .constraints import ConstraintSpec
+from .constraints import FEASIBILITY_EPSILON, ConstraintSpec
 from .decoder import SplitResult, _as_batch_vector, _rounded_distance
 
 
@@ -208,7 +208,7 @@ def split_giant_tours_triton(
     spec: ConstraintSpec,
     mandatory_breaks: torch.Tensor,
     return_predecessors: bool = False,
-    epsilon: float = 1e-6,
+    epsilon: float = FEASIBILITY_EPSILON,
 ) -> SplitResult:
     """Run the exact fixed-order Split using fused Triton CUDA kernels."""
     if not depot_xy.is_cuda or not node_xy.is_cuda or not giant_tours.is_cuda:
@@ -217,8 +217,11 @@ def split_giant_tours_triton(
         raise RuntimeError("The Triton Split backend currently requires FP32 coordinates")
     if giant_tours.dtype != torch.long:
         raise RuntimeError("The Triton Split backend requires int64 giant tours")
-    if epsilon != 1e-6:
-        raise RuntimeError("The validated Triton backend requires epsilon=1e-6")
+    if epsilon != FEASIBILITY_EPSILON:
+        raise RuntimeError(
+            "The validated Triton backend requires the official MVMoE "
+            f"feasibility tolerance epsilon={FEASIBILITY_EPSILON:g}"
+        )
 
     batch, n, _ = node_xy.shape
     if n < 1 or n > 128:

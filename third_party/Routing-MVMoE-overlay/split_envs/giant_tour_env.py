@@ -3,6 +3,7 @@ from typing import Optional
 
 import torch
 
+from split.constraints import FEASIBILITY_EPSILON
 from split.decoder import SplitResult, reconstruct_routes, split_giant_tours
 from .adapter import AdaptedInstance, MVMoEInstanceAdapter
 
@@ -40,7 +41,7 @@ class GiantTourEnv:
     B-feasibility witness with the best feasible contiguous partition.
     """
 
-    _EPSILON = 1e-6
+    _EPSILON = FEASIBILITY_EPSILON
 
     def __init__(self, instance: AdaptedInstance, pomo_size: Optional[int] = None):
         self.instance = instance

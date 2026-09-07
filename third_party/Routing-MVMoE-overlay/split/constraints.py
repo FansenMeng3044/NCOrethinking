@@ -4,6 +4,10 @@ from typing import Optional, Tuple
 import torch
 
 
+FEASIBILITY_EPSILON = 1e-5
+"""Feasibility tolerance used by the official MVMoE environments/generators."""
+
+
 ALL_PROBLEMS: Tuple[str, ...] = (
     "CVRP", "OVRP", "VRPB", "VRPL", "VRPTW", "OVRPTW",
     "OVRPB", "OVRPL", "VRPBL", "VRPBTW", "VRPLTW",
