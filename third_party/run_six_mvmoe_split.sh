@@ -46,7 +46,7 @@ start_task() {
         "lr=0.0001" \
         "milestones=4501" \
         "gamma=0.1" \
-        "model_save_interval=2500" > "${run_root}/status/${name}.config"
+        "model_save_interval=300" > "${run_root}/status/${name}.config"
 
     (
         set +e
@@ -64,7 +64,7 @@ start_task() {
             --weight_decay 0.000001 \
             --milestones 4501 \
             --gamma 0.1 \
-            --model_save_interval 2500 \
+            --model_save_interval 300 \
             --metrics_log_interval 1 \
             --metrics_flush_interval 50 \
             --seed 2023 \

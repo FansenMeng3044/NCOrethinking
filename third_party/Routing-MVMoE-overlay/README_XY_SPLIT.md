@@ -59,9 +59,11 @@ relaxation is applied.  The POMO baseline and policy loss are computed only
 over finite candidates, and training stops with a clear error if an instance
 has no feasible candidate. MoE auxiliary losses are kept.
 
-The official schedule is retained: 5,000 epochs, 20,000 generated instances per
-epoch, batch size 128, Adam at `1e-4`, a `0.1` learning-rate decay at milestone
-4,501, and checkpoints at epochs 2,500 and 5,000. Each run also writes
+The official optimization schedule is retained: 5,000 epochs, 20,000 generated
+instances per epoch, batch size 128, Adam at `1e-4`, and a `0.1` learning-rate
+decay at milestone 4,501. Operational checkpoints are written every 300
+completed epochs and at epoch 5,000; checkpoint frequency does not alter the
+optimization trajectory. Each run also writes
 `training_metrics.csv` beside its checkpoints. The file contains run metadata,
 batch and epoch metrics, checkpoint events, and a final run summary. Batch rows
 record the sampled task, learning rate, score/cost and loss statistics, policy
@@ -90,7 +92,12 @@ six official environments. Input-choice MoE load-balancing statistics are
 computed over the complete global batch, and the stochastic dense/MoE branch
 of 4E-L is synchronized across ranks. Metrics are globally reduced; only rank
 0 writes CSV files and atomic checkpoints. Checkpoints store the RNG state for
-each rank and can be resumed with the same world size. Consequently DDP changes
+each rank. Every checkpoint has a `.resume.json` sidecar containing its SHA256,
+completed/next epoch, full trajectory contract, code hashes, runtime versions,
+and RNG-state inventory. Resume verifies the sidecar checksum, identical
+trajectory-affecting source, model/environment/optimizer/scheduler settings,
+Split backend and tolerance, batch/instance budgets, seed, and DDP world size
+before loading. Consequently DDP changes
 only execution parallelism, not global batch size, instance budget, optimizer,
 learning-rate schedule, reward, or constraint factorization.
 

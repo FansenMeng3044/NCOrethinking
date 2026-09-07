@@ -6,7 +6,8 @@ from datetime import datetime, timedelta
 import torch
 import torch.distributed as dist
 
-from SplitTrainer import SplitTrainer
+from SplitTrainer import CHECKPOINT_SCHEMA_VERSION, SplitTrainer
+from split.constraints import FEASIBILITY_EPSILON
 from utils import seed_everything
 
 
@@ -46,7 +47,7 @@ def build_parser():
     parser.add_argument("--epochs", type=int, default=5000)
     parser.add_argument("--train_episodes", type=int, default=20000)
     parser.add_argument("--train_batch_size", type=int, default=128)
-    parser.add_argument("--model_save_interval", type=int, default=2500)
+    parser.add_argument("--model_save_interval", type=int, default=300)
     parser.add_argument(
         "--split_backend",
         choices=["reference", "triton"],
@@ -218,6 +219,12 @@ def main():
                 "world_size": args.world_size,
                 "global_batch_size": args.train_batch_size,
                 "local_batch_size": args.train_batch_size // args.world_size,
+                "initial_seed": args.seed,
+                "resume_checkpoint": (
+                    os.path.abspath(args.checkpoint) if args.checkpoint else None
+                ),
+                "feasibility_epsilon": FEASIBILITY_EPSILON,
+                "checkpoint_schema_version": CHECKPOINT_SCHEMA_VERSION,
             },
         )
         trainer.run()

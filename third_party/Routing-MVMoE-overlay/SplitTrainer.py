@@ -1,8 +1,15 @@
+import hashlib
+import json
+import math
 import os
+import platform
 import random
+import socket
+import sys
 import time
 import traceback
 from dataclasses import dataclass
+from datetime import datetime, timezone
 
 import numpy as np
 import torch
@@ -11,6 +18,7 @@ from torch.nn.parallel import DistributedDataParallel
 from torch.optim import Adam
 from torch.optim.lr_scheduler import MultiStepLR
 
+from split.constraints import FEASIBILITY_EPSILON
 from split_envs import GiantTourEnv
 from split_models import get_split_model
 from training_metrics import MVMoESplitTrainingMetrics
@@ -19,6 +27,55 @@ from utils import get_env, num_param
 
 class NoFeasibleCandidateError(RuntimeError):
     pass
+
+
+CHECKPOINT_SCHEMA_VERSION = 2
+RESUME_SOURCE_FILES = (
+    "train_split.py",
+    "SplitTrainer.py",
+    "split/constraints.py",
+    "split/decoder.py",
+    "split/triton_backend.py",
+    "split/verifier.py",
+    "split_envs/adapter.py",
+    "split_envs/giant_tour_env.py",
+    "split_models/__init__.py",
+    "split_models/xy_models.py",
+)
+
+
+def _normalized(value):
+    if isinstance(value, torch.device):
+        return str(value)
+    if isinstance(value, dict):
+        return {str(key): _normalized(item) for key, item in sorted(value.items())}
+    if isinstance(value, (list, tuple)):
+        return [_normalized(item) for item in value]
+    if isinstance(value, float) and not math.isfinite(value):
+        return str(value)
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
+
+
+def _sha256(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _source_fingerprint():
+    root = os.path.dirname(os.path.abspath(__file__))
+    return {
+        relative: _sha256(os.path.join(root, relative))
+        for relative in RESUME_SOURCE_FILES
+    }
+
+
+def _utc_now():
+    return datetime.now(timezone.utc).isoformat()
 
 
 @dataclass
@@ -134,13 +191,37 @@ class SplitTrainer:
         self.model = get_split_model(args.model_type)(**model_params).to(self.device)
         self.optimizer = Adam(self.model.parameters(), **optimizer_params["optimizer"])
         self.scheduler = MultiStepLR(self.optimizer, **optimizer_params["scheduler"])
+        self.resume_contract = self._build_resume_contract()
+        self.source_fingerprint = _source_fingerprint()
+        self.runtime_fingerprint = self._runtime_fingerprint()
         self.start_epoch = 1
         pending_rng_state = None
         if self.is_main:
             num_param(self.model)
 
         if args.checkpoint:
+            manifest_path = f"{args.checkpoint}.resume.json"
+            if not os.path.isfile(manifest_path):
+                raise ValueError(
+                    "rigorous resume requires the checkpoint sidecar "
+                    f"{manifest_path}"
+                )
+            with open(manifest_path, encoding="utf-8") as stream:
+                manifest = json.load(stream)
+            actual_digest = _sha256(args.checkpoint)
+            if manifest.get("checkpoint_sha256") != actual_digest:
+                raise ValueError("checkpoint SHA256 does not match its resume manifest")
             checkpoint = torch.load(args.checkpoint, map_location=self.device, weights_only=False)
+            if checkpoint.get("checkpoint_schema_version") != CHECKPOINT_SCHEMA_VERSION:
+                raise ValueError("checkpoint does not use the rigorous resume schema")
+            if checkpoint.get("resume_contract") != self.resume_contract:
+                raise ValueError(
+                    "checkpoint resume contract differs from the requested training protocol"
+                )
+            if checkpoint.get("source_fingerprint") != self.source_fingerprint:
+                raise ValueError(
+                    "trajectory-affecting source files differ from the checkpoint"
+                )
             if not checkpoint.get("xy_encoder_only", checkpoint.get("xy_only", False)):
                 raise ValueError("refusing to load a checkpoint without XY-only static encoding")
             if checkpoint.get("decoder_constraints") != ["B"]:
@@ -161,10 +242,9 @@ class SplitTrainer:
                     "checkpoint world size differs from the requested DDP world size"
                 )
             rng_states = checkpoint.get("rng_states")
-            if rng_states is not None:
-                if self.rank >= len(rng_states):
-                    raise ValueError("checkpoint does not contain RNG state for this rank")
-                pending_rng_state = rng_states[self.rank]
+            if not isinstance(rng_states, list) or len(rng_states) != self.world_size:
+                raise ValueError("checkpoint lacks one complete RNG state per rank")
+            pending_rng_state = rng_states[self.rank]
 
         rollout = PolicyRollout(self.model)
         if self.distributed:
@@ -197,6 +277,54 @@ class SplitTrainer:
                 self.device,
                 start_epoch=self.start_epoch,
             )
+
+    def _build_resume_contract(self):
+        model_params = {
+            key: value for key, value in self.model_params.items()
+            if key != "device"
+        }
+        return _normalized({
+            "schema_version": 1,
+            "problem": self.args.problem,
+            "model_type": self.args.model_type,
+            "initial_seed": getattr(self.args, "seed", None),
+            "env_params": self.env_params,
+            "model_params": model_params,
+            "optimizer_params": self.optimizer_params,
+            "train_episodes_per_epoch": self.trainer_params["train_episodes"],
+            "global_train_batch_size": self.trainer_params["train_batch_size"],
+            "local_train_batch_size": (
+                self.trainer_params["train_batch_size"] // self.world_size
+            ),
+            "max_grad_norm": self.trainer_params.get("max_grad_norm", float("inf")),
+            "distributed": self.distributed,
+            "world_size": self.world_size,
+            "split_backend": self.trainer_params.get(
+                "split_backend", os.environ.get("NCO_SPLIT_BACKEND", "reference")
+            ),
+            "feasibility_epsilon": FEASIBILITY_EPSILON,
+            "static_encoder_features": ["depot_xy", "node_xy"],
+            "decoder_constraints": ["B"],
+            "split_constraints": ["B", "L", "C", "TW"],
+            "constraint_factorization_version": 2,
+        })
+
+    def _runtime_fingerprint(self):
+        device_name = None
+        if self.device.type == "cuda":
+            device_name = torch.cuda.get_device_name(self.device)
+        return {
+            "hostname": socket.gethostname(),
+            "platform": platform.platform(),
+            "python_version": platform.python_version(),
+            "torch_version": torch.__version__,
+            "cuda_runtime_version": torch.version.cuda,
+            "cudnn_version": torch.backends.cudnn.version(),
+            "device_type": self.device.type,
+            "device_name": device_name,
+            "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
+            "command": list(sys.argv),
+        }
 
     def _local_rng_state(self):
         return {
@@ -559,6 +687,8 @@ class SplitTrainer:
             try:
                 os.makedirs(self.log_path, exist_ok=True)
                 payload = {
+                    "checkpoint_schema_version": CHECKPOINT_SCHEMA_VERSION,
+                    "checkpoint_saved_at_utc": _utc_now(),
                     "epoch": epoch,
                     "model_type": self.args.model_type,
                     "xy_only": True,
@@ -592,10 +722,41 @@ class SplitTrainer:
                     ),
                     "global_train_episodes": self.trainer_params["train_episodes"],
                     "rng_states": rng_states,
+                    "rng_state_components": [
+                        "python", "numpy", "torch_cpu", "torch_cuda"
+                    ],
+                    "resume_contract": self.resume_contract,
+                    "source_fingerprint": self.source_fingerprint,
+                    "runtime_fingerprint": self.runtime_fingerprint,
+                    "resumed_from_checkpoint": (
+                        os.path.abspath(self.args.checkpoint)
+                        if self.args.checkpoint else None
+                    ),
                 }
                 temporary_path = f"{path}.tmp"
                 torch.save(payload, temporary_path)
                 os.replace(temporary_path, path)
+                manifest = {
+                    "checkpoint_schema_version": CHECKPOINT_SCHEMA_VERSION,
+                    "checkpoint_path": os.path.abspath(path),
+                    "checkpoint_sha256": _sha256(path),
+                    "checkpoint_size_bytes": os.path.getsize(path),
+                    "checkpoint_saved_at_utc": payload["checkpoint_saved_at_utc"],
+                    "completed_epoch": epoch,
+                    "next_epoch": epoch + 1,
+                    "resume_contract": self.resume_contract,
+                    "source_fingerprint": self.source_fingerprint,
+                    "runtime_fingerprint": self.runtime_fingerprint,
+                    "rng_state_rank_count": len(rng_states),
+                    "rng_state_components": payload["rng_state_components"],
+                    "resumed_from_checkpoint": payload["resumed_from_checkpoint"],
+                }
+                manifest_path = f"{path}.resume.json"
+                temporary_manifest_path = f"{manifest_path}.tmp"
+                with open(temporary_manifest_path, "w", encoding="utf-8") as stream:
+                    json.dump(manifest, stream, indent=2, sort_keys=True)
+                    stream.write("\n")
+                os.replace(temporary_manifest_path, manifest_path)
             except BaseException:
                 save_error = traceback.format_exc()
 

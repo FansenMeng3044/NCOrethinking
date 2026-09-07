@@ -1,4 +1,5 @@
 import csv
+import json
 import math
 from argparse import Namespace
 
@@ -41,6 +42,7 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
         problem="CVRP",
         model_type=model_type,
         checkpoint=None,
+        seed=2023,
     )
     trainer = SplitTrainer(
         args=args,
@@ -67,6 +69,13 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     assert metrics_path.is_file()
     assert checkpoint_path.is_file()
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    manifest_path = output / "epoch-1.pt.resume.json"
+    assert manifest_path.is_file()
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["checkpoint_sha256"]
+    assert manifest["completed_epoch"] == 1
+    assert manifest["next_epoch"] == 2
+    assert manifest["rng_state_rank_count"] == 1
     assert checkpoint["xy_only"] is True
     assert checkpoint["xy_encoder_only"] is True
     assert checkpoint["decoder_constraints"] == ["B"]
@@ -76,6 +85,14 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     assert checkpoint["world_size"] == 1
     assert checkpoint["global_batch_size"] == 2
     assert checkpoint["local_batch_size"] == 2
+    assert checkpoint["checkpoint_schema_version"] == 2
+    assert checkpoint["resume_contract"]["initial_seed"] == 2023
+    assert checkpoint["resume_contract"]["feasibility_epsilon"] == pytest.approx(1e-5)
+    assert set(checkpoint["rng_state_components"]) == {
+        "python", "numpy", "torch_cpu", "torch_cuda"
+    }
+    assert checkpoint["source_fingerprint"]
+    assert checkpoint["runtime_fingerprint"]["torch_version"] == torch.__version__
     with metrics_path.open(newline="", encoding="utf-8") as stream:
         rows = list(csv.DictReader(stream))
     assert {row["record_type"] for row in rows} == {

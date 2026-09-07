@@ -55,6 +55,7 @@ def _ddp_worker(
             ddp=True,
             rank=rank,
             world_size=world_size,
+            seed=2023,
         )
         trainer = SplitTrainer(
             args=args,
@@ -109,6 +110,10 @@ def test_two_rank_ddp_preserves_global_batch_and_writes_one_checkpoint(
     assert checkpoint["local_batch_size"] == 2
     assert checkpoint["global_train_episodes"] == 4
     assert len(checkpoint["rng_states"]) == 2
+    assert checkpoint["checkpoint_schema_version"] == 2
+    assert checkpoint["resume_contract"]["world_size"] == 2
+    assert checkpoint["resume_contract"]["global_train_batch_size"] == 4
+    assert (output / "epoch-1.pt.resume.json").is_file()
     assert not any(key.startswith("module.") for key in checkpoint["model_state_dict"])
 
     with metrics_files[0].open(newline="", encoding="utf-8") as stream:
@@ -140,6 +145,22 @@ def test_two_rank_checkpoint_resumes_with_per_rank_rng_state(tmp_path):
     first_checkpoint = first_output / "epoch-1.pt"
     assert first_checkpoint.is_file()
 
+    uninterrupted_output = tmp_path / "uninterrupted"
+    uninterrupted_rendezvous = tmp_path / "uninterrupted_rendezvous"
+    mp.spawn(
+        _ddp_worker,
+        args=(
+            2,
+            uninterrupted_rendezvous.as_uri(),
+            str(uninterrupted_output),
+            "MOE_LIGHT_SPLIT",
+            None,
+            2,
+        ),
+        nprocs=2,
+        join=True,
+    )
+
     resumed_output = tmp_path / "resumed"
     resumed_rendezvous = tmp_path / "resumed_rendezvous"
     mp.spawn(
@@ -161,3 +182,14 @@ def test_two_rank_checkpoint_resumes_with_per_rank_rng_state(tmp_path):
     assert payload["epoch"] == 2
     assert payload["world_size"] == 2
     assert len(payload["rng_states"]) == 2
+    uninterrupted = torch.load(
+        uninterrupted_output / "epoch-2.pt",
+        map_location="cpu",
+        weights_only=False,
+    )
+    for name, value in payload["model_state_dict"].items():
+        assert torch.equal(value, uninterrupted["model_state_dict"][name]), name
+    assert payload["optimizer_state_dict"]["param_groups"] == (
+        uninterrupted["optimizer_state_dict"]["param_groups"]
+    )
+    assert payload["scheduler_state_dict"] == uninterrupted["scheduler_state_dict"]
