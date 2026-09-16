@@ -5,6 +5,9 @@ __pycache__/
 *.pt
 *.jpg
 
+# Final released MVMoE-Split checkpoints are intentionally versioned via LFS.
+!reproduction_records/mvmoe_split_final_20260917/models/**/checkpoint/*.pt
+
 # Runtime-generated tester snapshots and reproduction outputs.
 NEW_py_ver/**/POMO/result/*_test__*/
 reproduction_outputs/

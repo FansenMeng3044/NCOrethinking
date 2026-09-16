@@ -1,0 +1,13 @@
+started_utc	2026-09-16T16:36:10Z
+checkpoint	/root/autodl-tmp/mvmoe_split_runs/formal_fused_4el_n100_2gpu_20260904_084834/outputs/mvmoe_4el_split_n100/20260904_164853_moe_light_split_n100/epoch-5000.pt
+checkpoint_sha256	0970bd155502925715358e4e44988542a00c8178389b64a48753a7bdb29ec136
+model_type	MOE_LIGHT_SPLIT
+problem	ALL
+problem_size	100
+pomo_size	100
+episodes_per_environment	1000
+batch_size	20
+augmentation	8
+seed	2024
+decoding	argmax_greedy
+data_root	/root/autodl-tmp/Routing-MVMoE-fused/data

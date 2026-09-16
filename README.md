@@ -16,3 +16,10 @@ They are based on ipynb files and easier to play with interactively.
 They are the updated codes, newly structured in 2021. <br>
 They are based on py files, so that they can be run on servers more easily.
 
+### Final MVMoE-Split artifacts
+
+The six final POMO-MTL-Split, MVMoE/4E-Split, and MVMoE/4E-L-Split models,
+their complete training records, exact source snapshots, and official
+16-environment evaluation records are archived in
+[`reproduction_records/mvmoe_split_final_20260917`](reproduction_records/mvmoe_split_final_20260917/README.md).
+

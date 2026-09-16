@@ -1,0 +1,1 @@
+The mixed 4E/4E-L run root has overall phase=failed because its separate 4E n100 task failed; mvmoe_4el_split_n50 itself completed with exit_code 0 and epoch-5000.pt.

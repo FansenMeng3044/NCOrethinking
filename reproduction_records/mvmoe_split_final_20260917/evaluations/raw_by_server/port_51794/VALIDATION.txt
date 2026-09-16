@@ -1,0 +1,5 @@
+exit_code=0
+rows=16000
+unique_problem_instance=16000
+numeric_errors=0
+status_counts={'ok': 12039, 'no_feasible_candidate': 3961}

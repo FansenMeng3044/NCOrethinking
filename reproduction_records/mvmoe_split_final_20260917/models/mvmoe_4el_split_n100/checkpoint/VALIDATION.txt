@@ -1,0 +1,5 @@
+load_ok=true
+size_bytes=44843515
+type=dict
+keys=constraint_factorization_version,decoder_constraints,distributed,env_params,epoch,global_batch_size,global_train_episodes,local_batch_size,model_params,model_state_dict,model_type,optimizer_params,optimizer_state_dict,rng_states,scheduler_state_dict,split_backend,split_constraints,split_reward,trainer_params,training_metrics_path,training_problems,world_size,xy_encoder_only,xy_only
+epoch=5000

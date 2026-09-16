@@ -1,0 +1,18 @@
+CVRP: 2/2 feasible, mean cost=17.622248
+OVRP: 2/2 feasible, mean cost=11.861780
+VRPB: 2/2 feasible, mean cost=12.002968
+VRPL: 2/2 feasible, mean cost=16.097079
+VRPTW: 2/2 feasible, mean cost=34.340962
+OVRPTW: 2/2 feasible, mean cost=17.176194
+OVRPB: 2/2 feasible, mean cost=9.832801
+OVRPL: 2/2 feasible, mean cost=13.259190
+VRPBL: 2/2 feasible, mean cost=12.336580
+VRPBTW: 0/2 feasible, mean cost=nan
+VRPLTW: 2/2 feasible, mean cost=32.142339
+OVRPBL: 2/2 feasible, mean cost=9.744483
+OVRPBTW: 0/2 feasible, mean cost=nan
+OVRPLTW: 2/2 feasible, mean cost=18.906418
+VRPBLTW: 0/2 feasible, mean cost=nan
+OVRPBLTW: 0/2 feasible, mean cost=nan
+wrote 32 rows to /root/autodl-tmp/mvmoe_split_official_eval_20260910_attempt4/results/pomo_mtl_split_n100_smoke.csv
+bash: line 1: /usr/bin/time: No such file or directory

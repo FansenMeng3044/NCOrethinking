@@ -1,0 +1,3 @@
+diff --git a/third_party/run_mvmoe_4e_split_n50_fused_1gpu.sh b/third_party/run_mvmoe_4e_split_n50_fused_1gpu.sh
+old mode 100644
+new mode 100755
