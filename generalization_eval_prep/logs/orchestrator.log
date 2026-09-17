@@ -1,0 +1,25 @@
+2026-09-17T15:11:29+08:00 START am_n100_to_n200
+2026-09-17T15:11:40+08:00 END am_n100_to_n200 exit=0
+2026-09-17T15:11:40+08:00 START am_split_n100_to_n200
+2026-09-17T15:11:50+08:00 END am_split_n100_to_n200 exit=0
+2026-09-17T15:11:50+08:00 START pomo_n100_to_n200
+2026-09-17T15:12:13+08:00 END pomo_n100_to_n200 exit=0
+2026-09-17T15:12:13+08:00 START pomo_split_n100_to_n200
+2026-09-17T15:12:32+08:00 END pomo_split_n100_to_n200 exit=0
+2026-09-17T15:12:32+08:00 START am_n100_to_n500
+2026-09-17T15:13:39+08:00 END am_n100_to_n500 exit=0
+2026-09-17T15:13:39+08:00 START am_split_n100_to_n500
+2026-09-17T15:14:24+08:00 END am_split_n100_to_n500 exit=0
+2026-09-17T15:14:24+08:00 START pomo_n100_to_n500
+2026-09-17T15:17:07+08:00 END pomo_n100_to_n500 exit=0
+2026-09-17T15:17:07+08:00 START pomo_split_n100_to_n500
+2026-09-17T15:19:04+08:00 END pomo_split_n100_to_n500 exit=0
+2026-09-17T15:19:04+08:00 START am_n100_to_n1000
+2026-09-17T15:25:37+08:00 END am_n100_to_n1000 exit=0
+2026-09-17T15:25:37+08:00 START am_split_n100_to_n1000
+2026-09-17T15:30:11+08:00 END am_split_n100_to_n1000 exit=0
+2026-09-17T15:30:11+08:00 START pomo_n100_to_n1000
+2026-09-17T15:41:11+08:00 END pomo_n100_to_n1000 exit=0
+2026-09-17T15:41:11+08:00 START pomo_split_n100_to_n1000
+2026-09-17T15:49:46+08:00 END pomo_split_n100_to_n1000 exit=0
+/root/autodl-tmp/NCOrethinking-generalization/generalization_eval_prep/results/aggregate.csv

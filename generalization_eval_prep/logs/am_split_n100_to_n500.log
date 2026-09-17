@@ -1,0 +1,156 @@
+2026-09-17T07:13:42.447054+00:00 architecture=am_split n=500 completed=8/1000 mean_cost=70.87426917 last_seconds=0.0931 peak_gib=0.147
+2026-09-17T07:13:42.699237+00:00 architecture=am_split n=500 completed=16/1000 mean_cost=68.68989779 last_seconds=0.0290 peak_gib=0.147
+2026-09-17T07:13:42.954488+00:00 architecture=am_split n=500 completed=24/1000 mean_cost=69.77735384 last_seconds=0.0288 peak_gib=0.147
+2026-09-17T07:13:43.205280+00:00 architecture=am_split n=500 completed=32/1000 mean_cost=69.72664947 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:13:43.460377+00:00 architecture=am_split n=500 completed=40/1000 mean_cost=69.81747421 last_seconds=0.0291 peak_gib=0.147
+2026-09-17T07:13:43.713494+00:00 architecture=am_split n=500 completed=48/1000 mean_cost=70.16537062 last_seconds=0.0288 peak_gib=0.147
+2026-09-17T07:13:43.972283+00:00 architecture=am_split n=500 completed=56/1000 mean_cost=70.14266771 last_seconds=0.0294 peak_gib=0.147
+2026-09-17T07:13:44.225941+00:00 architecture=am_split n=500 completed=64/1000 mean_cost=70.50879124 last_seconds=0.0287 peak_gib=0.147
+2026-09-17T07:13:44.482935+00:00 architecture=am_split n=500 completed=72/1000 mean_cost=70.30753007 last_seconds=0.0290 peak_gib=0.147
+2026-09-17T07:13:44.740025+00:00 architecture=am_split n=500 completed=80/1000 mean_cost=70.36236373 last_seconds=0.0285 peak_gib=0.147
+2026-09-17T07:13:44.997741+00:00 architecture=am_split n=500 completed=88/1000 mean_cost=70.89152393 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:45.260170+00:00 architecture=am_split n=500 completed=96/1000 mean_cost=70.81311899 last_seconds=0.0287 peak_gib=0.147
+2026-09-17T07:13:45.516460+00:00 architecture=am_split n=500 completed=104/1000 mean_cost=70.68337591 last_seconds=0.0285 peak_gib=0.147
+2026-09-17T07:13:45.780077+00:00 architecture=am_split n=500 completed=112/1000 mean_cost=70.45948398 last_seconds=0.0294 peak_gib=0.147
+2026-09-17T07:13:46.046553+00:00 architecture=am_split n=500 completed=120/1000 mean_cost=71.05535530 last_seconds=0.0288 peak_gib=0.147
+2026-09-17T07:13:46.308482+00:00 architecture=am_split n=500 completed=128/1000 mean_cost=71.16740239 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:46.574175+00:00 architecture=am_split n=500 completed=136/1000 mean_cost=70.93090061 last_seconds=0.0293 peak_gib=0.147
+2026-09-17T07:13:46.838135+00:00 architecture=am_split n=500 completed=144/1000 mean_cost=70.87925329 last_seconds=0.0290 peak_gib=0.147
+2026-09-17T07:13:47.106520+00:00 architecture=am_split n=500 completed=152/1000 mean_cost=70.61837381 last_seconds=0.0295 peak_gib=0.147
+2026-09-17T07:13:47.376322+00:00 architecture=am_split n=500 completed=160/1000 mean_cost=70.46441187 last_seconds=0.0293 peak_gib=0.147
+2026-09-17T07:13:47.639201+00:00 architecture=am_split n=500 completed=168/1000 mean_cost=70.36507973 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:13:47.904036+00:00 architecture=am_split n=500 completed=176/1000 mean_cost=70.54024885 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:13:48.165462+00:00 architecture=am_split n=500 completed=184/1000 mean_cost=70.26127330 last_seconds=0.0282 peak_gib=0.147
+2026-09-17T07:13:48.430576+00:00 architecture=am_split n=500 completed=192/1000 mean_cost=70.41345412 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:13:48.695425+00:00 architecture=am_split n=500 completed=200/1000 mean_cost=70.41889647 last_seconds=0.0283 peak_gib=0.147
+2026-09-17T07:13:48.959346+00:00 architecture=am_split n=500 completed=208/1000 mean_cost=70.30710076 last_seconds=0.0278 peak_gib=0.147
+2026-09-17T07:13:49.225023+00:00 architecture=am_split n=500 completed=216/1000 mean_cost=70.17885743 last_seconds=0.0282 peak_gib=0.147
+2026-09-17T07:13:49.499536+00:00 architecture=am_split n=500 completed=224/1000 mean_cost=70.36161232 last_seconds=0.0292 peak_gib=0.147
+2026-09-17T07:13:49.775109+00:00 architecture=am_split n=500 completed=232/1000 mean_cost=70.25566623 last_seconds=0.0291 peak_gib=0.147
+2026-09-17T07:13:50.046155+00:00 architecture=am_split n=500 completed=240/1000 mean_cost=70.20019082 last_seconds=0.0287 peak_gib=0.147
+2026-09-17T07:13:50.321816+00:00 architecture=am_split n=500 completed=248/1000 mean_cost=70.33693450 last_seconds=0.0292 peak_gib=0.147
+2026-09-17T07:13:50.595881+00:00 architecture=am_split n=500 completed=256/1000 mean_cost=70.30599846 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:50.875547+00:00 architecture=am_split n=500 completed=264/1000 mean_cost=70.37762362 last_seconds=0.0291 peak_gib=0.147
+2026-09-17T07:13:51.155844+00:00 architecture=am_split n=500 completed=272/1000 mean_cost=70.40092426 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:13:51.431988+00:00 architecture=am_split n=500 completed=280/1000 mean_cost=70.50722632 last_seconds=0.0287 peak_gib=0.147
+2026-09-17T07:13:51.708487+00:00 architecture=am_split n=500 completed=288/1000 mean_cost=70.59958413 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:51.989218+00:00 architecture=am_split n=500 completed=296/1000 mean_cost=70.67540230 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:52.264491+00:00 architecture=am_split n=500 completed=304/1000 mean_cost=70.64403420 last_seconds=0.0284 peak_gib=0.147
+2026-09-17T07:13:52.551868+00:00 architecture=am_split n=500 completed=312/1000 mean_cost=70.66664165 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:13:52.829148+00:00 architecture=am_split n=500 completed=320/1000 mean_cost=70.62203709 last_seconds=0.0285 peak_gib=0.147
+2026-09-17T07:13:53.196611+00:00 architecture=am_split n=500 completed=328/1000 mean_cost=70.50051610 last_seconds=0.0362 peak_gib=0.147
+2026-09-17T07:13:53.595192+00:00 architecture=am_split n=500 completed=336/1000 mean_cost=70.52498733 last_seconds=0.0399 peak_gib=0.147
+2026-09-17T07:13:53.995737+00:00 architecture=am_split n=500 completed=344/1000 mean_cost=70.57580183 last_seconds=0.0401 peak_gib=0.147
+2026-09-17T07:13:54.397416+00:00 architecture=am_split n=500 completed=352/1000 mean_cost=70.58454559 last_seconds=0.0401 peak_gib=0.147
+2026-09-17T07:13:54.807458+00:00 architecture=am_split n=500 completed=360/1000 mean_cost=70.68390860 last_seconds=0.0406 peak_gib=0.147
+2026-09-17T07:13:55.214055+00:00 architecture=am_split n=500 completed=368/1000 mean_cost=70.62833494 last_seconds=0.0405 peak_gib=0.147
+2026-09-17T07:13:55.619512+00:00 architecture=am_split n=500 completed=376/1000 mean_cost=70.68111540 last_seconds=0.0401 peak_gib=0.147
+2026-09-17T07:13:56.031739+00:00 architecture=am_split n=500 completed=384/1000 mean_cost=70.75703794 last_seconds=0.0412 peak_gib=0.147
+2026-09-17T07:13:56.595667+00:00 architecture=am_split n=500 completed=392/1000 mean_cost=70.78154738 last_seconds=0.0596 peak_gib=0.147
+2026-09-17T07:13:57.007718+00:00 architecture=am_split n=500 completed=400/1000 mean_cost=70.90958190 last_seconds=0.0401 peak_gib=0.147
+2026-09-17T07:13:57.425122+00:00 architecture=am_split n=500 completed=408/1000 mean_cost=70.87597889 last_seconds=0.0413 peak_gib=0.147
+2026-09-17T07:13:57.832990+00:00 architecture=am_split n=500 completed=416/1000 mean_cost=70.84433905 last_seconds=0.0393 peak_gib=0.147
+2026-09-17T07:13:58.258899+00:00 architecture=am_split n=500 completed=424/1000 mean_cost=70.75180533 last_seconds=0.0416 peak_gib=0.147
+2026-09-17T07:13:58.690264+00:00 architecture=am_split n=500 completed=432/1000 mean_cost=70.80644268 last_seconds=0.0424 peak_gib=0.147
+2026-09-17T07:13:59.116374+00:00 architecture=am_split n=500 completed=440/1000 mean_cost=70.81960547 last_seconds=0.0413 peak_gib=0.147
+2026-09-17T07:13:59.533934+00:00 architecture=am_split n=500 completed=448/1000 mean_cost=70.84704244 last_seconds=0.0407 peak_gib=0.147
+2026-09-17T07:13:59.939397+00:00 architecture=am_split n=500 completed=456/1000 mean_cost=70.79027506 last_seconds=0.0392 peak_gib=0.147
+2026-09-17T07:14:00.358739+00:00 architecture=am_split n=500 completed=464/1000 mean_cost=70.79626640 last_seconds=0.0392 peak_gib=0.147
+2026-09-17T07:14:00.690017+00:00 architecture=am_split n=500 completed=472/1000 mean_cost=70.86249000 last_seconds=0.0330 peak_gib=0.147
+2026-09-17T07:14:00.974248+00:00 architecture=am_split n=500 completed=480/1000 mean_cost=70.91491163 last_seconds=0.0275 peak_gib=0.147
+2026-09-17T07:14:01.262253+00:00 architecture=am_split n=500 completed=488/1000 mean_cost=70.84774115 last_seconds=0.0277 peak_gib=0.147
+2026-09-17T07:14:01.550720+00:00 architecture=am_split n=500 completed=496/1000 mean_cost=70.83808956 last_seconds=0.0277 peak_gib=0.147
+2026-09-17T07:14:01.845284+00:00 architecture=am_split n=500 completed=504/1000 mean_cost=70.92355802 last_seconds=0.0284 peak_gib=0.147
+2026-09-17T07:14:02.133429+00:00 architecture=am_split n=500 completed=512/1000 mean_cost=70.97531141 last_seconds=0.0276 peak_gib=0.147
+2026-09-17T07:14:02.426088+00:00 architecture=am_split n=500 completed=520/1000 mean_cost=70.99169577 last_seconds=0.0278 peak_gib=0.147
+2026-09-17T07:14:02.722080+00:00 architecture=am_split n=500 completed=528/1000 mean_cost=70.89856369 last_seconds=0.0279 peak_gib=0.147
+2026-09-17T07:14:03.019434+00:00 architecture=am_split n=500 completed=536/1000 mean_cost=70.96580668 last_seconds=0.0279 peak_gib=0.147
+2026-09-17T07:14:03.316103+00:00 architecture=am_split n=500 completed=544/1000 mean_cost=70.94817416 last_seconds=0.0282 peak_gib=0.147
+2026-09-17T07:14:03.613740+00:00 architecture=am_split n=500 completed=552/1000 mean_cost=70.97078282 last_seconds=0.0284 peak_gib=0.147
+2026-09-17T07:14:03.912734+00:00 architecture=am_split n=500 completed=560/1000 mean_cost=71.06615765 last_seconds=0.0284 peak_gib=0.147
+2026-09-17T07:14:04.214701+00:00 architecture=am_split n=500 completed=568/1000 mean_cost=71.08104277 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:14:04.516166+00:00 architecture=am_split n=500 completed=576/1000 mean_cost=71.13160137 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:14:04.830316+00:00 architecture=am_split n=500 completed=584/1000 mean_cost=71.15879419 last_seconds=0.0294 peak_gib=0.147
+2026-09-17T07:14:05.138632+00:00 architecture=am_split n=500 completed=592/1000 mean_cost=71.14151290 last_seconds=0.0292 peak_gib=0.147
+2026-09-17T07:14:05.437991+00:00 architecture=am_split n=500 completed=600/1000 mean_cost=71.17688093 last_seconds=0.0279 peak_gib=0.147
+2026-09-17T07:14:05.753646+00:00 architecture=am_split n=500 completed=608/1000 mean_cost=71.24430275 last_seconds=0.0294 peak_gib=0.147
+2026-09-17T07:14:06.070048+00:00 architecture=am_split n=500 completed=616/1000 mean_cost=71.20831701 last_seconds=0.0298 peak_gib=0.147
+2026-09-17T07:14:06.375288+00:00 architecture=am_split n=500 completed=624/1000 mean_cost=71.26370254 last_seconds=0.0282 peak_gib=0.147
+2026-09-17T07:14:06.680833+00:00 architecture=am_split n=500 completed=632/1000 mean_cost=71.29135345 last_seconds=0.0278 peak_gib=0.147
+2026-09-17T07:14:06.981970+00:00 architecture=am_split n=500 completed=640/1000 mean_cost=71.31413467 last_seconds=0.0277 peak_gib=0.147
+2026-09-17T07:14:07.297160+00:00 architecture=am_split n=500 completed=648/1000 mean_cost=71.31485593 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:14:07.610702+00:00 architecture=am_split n=500 completed=656/1000 mean_cost=71.34142423 last_seconds=0.0290 peak_gib=0.147
+2026-09-17T07:14:07.922587+00:00 architecture=am_split n=500 completed=664/1000 mean_cost=71.24502452 last_seconds=0.0282 peak_gib=0.147
+2026-09-17T07:14:08.242824+00:00 architecture=am_split n=500 completed=672/1000 mean_cost=71.25595613 last_seconds=0.0291 peak_gib=0.147
+2026-09-17T07:14:08.548599+00:00 architecture=am_split n=500 completed=680/1000 mean_cost=71.26712071 last_seconds=0.0278 peak_gib=0.147
+2026-09-17T07:14:08.864971+00:00 architecture=am_split n=500 completed=688/1000 mean_cost=71.25903030 last_seconds=0.0285 peak_gib=0.147
+2026-09-17T07:14:09.184691+00:00 architecture=am_split n=500 completed=696/1000 mean_cost=71.22964362 last_seconds=0.0289 peak_gib=0.147
+2026-09-17T07:14:09.498544+00:00 architecture=am_split n=500 completed=704/1000 mean_cost=71.20774918 last_seconds=0.0281 peak_gib=0.147
+2026-09-17T07:14:09.822301+00:00 architecture=am_split n=500 completed=712/1000 mean_cost=71.24223760 last_seconds=0.0294 peak_gib=0.147
+2026-09-17T07:14:10.136127+00:00 architecture=am_split n=500 completed=720/1000 mean_cost=71.25336858 last_seconds=0.0283 peak_gib=0.147
+2026-09-17T07:14:10.458056+00:00 architecture=am_split n=500 completed=728/1000 mean_cost=71.24185020 last_seconds=0.0288 peak_gib=0.147
+2026-09-17T07:14:10.783810+00:00 architecture=am_split n=500 completed=736/1000 mean_cost=71.26171202 last_seconds=0.0292 peak_gib=0.147
+2026-09-17T07:14:11.099490+00:00 architecture=am_split n=500 completed=744/1000 mean_cost=71.28700278 last_seconds=0.0277 peak_gib=0.147
+2026-09-17T07:14:11.422526+00:00 architecture=am_split n=500 completed=752/1000 mean_cost=71.33115693 last_seconds=0.0286 peak_gib=0.147
+2026-09-17T07:14:11.740322+00:00 architecture=am_split n=500 completed=760/1000 mean_cost=71.37578807 last_seconds=0.0283 peak_gib=0.147
+2026-09-17T07:14:12.157853+00:00 architecture=am_split n=500 completed=768/1000 mean_cost=71.37236007 last_seconds=0.0346 peak_gib=0.147
+2026-09-17T07:14:12.613548+00:00 architecture=am_split n=500 completed=776/1000 mean_cost=71.40030965 last_seconds=0.0396 peak_gib=0.147
+2026-09-17T07:14:13.087139+00:00 architecture=am_split n=500 completed=784/1000 mean_cost=71.38841042 last_seconds=0.0418 peak_gib=0.147
+2026-09-17T07:14:13.541567+00:00 architecture=am_split n=500 completed=792/1000 mean_cost=71.39631298 last_seconds=0.0393 peak_gib=0.147
+2026-09-17T07:14:13.997969+00:00 architecture=am_split n=500 completed=800/1000 mean_cost=71.39826565 last_seconds=0.0393 peak_gib=0.147
+2026-09-17T07:14:14.536270+00:00 architecture=am_split n=500 completed=808/1000 mean_cost=71.39156409 last_seconds=0.0398 peak_gib=0.147
+2026-09-17T07:14:15.003978+00:00 architecture=am_split n=500 completed=816/1000 mean_cost=71.39623678 last_seconds=0.0400 peak_gib=0.147
+2026-09-17T07:14:15.477726+00:00 architecture=am_split n=500 completed=824/1000 mean_cost=71.37550127 last_seconds=0.0406 peak_gib=0.147
+2026-09-17T07:14:15.947095+00:00 architecture=am_split n=500 completed=832/1000 mean_cost=71.41541292 last_seconds=0.0398 peak_gib=0.147
+2026-09-17T07:14:16.473996+00:00 architecture=am_split n=500 completed=840/1000 mean_cost=71.39815881 last_seconds=0.0452 peak_gib=0.147
+2026-09-17T07:14:16.936054+00:00 architecture=am_split n=500 completed=848/1000 mean_cost=71.45757412 last_seconds=0.0391 peak_gib=0.147
+2026-09-17T07:14:17.324105+00:00 architecture=am_split n=500 completed=856/1000 mean_cost=71.43237791 last_seconds=0.0355 peak_gib=0.147
+2026-09-17T07:14:17.645165+00:00 architecture=am_split n=500 completed=864/1000 mean_cost=71.41945390 last_seconds=0.0275 peak_gib=0.147
+2026-09-17T07:14:17.965777+00:00 architecture=am_split n=500 completed=872/1000 mean_cost=71.44996249 last_seconds=0.0274 peak_gib=0.147
+2026-09-17T07:14:18.288848+00:00 architecture=am_split n=500 completed=880/1000 mean_cost=71.45343372 last_seconds=0.0275 peak_gib=0.147
+2026-09-17T07:14:18.612631+00:00 architecture=am_split n=500 completed=888/1000 mean_cost=71.46272677 last_seconds=0.0276 peak_gib=0.147
+2026-09-17T07:14:18.937183+00:00 architecture=am_split n=500 completed=896/1000 mean_cost=71.42104713 last_seconds=0.0273 peak_gib=0.147
+2026-09-17T07:14:19.269599+00:00 architecture=am_split n=500 completed=904/1000 mean_cost=71.39454105 last_seconds=0.0283 peak_gib=0.147
+2026-09-17T07:14:19.630644+00:00 architecture=am_split n=500 completed=912/1000 mean_cost=71.39654185 last_seconds=0.0277 peak_gib=0.147
+2026-09-17T07:14:20.148689+00:00 architecture=am_split n=500 completed=920/1000 mean_cost=71.40180389 last_seconds=0.0429 peak_gib=0.147
+2026-09-17T07:14:20.626354+00:00 architecture=am_split n=500 completed=928/1000 mean_cost=71.44070240 last_seconds=0.0394 peak_gib=0.147
+2026-09-17T07:14:21.112253+00:00 architecture=am_split n=500 completed=936/1000 mean_cost=71.51122103 last_seconds=0.0400 peak_gib=0.147
+2026-09-17T07:14:21.632342+00:00 architecture=am_split n=500 completed=944/1000 mean_cost=71.49850497 last_seconds=0.0398 peak_gib=0.147
+2026-09-17T07:14:22.119866+00:00 architecture=am_split n=500 completed=952/1000 mean_cost=71.46407578 last_seconds=0.0399 peak_gib=0.147
+2026-09-17T07:14:22.606159+00:00 architecture=am_split n=500 completed=960/1000 mean_cost=71.49606463 last_seconds=0.0400 peak_gib=0.147
+2026-09-17T07:14:22.986889+00:00 architecture=am_split n=500 completed=968/1000 mean_cost=71.50745871 last_seconds=0.0335 peak_gib=0.147
+2026-09-17T07:14:23.331898+00:00 architecture=am_split n=500 completed=976/1000 mean_cost=71.51471400 last_seconds=0.0280 peak_gib=0.147
+2026-09-17T07:14:23.683072+00:00 architecture=am_split n=500 completed=984/1000 mean_cost=71.53732082 last_seconds=0.0293 peak_gib=0.147
+2026-09-17T07:14:24.024232+00:00 architecture=am_split n=500 completed=992/1000 mean_cost=71.52618329 last_seconds=0.0279 peak_gib=0.147
+2026-09-17T07:14:24.377905+00:00 architecture=am_split n=500 completed=1000/1000 mean_cost=71.50316263 last_seconds=0.0294 peak_gib=0.147
+{
+  "architecture": "am_split",
+  "augmentation": 1,
+  "checkpoint": {
+    "bytes": 23537530,
+    "epoch": 100,
+    "model_state_key_count": 63,
+    "path": "/root/autodl-tmp/NCOrethinking-generalization/artifacts/cvrp_xml100_20260827/checkpoints/am_split_n100/epoch-100.pt",
+    "sha256": "b669a5251c8aba3ba97d74df3c6ea1fc8e0cda0066be1bb76e9855d9d1ce2f44"
+  },
+  "completed_at_utc": "2026-09-17T07:14:24.486143+00:00",
+  "created_at_utc": "2026-09-17T07:13:41.403224+00:00",
+  "cuda_version": "12.8",
+  "dataset_path": "/root/autodl-tmp/NCOrethinking-generalization/generalization_eval_prep/data/cvrp500_n1000_seed1234_cap50.pt",
+  "dataset_sha256": "9ac272ff5f44e337e22cfb84930b88870420f0728814ee827921854fd1f7a7ae",
+  "demand_capacity_semantics": "integer Uniform{1,...,9}, capacity=50, normalized capacity=1",
+  "device": "NVIDIA GeForce RTX 4090",
+  "instances": 1000,
+  "max_peak_cuda_memory_bytes": 157997568,
+  "mean_cost": 71.50316262781148,
+  "mean_inference_seconds": 0.03259742334857583,
+  "mean_vehicles": 54.443,
+  "pomo_starts": 1,
+  "problem_size": 500,
+  "protocol": "cvrp_size_generalization_n100_checkpoint_greedy_noaug_full_pomo_v1",
+  "schema_version": 1,
+  "seed": 1234,
+  "success": 1000,
+  "torch_version": "2.8.0+cu128",
+  "training_size": 100
+}

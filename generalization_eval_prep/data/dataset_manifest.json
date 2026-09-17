@@ -1,0 +1,41 @@
+[
+  {
+    "bytes": 2810863,
+    "coordinate_distribution": "iid Uniform[0,1)^2",
+    "customers": 200,
+    "demand_distribution": "iid discrete Uniform{1,...,9}",
+    "instances": 1000,
+    "normalized_vehicle_capacity": 1.0,
+    "path": "cvrp200_n1000_seed1234_cap50.pt",
+    "problem": "CVRP",
+    "seed": 1234,
+    "sha256": "3edaf6c68caf749ffc2796f5778f266dcacb7943ec095680b2a10e8c039a4032",
+    "vehicle_capacity_integer": 50
+  },
+  {
+    "bytes": 7010863,
+    "coordinate_distribution": "iid Uniform[0,1)^2",
+    "customers": 500,
+    "demand_distribution": "iid discrete Uniform{1,...,9}",
+    "instances": 1000,
+    "normalized_vehicle_capacity": 1.0,
+    "path": "cvrp500_n1000_seed1234_cap50.pt",
+    "problem": "CVRP",
+    "seed": 1234,
+    "sha256": "9ac272ff5f44e337e22cfb84930b88870420f0728814ee827921854fd1f7a7ae",
+    "vehicle_capacity_integer": 50
+  },
+  {
+    "bytes": 14010873,
+    "coordinate_distribution": "iid Uniform[0,1)^2",
+    "customers": 1000,
+    "demand_distribution": "iid discrete Uniform{1,...,9}",
+    "instances": 1000,
+    "normalized_vehicle_capacity": 1.0,
+    "path": "cvrp1000_n1000_seed1234_cap50.pt",
+    "problem": "CVRP",
+    "seed": 1234,
+    "sha256": "93e723a1dd4ff11336b7c842f913ab950056f053685a23af65a470af1bebee71",
+    "vehicle_capacity_integer": 50
+  }
+]
