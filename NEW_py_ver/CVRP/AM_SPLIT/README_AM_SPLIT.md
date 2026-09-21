@@ -6,18 +6,24 @@ The upstream commit is `c9abf41ac2f878a55b20dc7e829bc942bb999631`.
 
 ## Method
 
-The policy receives depot/customer coordinates only. The depot is encoded as
-context and permanently masked from the action space. Customer demand and
-remaining capacity are not policy inputs. AM generates a permutation of all
-customers and the exact Bellman Split decoder places capacity-feasible depot
-returns without changing that order.
+The policy receives depot coordinates and customer coordinates plus demand.
+The depot is encoded as context and permanently masked from the action space.
+The decoder receives the same dynamic context as Direct AM: the current-node
+embedding and remaining capacity, plus current time for CVRPTW. Capacity and
+time-window violations are not included in the action mask. AM generates a
+permutation of all customers and the exact Bellman Split decoder places
+feasible depot returns without changing that order. For CVRPTW, customer
+service times and time-window bounds are also included in the static customer
+embedding. Since the permutation contains no depot actions, the dynamic
+resource values are propagated along the complete order and are reset only in
+the routes recovered by Split, not during policy decoding.
 
 Two training objectives are available:
 
 - `--reward-mode split` (default): train with the exact hard-capacity Split cost,
   matching `POMO_SPLIT`.
 - `--reward-mode raw`: train with the unsplit giant-tour length and use Split only
-  for evaluation, matching `POMO_SPLIT_EVALONLY`.
+  for evaluation, matching the training objective in `POMO_SPLIT_EVALONLY`.
 
 Evaluation always uses hard-capacity Split. It supports greedy decoding, sampled
 best-of-width decoding, and 1x/8x geometric augmentation. Sampling width 100 plus

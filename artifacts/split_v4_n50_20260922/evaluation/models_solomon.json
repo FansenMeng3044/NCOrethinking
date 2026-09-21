@@ -1,0 +1,32 @@
+{
+  "models": [
+    {
+      "name": "pomo_tw_direct_n50",
+      "architecture": "pomo_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/pomo_direct/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "pomo_tw_split_v4_n50",
+      "architecture": "pomo_split_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/pomo_split_v4/checkpoint-2000.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_tw_direct_n50",
+      "architecture": "am_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt",
+      "enabled": true
+    },
+    {
+      "name": "am_tw_split_v4_n50",
+      "architecture": "am_split_tw",
+      "size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt",
+      "enabled": true
+    }
+  ]
+}

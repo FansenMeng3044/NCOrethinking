@@ -24,6 +24,7 @@ class StepState:
     BATCH_IDX: torch.Tensor
     POMO_IDX: torch.Tensor
     current_node: torch.Tensor = None
+    load: torch.Tensor = None
     ninf_mask: torch.Tensor = None
 
 
@@ -53,6 +54,7 @@ class GiantTourEnv:
         self.POMO_IDX = None
         self.selected_count = None
         self.current_node = None
+        self.load = None
         self.selected_node_list = None
         self.step_state = None
         self.last_split_result = None
@@ -125,6 +127,13 @@ class GiantTourEnv:
             self.batch_size, self.pomo_size, 0, device=device, dtype=torch.long
         )
         self.step_state = StepState(self.BATCH_IDX, self.POMO_IDX)
+        self.load = torch.full(
+            (self.batch_size, self.pomo_size),
+            self.capacity,
+            device=device,
+            dtype=self.node_demand.dtype,
+        )
+        self.step_state.load = self.load
         self.step_state.ninf_mask = torch.zeros(
             self.batch_size,
             self.pomo_size,
@@ -146,7 +155,15 @@ class GiantTourEnv:
         self.selected_node_list = torch.cat(
             (self.selected_node_list, selected[:, :, None]), dim=2
         )
+        selected_demand = self.node_demand[
+            self.BATCH_IDX, selected - 1
+        ]
+        # Match the Direct decoder state transition, but deliberately do not
+        # mask customers whose demand exceeds the remaining load. Since the
+        # giant tour contains no depot actions, this value is not reset.
+        self.load = self.load - selected_demand
         self.step_state.current_node = selected
+        self.step_state.load = self.load
         self.step_state.ninf_mask[self.BATCH_IDX, self.POMO_IDX, selected] = float("-inf")
 
         done = self.selected_count == self.problem_size

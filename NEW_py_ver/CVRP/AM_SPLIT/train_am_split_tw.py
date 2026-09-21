@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Train XY-only Attention Model followed by exact hard-TW Split."""
+"""Train the Attention Model customer-ordering policy with hard-TW Split."""
 
 import argparse
 import sys

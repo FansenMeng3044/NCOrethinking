@@ -4,6 +4,8 @@ import os
 import shutil
 import sys
 
+import torch
+
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 os.chdir(THIS_DIR)
@@ -22,6 +24,7 @@ ENV_PARAMS = {
 }
 
 MODEL_PARAMS = {
+    "node_feature_dim": 3,
     "embedding_dim": 128,
     "sqrt_embedding_dim": 128 ** 0.5,
     "encoder_layer_num": 6,
@@ -34,13 +37,13 @@ MODEL_PARAMS = {
 
 OPTIMIZER_PARAMS = {
     "optimizer": {"lr": 1e-4, "weight_decay": 1e-6},
-    "scheduler": {"milestones": [8001, 8051], "gamma": 0.1},
+    "scheduler": {"milestones": [], "gamma": 1.0},
 }
 
 TRAINER_PARAMS = {
     "use_cuda": True,
     "cuda_device_num": 0,
-    "epochs": 8100,
+    "epochs": 2000,
     "train_episodes": 10 * 1000,
     "train_batch_size": 64,
     "logging": {
@@ -57,7 +60,16 @@ def main():
     parser.add_argument(
         "--smoke", action="store_true", help="run 1 epoch with a tiny CPU workload"
     )
+    parser.add_argument(
+        "--problem-size", type=int, choices=(20, 50, 100),
+        default=ENV_PARAMS["problem_size"],
+    )
+    parser.add_argument("--seed", type=int, default=1234)
     args = parser.parse_args()
+
+    torch.manual_seed(args.seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(args.seed)
 
     trainer_params = dict(TRAINER_PARAMS)
     trainer_params["logging"] = dict(TRAINER_PARAMS["logging"])
@@ -69,6 +81,8 @@ def main():
         env_params = {"problem_size": 20, "pomo_size": 20, "capacity": 1.0}
     else:
         env_params = dict(ENV_PARAMS)
+        env_params["problem_size"] = args.problem_size
+        env_params["pomo_size"] = args.problem_size
 
     create_logger(
         log_file={
@@ -81,6 +95,7 @@ def main():
     logger.info("model_params=%s", MODEL_PARAMS)
     logger.info("optimizer_params=%s", OPTIMIZER_PARAMS)
     logger.info("trainer_params=%s", trainer_params)
+    logger.info("seed=%d", args.seed)
 
     trainer = GiantTourTrainer(
         env_params, MODEL_PARAMS, OPTIMIZER_PARAMS, trainer_params

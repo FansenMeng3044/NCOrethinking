@@ -2,9 +2,14 @@
 
 This experiment separates customer sequencing from capacity decisions:
 
-1. The POMO policy sees depot/customer coordinates and selects each customer exactly once.
+1. The POMO policy sees depot coordinates and customer coordinates plus demand, and selects each customer exactly once.
 2. Depot is encoder context only; it is never an action.
-3. Demand and remaining capacity are not policy inputs and no capacity mask is applied.
+3. The decoder receives the same dynamic resource context as Direct POMO:
+   the current-node embedding and remaining capacity, plus current time for
+   CVRPTW. Capacity and time-window violations are deliberately excluded from
+   the action mask; only the depot and already visited customers are masked.
+   Because a giant tour contains no depot actions, these resource values are
+   propagated along the full permutation and are not reset before Split.
 4. At the terminal step, hard-capacity Split optimally partitions the fixed giant tour.
 5. The policy-gradient reward is the negative decoded CVRP distance.
 

@@ -99,16 +99,26 @@ class AttentionModel(nn.Module):
         else:  # TSP-like permutation decoder
             assert problem.NAME in ("tsp", "am_split", "am_split_tw"), \
                 "Unsupported problem: {}".format(problem.NAME)
-            step_context_dim = 2 * embedding_dim  # Embeddings of first and last customer
-            node_dim = 2  # x, y
+            step_context_dim = (
+                embedding_dim + (2 if self.is_am_split_tw else 1)
+                if self.is_am_split else 2 * embedding_dim
+            )
+            if self.is_am_split_tw:
+                # x, y, demand, service time, ready time, due time
+                node_dim = 6
+            elif self.is_am_split:
+                node_dim = 3  # x, y, demand
+            else:
+                node_dim = 2  # x, y
 
             # AM Split encodes the depot but masks it from the action space.
             if self.is_am_split:
                 self.init_embed_depot = nn.Linear(2, embedding_dim)
 
-            # Learned input symbols for first action
-            self.W_placeholder = nn.Parameter(torch.Tensor(2 * embedding_dim))
-            self.W_placeholder.data.uniform_(-1, 1)  # Placeholder should be in range of activations
+            if not self.is_am_split:
+                # Learned input symbols for the first TSP action.
+                self.W_placeholder = nn.Parameter(torch.Tensor(2 * embedding_dim))
+                self.W_placeholder.data.uniform_(-1, 1)
 
         self.init_embed = nn.Linear(node_dim, embedding_dim)
 
@@ -233,10 +243,17 @@ class AttentionModel(nn.Module):
                 1
             )
         if self.is_am_split:
+            features = (
+                ('demand', 'service_time', 'tw_start', 'tw_end')
+                if self.is_am_split_tw else ('demand', )
+            )
             return torch.cat(
                 (
                     self.init_embed_depot(input['depot'])[:, None, :],
-                    self.init_embed(input['loc']),
+                    self.init_embed(torch.cat((
+                        input['loc'],
+                        *(input[feat][:, :, None] for feat in features)
+                    ), -1)),
                 ),
                 dim=1,
             )
@@ -399,6 +416,25 @@ class AttentionModel(nn.Module):
         current_node = state.get_current_node()
         batch_size, num_steps = current_node.size()
 
+        if self.is_am_split:
+            # Match the Direct decoder context while retaining a customer-only
+            # action space. Resource values are updated along the unpartitioned
+            # giant tour; capacity and time-window violations are not masked.
+            current_embedding = torch.gather(
+                embeddings,
+                1,
+                current_node.contiguous()
+                    .view(batch_size, num_steps, 1)
+                    .expand(batch_size, num_steps, embeddings.size(-1))
+            ).view(batch_size, num_steps, embeddings.size(-1))
+            return torch.cat(
+                (
+                    current_embedding,
+                    self.problem.VEHICLE_CAPACITY - state.used_capacity[:, :, None],
+                    *((state.current_time[:, :, None],) if self.is_am_split_tw else ()),
+                ),
+                -1,
+            )
         if self.is_vrp:
             # Embedding of previous node + remaining capacity
             if from_depot:

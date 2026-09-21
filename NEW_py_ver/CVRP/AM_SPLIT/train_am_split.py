@@ -1,14 +1,17 @@
 #!/usr/bin/env python
-"""Configured training entry point for demand-blind AM + Split."""
+"""Configured training entry point for AM customer ordering + Split."""
 
 import argparse
+import sys
 from pathlib import Path
+
+THIS_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(THIS_DIR.parent))
 
 from options import get_options
 from run import run
 
 
-THIS_DIR = Path(__file__).resolve().parent
 DEFAULT_DATASETS = {
     50: THIS_DIR.parents[2]
     / "reproduction_data"

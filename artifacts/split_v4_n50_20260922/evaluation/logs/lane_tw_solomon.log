@@ -1,0 +1,1074 @@
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+{
+  "problem": "cvrptw",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt",
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrptw50_n10000_seed1234.pt",
+  "instances": 10000,
+  "augmentation": 8,
+  "decode_strategy": "greedy",
+  "width": 1,
+  "timing_batch_size": 64,
+  "timing_warmup_batches": 1,
+  "mean_distance_1x": 16.776121328163146,
+  "standard_error_1x": 0.03147888694851614,
+  "mean_distance_aug": 16.042894787979126,
+  "standard_error_aug": 0.030149841083512416,
+  "mean_vehicle_count": 10.9262,
+  "strict_replay_instances": 10000,
+  "strict_replay_feasible_instances": 10000,
+  "all_selected_solutions_feasible": true,
+  "inference_seconds": 20.036142263561487,
+  "strict_replay_seconds": 8.274080201983452,
+  "audited_wall_seconds": 28.614687032997608,
+  "inference_instances_per_second": 499.0980732945978,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/results/fixed_tw/am_tw_direct_n50.csv"
+}
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+{
+  "problem": "am_split_tw",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt",
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrptw50_n10000_seed1234.pt",
+  "instances": 10000,
+  "augmentation": 8,
+  "decode_strategy": "greedy",
+  "width": 1,
+  "timing_batch_size": 64,
+  "timing_warmup_batches": 1,
+  "mean_distance_1x": 18.08385952320099,
+  "standard_error_1x": 0.037848588777945585,
+  "mean_distance_aug": 17.01271316537857,
+  "standard_error_aug": 0.03493237875597205,
+  "mean_vehicle_count": 12.4501,
+  "strict_replay_instances": 10000,
+  "strict_replay_feasible_instances": 10000,
+  "all_selected_solutions_feasible": true,
+  "inference_seconds": 8.0354795306921,
+  "strict_replay_seconds": 11.588283587247133,
+  "audited_wall_seconds": 19.92548181861639,
+  "inference_instances_per_second": 1244.4808006546803,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/results/fixed_tw/am_tw_split_v4_n50.csv"
+}
+/root/miniconda3/lib/python3.12/site-packages/torch/__init__.py:1264: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /pytorch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 32/10000, Elapsed[0.00m], Remain[0.60m], score:14.4231, aug_score:14.1868, strict_feasible:32/32
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 64/10000, Elapsed[0.00m], Remain[0.66m], score:15.3809, aug_score:15.0665, strict_feasible:32/32
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 96/10000, Elapsed[0.01m], Remain[0.64m], score:15.0325, aug_score:14.8079, strict_feasible:32/32
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 128/10000, Elapsed[0.01m], Remain[0.63m], score:15.5872, aug_score:15.3666, strict_feasible:32/32
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 160/10000, Elapsed[0.01m], Remain[0.62m], score:14.4072, aug_score:14.1306, strict_feasible:32/32
+[2026-09-22 04:30:13] VRPTWTester_strict.py(79) : episode 192/10000, Elapsed[0.01m], Remain[0.61m], score:15.1439, aug_score:14.8712, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 224/10000, Elapsed[0.01m], Remain[0.61m], score:14.5071, aug_score:14.2459, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 256/10000, Elapsed[0.02m], Remain[0.60m], score:14.7036, aug_score:14.3394, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 288/10000, Elapsed[0.02m], Remain[0.60m], score:15.7086, aug_score:15.4348, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 320/10000, Elapsed[0.02m], Remain[0.59m], score:14.8173, aug_score:14.5115, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 352/10000, Elapsed[0.02m], Remain[0.59m], score:14.9948, aug_score:14.6603, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 384/10000, Elapsed[0.02m], Remain[0.59m], score:15.5252, aug_score:15.1871, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 416/10000, Elapsed[0.03m], Remain[0.59m], score:15.1358, aug_score:14.8869, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 448/10000, Elapsed[0.03m], Remain[0.58m], score:15.0760, aug_score:14.8109, strict_feasible:32/32
+[2026-09-22 04:30:14] VRPTWTester_strict.py(79) : episode 480/10000, Elapsed[0.03m], Remain[0.58m], score:15.2926, aug_score:15.0092, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 512/10000, Elapsed[0.03m], Remain[0.58m], score:15.4894, aug_score:15.1866, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 544/10000, Elapsed[0.03m], Remain[0.58m], score:14.8782, aug_score:14.6923, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 576/10000, Elapsed[0.03m], Remain[0.57m], score:15.8687, aug_score:15.5452, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 608/10000, Elapsed[0.04m], Remain[0.57m], score:15.4864, aug_score:15.2787, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 640/10000, Elapsed[0.04m], Remain[0.57m], score:15.5965, aug_score:15.3242, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 672/10000, Elapsed[0.04m], Remain[0.56m], score:14.5787, aug_score:14.2930, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 704/10000, Elapsed[0.04m], Remain[0.56m], score:15.0529, aug_score:14.7360, strict_feasible:32/32
+[2026-09-22 04:30:15] VRPTWTester_strict.py(79) : episode 736/10000, Elapsed[0.04m], Remain[0.56m], score:15.4319, aug_score:15.0936, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 768/10000, Elapsed[0.05m], Remain[0.56m], score:15.8941, aug_score:15.6652, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 800/10000, Elapsed[0.05m], Remain[0.55m], score:15.2973, aug_score:15.0139, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 832/10000, Elapsed[0.05m], Remain[0.55m], score:14.8947, aug_score:14.6625, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 864/10000, Elapsed[0.05m], Remain[0.55m], score:15.7400, aug_score:15.4414, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 896/10000, Elapsed[0.05m], Remain[0.55m], score:15.4434, aug_score:15.1281, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 928/10000, Elapsed[0.06m], Remain[0.55m], score:14.9312, aug_score:14.6372, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 960/10000, Elapsed[0.06m], Remain[0.54m], score:15.3679, aug_score:15.0872, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 992/10000, Elapsed[0.06m], Remain[0.54m], score:15.3170, aug_score:15.0908, strict_feasible:32/32
+[2026-09-22 04:30:16] VRPTWTester_strict.py(79) : episode 1024/10000, Elapsed[0.06m], Remain[0.54m], score:14.7355, aug_score:14.4245, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1056/10000, Elapsed[0.06m], Remain[0.54m], score:15.1739, aug_score:14.8765, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1088/10000, Elapsed[0.07m], Remain[0.54m], score:14.4726, aug_score:14.2445, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1120/10000, Elapsed[0.07m], Remain[0.53m], score:14.8588, aug_score:14.5764, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1152/10000, Elapsed[0.07m], Remain[0.53m], score:15.3496, aug_score:15.0029, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1184/10000, Elapsed[0.07m], Remain[0.53m], score:14.9929, aug_score:14.7531, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1216/10000, Elapsed[0.07m], Remain[0.53m], score:16.1140, aug_score:15.8170, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1248/10000, Elapsed[0.07m], Remain[0.52m], score:15.0211, aug_score:14.7464, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1280/10000, Elapsed[0.08m], Remain[0.52m], score:15.4326, aug_score:15.1633, strict_feasible:32/32
+[2026-09-22 04:30:17] VRPTWTester_strict.py(79) : episode 1312/10000, Elapsed[0.08m], Remain[0.52m], score:14.5966, aug_score:14.3414, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1344/10000, Elapsed[0.08m], Remain[0.52m], score:15.9325, aug_score:15.6613, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1376/10000, Elapsed[0.08m], Remain[0.52m], score:14.8396, aug_score:14.5833, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1408/10000, Elapsed[0.08m], Remain[0.51m], score:15.7740, aug_score:15.4387, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1440/10000, Elapsed[0.09m], Remain[0.51m], score:15.0250, aug_score:14.7734, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1472/10000, Elapsed[0.09m], Remain[0.51m], score:15.4185, aug_score:15.1115, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1504/10000, Elapsed[0.09m], Remain[0.51m], score:15.9174, aug_score:15.7241, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1536/10000, Elapsed[0.09m], Remain[0.51m], score:15.1635, aug_score:14.8020, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1568/10000, Elapsed[0.09m], Remain[0.50m], score:15.9361, aug_score:15.7315, strict_feasible:32/32
+[2026-09-22 04:30:18] VRPTWTester_strict.py(79) : episode 1600/10000, Elapsed[0.10m], Remain[0.50m], score:15.3017, aug_score:15.0347, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1632/10000, Elapsed[0.10m], Remain[0.50m], score:14.5575, aug_score:14.3078, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1664/10000, Elapsed[0.10m], Remain[0.50m], score:15.3007, aug_score:14.9489, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1696/10000, Elapsed[0.10m], Remain[0.50m], score:15.6653, aug_score:15.4413, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1728/10000, Elapsed[0.10m], Remain[0.49m], score:15.1611, aug_score:14.8951, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1760/10000, Elapsed[0.11m], Remain[0.49m], score:15.0104, aug_score:14.7312, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1792/10000, Elapsed[0.11m], Remain[0.49m], score:15.1384, aug_score:14.7828, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1824/10000, Elapsed[0.11m], Remain[0.49m], score:15.1773, aug_score:14.8843, strict_feasible:32/32
+[2026-09-22 04:30:19] VRPTWTester_strict.py(79) : episode 1856/10000, Elapsed[0.11m], Remain[0.49m], score:15.1920, aug_score:14.9106, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 1888/10000, Elapsed[0.11m], Remain[0.48m], score:15.9886, aug_score:15.6691, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 1920/10000, Elapsed[0.11m], Remain[0.48m], score:14.5464, aug_score:14.3281, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 1952/10000, Elapsed[0.12m], Remain[0.48m], score:16.0025, aug_score:15.6711, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 1984/10000, Elapsed[0.12m], Remain[0.48m], score:15.5646, aug_score:15.3636, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 2016/10000, Elapsed[0.12m], Remain[0.48m], score:15.2541, aug_score:14.9402, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 2048/10000, Elapsed[0.12m], Remain[0.47m], score:14.7824, aug_score:14.4889, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 2080/10000, Elapsed[0.12m], Remain[0.47m], score:14.9186, aug_score:14.6587, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 2112/10000, Elapsed[0.13m], Remain[0.47m], score:16.0759, aug_score:15.8230, strict_feasible:32/32
+[2026-09-22 04:30:20] VRPTWTester_strict.py(79) : episode 2144/10000, Elapsed[0.13m], Remain[0.47m], score:15.8068, aug_score:15.4891, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2176/10000, Elapsed[0.13m], Remain[0.47m], score:14.6453, aug_score:14.4101, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2208/10000, Elapsed[0.13m], Remain[0.46m], score:14.8447, aug_score:14.6113, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2240/10000, Elapsed[0.13m], Remain[0.46m], score:14.7068, aug_score:14.3549, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2272/10000, Elapsed[0.14m], Remain[0.46m], score:14.7968, aug_score:14.5718, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2304/10000, Elapsed[0.14m], Remain[0.46m], score:15.3192, aug_score:14.9946, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2336/10000, Elapsed[0.14m], Remain[0.46m], score:15.8449, aug_score:15.4960, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2368/10000, Elapsed[0.14m], Remain[0.46m], score:15.2871, aug_score:15.0126, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2400/10000, Elapsed[0.14m], Remain[0.45m], score:14.3512, aug_score:14.0340, strict_feasible:32/32
+[2026-09-22 04:30:21] VRPTWTester_strict.py(79) : episode 2432/10000, Elapsed[0.15m], Remain[0.45m], score:15.3940, aug_score:15.1090, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2464/10000, Elapsed[0.15m], Remain[0.45m], score:14.6938, aug_score:14.5001, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2496/10000, Elapsed[0.15m], Remain[0.45m], score:15.0013, aug_score:14.6901, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2528/10000, Elapsed[0.15m], Remain[0.45m], score:15.1367, aug_score:14.8632, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2560/10000, Elapsed[0.15m], Remain[0.44m], score:14.7570, aug_score:14.4724, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2592/10000, Elapsed[0.15m], Remain[0.44m], score:16.0206, aug_score:15.8090, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2624/10000, Elapsed[0.16m], Remain[0.44m], score:14.2679, aug_score:13.9675, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2656/10000, Elapsed[0.16m], Remain[0.44m], score:14.6251, aug_score:14.3414, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2688/10000, Elapsed[0.16m], Remain[0.44m], score:16.7423, aug_score:16.4519, strict_feasible:32/32
+[2026-09-22 04:30:22] VRPTWTester_strict.py(79) : episode 2720/10000, Elapsed[0.16m], Remain[0.43m], score:15.0464, aug_score:14.7960, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2752/10000, Elapsed[0.16m], Remain[0.43m], score:14.9531, aug_score:14.6952, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2784/10000, Elapsed[0.17m], Remain[0.43m], score:15.8238, aug_score:15.5370, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2816/10000, Elapsed[0.17m], Remain[0.43m], score:16.2038, aug_score:15.9145, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2848/10000, Elapsed[0.17m], Remain[0.43m], score:15.1061, aug_score:14.7629, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2880/10000, Elapsed[0.17m], Remain[0.42m], score:16.0106, aug_score:15.7652, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2912/10000, Elapsed[0.17m], Remain[0.42m], score:15.1426, aug_score:14.8709, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2944/10000, Elapsed[0.18m], Remain[0.42m], score:15.5848, aug_score:15.2774, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 2976/10000, Elapsed[0.18m], Remain[0.42m], score:14.4664, aug_score:14.2564, strict_feasible:32/32
+[2026-09-22 04:30:23] VRPTWTester_strict.py(79) : episode 3008/10000, Elapsed[0.18m], Remain[0.42m], score:15.0837, aug_score:14.7294, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3040/10000, Elapsed[0.18m], Remain[0.41m], score:15.3774, aug_score:15.1035, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3072/10000, Elapsed[0.18m], Remain[0.41m], score:14.9547, aug_score:14.6883, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3104/10000, Elapsed[0.18m], Remain[0.41m], score:15.5855, aug_score:15.2715, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3136/10000, Elapsed[0.19m], Remain[0.41m], score:14.6694, aug_score:14.3892, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3168/10000, Elapsed[0.19m], Remain[0.41m], score:14.2875, aug_score:14.0758, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3200/10000, Elapsed[0.19m], Remain[0.40m], score:15.9537, aug_score:15.6993, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3232/10000, Elapsed[0.19m], Remain[0.40m], score:14.8384, aug_score:14.5775, strict_feasible:32/32
+[2026-09-22 04:30:24] VRPTWTester_strict.py(79) : episode 3264/10000, Elapsed[0.19m], Remain[0.40m], score:16.2752, aug_score:15.9724, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3296/10000, Elapsed[0.20m], Remain[0.40m], score:15.1514, aug_score:14.8681, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3328/10000, Elapsed[0.20m], Remain[0.40m], score:15.5071, aug_score:15.2763, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3360/10000, Elapsed[0.20m], Remain[0.40m], score:15.4079, aug_score:15.1368, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3392/10000, Elapsed[0.20m], Remain[0.39m], score:15.2043, aug_score:14.8551, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3424/10000, Elapsed[0.20m], Remain[0.39m], score:15.3014, aug_score:15.0031, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3456/10000, Elapsed[0.21m], Remain[0.39m], score:14.6095, aug_score:14.3357, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3488/10000, Elapsed[0.21m], Remain[0.39m], score:14.5235, aug_score:14.2518, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3520/10000, Elapsed[0.21m], Remain[0.39m], score:15.2672, aug_score:15.0216, strict_feasible:32/32
+[2026-09-22 04:30:25] VRPTWTester_strict.py(79) : episode 3552/10000, Elapsed[0.21m], Remain[0.38m], score:15.7461, aug_score:15.4937, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3584/10000, Elapsed[0.21m], Remain[0.38m], score:15.7021, aug_score:15.3925, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3616/10000, Elapsed[0.22m], Remain[0.38m], score:15.4613, aug_score:15.1923, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3648/10000, Elapsed[0.22m], Remain[0.38m], score:14.7877, aug_score:14.5291, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3680/10000, Elapsed[0.22m], Remain[0.38m], score:15.2185, aug_score:14.9534, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3712/10000, Elapsed[0.22m], Remain[0.37m], score:15.1366, aug_score:14.7815, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3744/10000, Elapsed[0.22m], Remain[0.37m], score:14.7172, aug_score:14.3989, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3776/10000, Elapsed[0.22m], Remain[0.37m], score:15.7723, aug_score:15.4549, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3808/10000, Elapsed[0.23m], Remain[0.37m], score:15.0247, aug_score:14.7383, strict_feasible:32/32
+[2026-09-22 04:30:26] VRPTWTester_strict.py(79) : episode 3840/10000, Elapsed[0.23m], Remain[0.37m], score:15.0942, aug_score:14.8355, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 3872/10000, Elapsed[0.23m], Remain[0.36m], score:15.8094, aug_score:15.4699, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 3904/10000, Elapsed[0.23m], Remain[0.36m], score:14.4972, aug_score:14.2772, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 3936/10000, Elapsed[0.23m], Remain[0.36m], score:16.2265, aug_score:15.8757, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 3968/10000, Elapsed[0.24m], Remain[0.36m], score:15.3360, aug_score:14.9909, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 4000/10000, Elapsed[0.24m], Remain[0.36m], score:15.6733, aug_score:15.3336, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 4032/10000, Elapsed[0.24m], Remain[0.36m], score:15.7807, aug_score:15.4586, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 4064/10000, Elapsed[0.24m], Remain[0.35m], score:15.3885, aug_score:15.0928, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 4096/10000, Elapsed[0.24m], Remain[0.35m], score:15.1069, aug_score:14.8255, strict_feasible:32/32
+[2026-09-22 04:30:27] VRPTWTester_strict.py(79) : episode 4128/10000, Elapsed[0.25m], Remain[0.35m], score:15.0026, aug_score:14.7324, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4160/10000, Elapsed[0.25m], Remain[0.35m], score:15.3799, aug_score:15.1238, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4192/10000, Elapsed[0.25m], Remain[0.35m], score:15.3626, aug_score:15.1491, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4224/10000, Elapsed[0.25m], Remain[0.34m], score:15.1007, aug_score:14.8225, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4256/10000, Elapsed[0.25m], Remain[0.34m], score:15.2650, aug_score:15.0208, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4288/10000, Elapsed[0.26m], Remain[0.34m], score:14.6194, aug_score:14.3986, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4320/10000, Elapsed[0.26m], Remain[0.34m], score:15.7492, aug_score:15.4609, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4352/10000, Elapsed[0.26m], Remain[0.34m], score:15.2153, aug_score:14.9264, strict_feasible:32/32
+[2026-09-22 04:30:28] VRPTWTester_strict.py(79) : episode 4384/10000, Elapsed[0.26m], Remain[0.33m], score:15.3470, aug_score:15.0647, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4416/10000, Elapsed[0.26m], Remain[0.33m], score:15.5460, aug_score:15.2328, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4448/10000, Elapsed[0.26m], Remain[0.33m], score:15.9607, aug_score:15.6999, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4480/10000, Elapsed[0.27m], Remain[0.33m], score:15.3782, aug_score:15.1163, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4512/10000, Elapsed[0.27m], Remain[0.33m], score:16.1241, aug_score:15.8211, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4544/10000, Elapsed[0.27m], Remain[0.32m], score:15.8742, aug_score:15.5967, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4576/10000, Elapsed[0.27m], Remain[0.32m], score:15.7384, aug_score:15.5396, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4608/10000, Elapsed[0.27m], Remain[0.32m], score:15.2430, aug_score:14.9740, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4640/10000, Elapsed[0.28m], Remain[0.32m], score:16.0493, aug_score:15.7469, strict_feasible:32/32
+[2026-09-22 04:30:29] VRPTWTester_strict.py(79) : episode 4672/10000, Elapsed[0.28m], Remain[0.32m], score:15.8230, aug_score:15.5285, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4704/10000, Elapsed[0.28m], Remain[0.32m], score:15.6786, aug_score:15.4079, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4736/10000, Elapsed[0.28m], Remain[0.31m], score:15.0063, aug_score:14.7026, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4768/10000, Elapsed[0.28m], Remain[0.31m], score:15.3488, aug_score:15.0809, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4800/10000, Elapsed[0.29m], Remain[0.31m], score:15.3410, aug_score:15.1115, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4832/10000, Elapsed[0.29m], Remain[0.31m], score:16.4955, aug_score:16.1949, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4864/10000, Elapsed[0.29m], Remain[0.31m], score:15.1297, aug_score:14.8869, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4896/10000, Elapsed[0.29m], Remain[0.30m], score:15.5067, aug_score:15.2369, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4928/10000, Elapsed[0.29m], Remain[0.30m], score:14.2764, aug_score:14.0353, strict_feasible:32/32
+[2026-09-22 04:30:30] VRPTWTester_strict.py(79) : episode 4960/10000, Elapsed[0.30m], Remain[0.30m], score:15.6875, aug_score:15.4683, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 4992/10000, Elapsed[0.30m], Remain[0.30m], score:15.1974, aug_score:14.8397, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5024/10000, Elapsed[0.30m], Remain[0.30m], score:14.9137, aug_score:14.6151, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5056/10000, Elapsed[0.30m], Remain[0.30m], score:14.9298, aug_score:14.7362, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5088/10000, Elapsed[0.30m], Remain[0.29m], score:15.3199, aug_score:14.9262, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5120/10000, Elapsed[0.31m], Remain[0.29m], score:15.1920, aug_score:14.9172, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5152/10000, Elapsed[0.31m], Remain[0.29m], score:15.5025, aug_score:15.2984, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5184/10000, Elapsed[0.31m], Remain[0.29m], score:15.9634, aug_score:15.6798, strict_feasible:32/32
+[2026-09-22 04:30:31] VRPTWTester_strict.py(79) : episode 5216/10000, Elapsed[0.31m], Remain[0.29m], score:15.5702, aug_score:15.3096, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5248/10000, Elapsed[0.31m], Remain[0.28m], score:15.3253, aug_score:15.0046, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5280/10000, Elapsed[0.32m], Remain[0.28m], score:15.7505, aug_score:15.4845, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5312/10000, Elapsed[0.32m], Remain[0.28m], score:15.9788, aug_score:15.6448, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5344/10000, Elapsed[0.32m], Remain[0.28m], score:15.7904, aug_score:15.4974, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5376/10000, Elapsed[0.32m], Remain[0.28m], score:15.1063, aug_score:14.7907, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5408/10000, Elapsed[0.32m], Remain[0.27m], score:15.3807, aug_score:15.1317, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5440/10000, Elapsed[0.32m], Remain[0.27m], score:14.5679, aug_score:14.3903, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5472/10000, Elapsed[0.33m], Remain[0.27m], score:15.2644, aug_score:14.9154, strict_feasible:32/32
+[2026-09-22 04:30:32] VRPTWTester_strict.py(79) : episode 5504/10000, Elapsed[0.33m], Remain[0.27m], score:14.9501, aug_score:14.6887, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5536/10000, Elapsed[0.33m], Remain[0.27m], score:15.5470, aug_score:15.2171, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5568/10000, Elapsed[0.33m], Remain[0.26m], score:15.0958, aug_score:14.8130, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5600/10000, Elapsed[0.33m], Remain[0.26m], score:15.0215, aug_score:14.7897, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5632/10000, Elapsed[0.34m], Remain[0.26m], score:15.4783, aug_score:15.1285, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5664/10000, Elapsed[0.34m], Remain[0.26m], score:15.6026, aug_score:15.2853, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5696/10000, Elapsed[0.34m], Remain[0.26m], score:15.1607, aug_score:14.8785, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5728/10000, Elapsed[0.34m], Remain[0.26m], score:15.6674, aug_score:15.3158, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5760/10000, Elapsed[0.34m], Remain[0.25m], score:15.4506, aug_score:15.1627, strict_feasible:32/32
+[2026-09-22 04:30:33] VRPTWTester_strict.py(79) : episode 5792/10000, Elapsed[0.35m], Remain[0.25m], score:15.2907, aug_score:14.9485, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5824/10000, Elapsed[0.35m], Remain[0.25m], score:15.8959, aug_score:15.5801, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5856/10000, Elapsed[0.35m], Remain[0.25m], score:15.2092, aug_score:14.9627, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5888/10000, Elapsed[0.35m], Remain[0.25m], score:15.0908, aug_score:14.7791, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5920/10000, Elapsed[0.35m], Remain[0.24m], score:16.0104, aug_score:15.7155, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5952/10000, Elapsed[0.36m], Remain[0.24m], score:15.3202, aug_score:15.0592, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 5984/10000, Elapsed[0.36m], Remain[0.24m], score:15.6829, aug_score:15.4103, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 6016/10000, Elapsed[0.36m], Remain[0.24m], score:14.5091, aug_score:14.2621, strict_feasible:32/32
+[2026-09-22 04:30:34] VRPTWTester_strict.py(79) : episode 6048/10000, Elapsed[0.36m], Remain[0.24m], score:15.3075, aug_score:15.0342, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6080/10000, Elapsed[0.36m], Remain[0.23m], score:15.7309, aug_score:15.5194, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6112/10000, Elapsed[0.37m], Remain[0.23m], score:15.2617, aug_score:14.9436, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6144/10000, Elapsed[0.37m], Remain[0.23m], score:16.8082, aug_score:16.5738, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6176/10000, Elapsed[0.37m], Remain[0.23m], score:15.4731, aug_score:15.0962, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6208/10000, Elapsed[0.37m], Remain[0.23m], score:15.7319, aug_score:15.3340, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6240/10000, Elapsed[0.37m], Remain[0.22m], score:15.3408, aug_score:15.1037, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6272/10000, Elapsed[0.37m], Remain[0.22m], score:15.5283, aug_score:15.2673, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6304/10000, Elapsed[0.38m], Remain[0.22m], score:15.4118, aug_score:15.1136, strict_feasible:32/32
+[2026-09-22 04:30:35] VRPTWTester_strict.py(79) : episode 6336/10000, Elapsed[0.38m], Remain[0.22m], score:15.2134, aug_score:14.9736, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6368/10000, Elapsed[0.38m], Remain[0.22m], score:14.7998, aug_score:14.5578, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6400/10000, Elapsed[0.38m], Remain[0.22m], score:15.5893, aug_score:15.2694, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6432/10000, Elapsed[0.38m], Remain[0.21m], score:14.7176, aug_score:14.4898, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6464/10000, Elapsed[0.39m], Remain[0.21m], score:16.2600, aug_score:15.9279, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6496/10000, Elapsed[0.39m], Remain[0.21m], score:15.4791, aug_score:15.2000, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6528/10000, Elapsed[0.39m], Remain[0.21m], score:14.8229, aug_score:14.5183, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6560/10000, Elapsed[0.39m], Remain[0.21m], score:15.1502, aug_score:14.7891, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6592/10000, Elapsed[0.39m], Remain[0.20m], score:14.9981, aug_score:14.6798, strict_feasible:32/32
+[2026-09-22 04:30:36] VRPTWTester_strict.py(79) : episode 6624/10000, Elapsed[0.40m], Remain[0.20m], score:14.9221, aug_score:14.6714, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6656/10000, Elapsed[0.40m], Remain[0.20m], score:15.3220, aug_score:14.9864, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6688/10000, Elapsed[0.40m], Remain[0.20m], score:16.9061, aug_score:16.6103, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6720/10000, Elapsed[0.40m], Remain[0.20m], score:16.2229, aug_score:15.9924, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6752/10000, Elapsed[0.40m], Remain[0.19m], score:14.8334, aug_score:14.5613, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6784/10000, Elapsed[0.41m], Remain[0.19m], score:15.9837, aug_score:15.6688, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6816/10000, Elapsed[0.41m], Remain[0.19m], score:15.2277, aug_score:14.9439, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6848/10000, Elapsed[0.41m], Remain[0.19m], score:14.3592, aug_score:14.0919, strict_feasible:32/32
+[2026-09-22 04:30:37] VRPTWTester_strict.py(79) : episode 6880/10000, Elapsed[0.41m], Remain[0.19m], score:14.8596, aug_score:14.6097, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 6912/10000, Elapsed[0.41m], Remain[0.18m], score:15.3879, aug_score:15.1585, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 6944/10000, Elapsed[0.41m], Remain[0.18m], score:16.1005, aug_score:15.7392, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 6976/10000, Elapsed[0.42m], Remain[0.18m], score:15.8427, aug_score:15.4407, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7008/10000, Elapsed[0.42m], Remain[0.18m], score:15.5276, aug_score:15.2688, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7040/10000, Elapsed[0.42m], Remain[0.18m], score:15.4955, aug_score:15.2318, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7072/10000, Elapsed[0.42m], Remain[0.17m], score:15.4127, aug_score:15.1155, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7104/10000, Elapsed[0.42m], Remain[0.17m], score:16.3881, aug_score:16.0728, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7136/10000, Elapsed[0.43m], Remain[0.17m], score:14.2631, aug_score:13.9794, strict_feasible:32/32
+[2026-09-22 04:30:38] VRPTWTester_strict.py(79) : episode 7168/10000, Elapsed[0.43m], Remain[0.17m], score:15.1759, aug_score:14.9372, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7200/10000, Elapsed[0.43m], Remain[0.17m], score:16.6603, aug_score:16.4544, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7232/10000, Elapsed[0.43m], Remain[0.17m], score:15.4153, aug_score:15.1654, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7264/10000, Elapsed[0.43m], Remain[0.16m], score:16.0832, aug_score:15.7598, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7296/10000, Elapsed[0.44m], Remain[0.16m], score:14.8925, aug_score:14.6091, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7328/10000, Elapsed[0.44m], Remain[0.16m], score:16.3629, aug_score:16.0901, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7360/10000, Elapsed[0.44m], Remain[0.16m], score:15.0822, aug_score:14.8351, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7392/10000, Elapsed[0.44m], Remain[0.16m], score:15.5555, aug_score:15.1666, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7424/10000, Elapsed[0.44m], Remain[0.15m], score:15.9013, aug_score:15.6418, strict_feasible:32/32
+[2026-09-22 04:30:39] VRPTWTester_strict.py(79) : episode 7456/10000, Elapsed[0.45m], Remain[0.15m], score:16.0465, aug_score:15.7550, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7488/10000, Elapsed[0.45m], Remain[0.15m], score:15.2661, aug_score:15.0456, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7520/10000, Elapsed[0.45m], Remain[0.15m], score:15.3712, aug_score:15.0861, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7552/10000, Elapsed[0.45m], Remain[0.15m], score:15.3782, aug_score:15.0853, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7584/10000, Elapsed[0.45m], Remain[0.14m], score:16.2092, aug_score:15.9334, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7616/10000, Elapsed[0.46m], Remain[0.14m], score:15.5966, aug_score:15.3009, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7648/10000, Elapsed[0.46m], Remain[0.14m], score:16.8037, aug_score:16.4850, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7680/10000, Elapsed[0.46m], Remain[0.14m], score:14.9158, aug_score:14.6625, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7712/10000, Elapsed[0.46m], Remain[0.14m], score:15.3883, aug_score:15.1051, strict_feasible:32/32
+[2026-09-22 04:30:40] VRPTWTester_strict.py(79) : episode 7744/10000, Elapsed[0.46m], Remain[0.13m], score:15.0630, aug_score:14.7549, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7776/10000, Elapsed[0.46m], Remain[0.13m], score:15.1552, aug_score:14.8603, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7808/10000, Elapsed[0.47m], Remain[0.13m], score:15.4013, aug_score:15.1498, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7840/10000, Elapsed[0.47m], Remain[0.13m], score:16.1585, aug_score:15.8217, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7872/10000, Elapsed[0.47m], Remain[0.13m], score:15.4791, aug_score:15.2084, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7904/10000, Elapsed[0.47m], Remain[0.13m], score:14.9871, aug_score:14.6734, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7936/10000, Elapsed[0.47m], Remain[0.12m], score:15.5090, aug_score:15.2338, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 7968/10000, Elapsed[0.48m], Remain[0.12m], score:14.6651, aug_score:14.3939, strict_feasible:32/32
+[2026-09-22 04:30:41] VRPTWTester_strict.py(79) : episode 8000/10000, Elapsed[0.48m], Remain[0.12m], score:14.8584, aug_score:14.5479, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8032/10000, Elapsed[0.48m], Remain[0.12m], score:15.0778, aug_score:14.8152, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8064/10000, Elapsed[0.48m], Remain[0.12m], score:15.8161, aug_score:15.5282, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8096/10000, Elapsed[0.48m], Remain[0.11m], score:16.1124, aug_score:15.8043, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8128/10000, Elapsed[0.49m], Remain[0.11m], score:15.8372, aug_score:15.5260, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8160/10000, Elapsed[0.49m], Remain[0.11m], score:14.9129, aug_score:14.6762, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8192/10000, Elapsed[0.49m], Remain[0.11m], score:15.6478, aug_score:15.3874, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8224/10000, Elapsed[0.49m], Remain[0.11m], score:15.0475, aug_score:14.6790, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8256/10000, Elapsed[0.49m], Remain[0.10m], score:15.5170, aug_score:15.2233, strict_feasible:32/32
+[2026-09-22 04:30:42] VRPTWTester_strict.py(79) : episode 8288/10000, Elapsed[0.50m], Remain[0.10m], score:14.7917, aug_score:14.5118, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8320/10000, Elapsed[0.50m], Remain[0.10m], score:15.8510, aug_score:15.5133, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8352/10000, Elapsed[0.50m], Remain[0.10m], score:14.5655, aug_score:14.3186, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8384/10000, Elapsed[0.50m], Remain[0.10m], score:15.4801, aug_score:15.2167, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8416/10000, Elapsed[0.50m], Remain[0.09m], score:14.7313, aug_score:14.4970, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8448/10000, Elapsed[0.50m], Remain[0.09m], score:15.3816, aug_score:15.0853, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8480/10000, Elapsed[0.51m], Remain[0.09m], score:14.7407, aug_score:14.4895, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8512/10000, Elapsed[0.51m], Remain[0.09m], score:14.6987, aug_score:14.4245, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8544/10000, Elapsed[0.51m], Remain[0.09m], score:15.3583, aug_score:15.0831, strict_feasible:32/32
+[2026-09-22 04:30:43] VRPTWTester_strict.py(79) : episode 8576/10000, Elapsed[0.51m], Remain[0.09m], score:14.3985, aug_score:14.1176, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8608/10000, Elapsed[0.51m], Remain[0.08m], score:15.6701, aug_score:15.4013, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8640/10000, Elapsed[0.52m], Remain[0.08m], score:16.1579, aug_score:15.8519, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8672/10000, Elapsed[0.52m], Remain[0.08m], score:15.9347, aug_score:15.6724, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8704/10000, Elapsed[0.52m], Remain[0.08m], score:15.4051, aug_score:15.1029, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8736/10000, Elapsed[0.52m], Remain[0.08m], score:15.7899, aug_score:15.5377, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8768/10000, Elapsed[0.52m], Remain[0.07m], score:15.7107, aug_score:15.3839, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8800/10000, Elapsed[0.53m], Remain[0.07m], score:14.7546, aug_score:14.4549, strict_feasible:32/32
+[2026-09-22 04:30:44] VRPTWTester_strict.py(79) : episode 8832/10000, Elapsed[0.53m], Remain[0.07m], score:15.0660, aug_score:14.7839, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 8864/10000, Elapsed[0.53m], Remain[0.07m], score:15.2499, aug_score:14.9499, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 8896/10000, Elapsed[0.53m], Remain[0.07m], score:16.9698, aug_score:16.6939, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 8928/10000, Elapsed[0.53m], Remain[0.06m], score:14.3654, aug_score:14.0924, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 8960/10000, Elapsed[0.54m], Remain[0.06m], score:15.3537, aug_score:15.0355, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 8992/10000, Elapsed[0.54m], Remain[0.06m], score:15.0773, aug_score:14.8379, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 9024/10000, Elapsed[0.54m], Remain[0.06m], score:15.2947, aug_score:15.0826, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 9056/10000, Elapsed[0.54m], Remain[0.06m], score:14.3804, aug_score:14.1018, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 9088/10000, Elapsed[0.54m], Remain[0.05m], score:15.9164, aug_score:15.5999, strict_feasible:32/32
+[2026-09-22 04:30:45] VRPTWTester_strict.py(79) : episode 9120/10000, Elapsed[0.55m], Remain[0.05m], score:14.7263, aug_score:14.4426, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9152/10000, Elapsed[0.55m], Remain[0.05m], score:14.4577, aug_score:14.2315, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9184/10000, Elapsed[0.55m], Remain[0.05m], score:16.1667, aug_score:15.8423, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9216/10000, Elapsed[0.55m], Remain[0.05m], score:15.6754, aug_score:15.3761, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9248/10000, Elapsed[0.55m], Remain[0.04m], score:16.6175, aug_score:16.3268, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9280/10000, Elapsed[0.56m], Remain[0.04m], score:15.6569, aug_score:15.3929, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9312/10000, Elapsed[0.56m], Remain[0.04m], score:15.2878, aug_score:15.0061, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9344/10000, Elapsed[0.56m], Remain[0.04m], score:15.3029, aug_score:15.0329, strict_feasible:32/32
+[2026-09-22 04:30:46] VRPTWTester_strict.py(79) : episode 9376/10000, Elapsed[0.56m], Remain[0.04m], score:15.2090, aug_score:14.9433, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9408/10000, Elapsed[0.56m], Remain[0.04m], score:15.7937, aug_score:15.4791, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9440/10000, Elapsed[0.56m], Remain[0.03m], score:16.0383, aug_score:15.7010, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9472/10000, Elapsed[0.57m], Remain[0.03m], score:15.1300, aug_score:14.8992, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9504/10000, Elapsed[0.57m], Remain[0.03m], score:15.8274, aug_score:15.5464, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9536/10000, Elapsed[0.57m], Remain[0.03m], score:14.7049, aug_score:14.4621, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9568/10000, Elapsed[0.57m], Remain[0.03m], score:15.9398, aug_score:15.5280, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9600/10000, Elapsed[0.57m], Remain[0.02m], score:15.2502, aug_score:14.9874, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9632/10000, Elapsed[0.58m], Remain[0.02m], score:15.5728, aug_score:15.3614, strict_feasible:32/32
+[2026-09-22 04:30:47] VRPTWTester_strict.py(79) : episode 9664/10000, Elapsed[0.58m], Remain[0.02m], score:15.2227, aug_score:15.0417, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9696/10000, Elapsed[0.58m], Remain[0.02m], score:15.1524, aug_score:14.7918, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9728/10000, Elapsed[0.58m], Remain[0.02m], score:14.9912, aug_score:14.7201, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9760/10000, Elapsed[0.58m], Remain[0.01m], score:15.3920, aug_score:15.0207, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9792/10000, Elapsed[0.59m], Remain[0.01m], score:16.6356, aug_score:16.2984, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9824/10000, Elapsed[0.59m], Remain[0.01m], score:15.2038, aug_score:14.9054, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9856/10000, Elapsed[0.59m], Remain[0.01m], score:15.7351, aug_score:15.4831, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9888/10000, Elapsed[0.59m], Remain[0.01m], score:15.0599, aug_score:14.8101, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9920/10000, Elapsed[0.59m], Remain[0.00m], score:15.6297, aug_score:15.3955, strict_feasible:32/32
+[2026-09-22 04:30:48] VRPTWTester_strict.py(79) : episode 9952/10000, Elapsed[0.60m], Remain[0.00m], score:15.9449, aug_score:15.5808, strict_feasible:32/32
+[2026-09-22 04:30:49] VRPTWTester_strict.py(79) : episode 9984/10000, Elapsed[0.60m], Remain[0.00m], score:16.1296, aug_score:15.8598, strict_feasible:32/32
+[2026-09-22 04:30:49] VRPTWTester_strict.py(79) : episode 10000/10000, Elapsed[0.60m], Remain[0.00m], score:16.1020, aug_score:15.8042, strict_feasible:16/16
+[2026-09-22 04:30:49] VRPTWTester_strict.py(136) : Test done: distance=15.071525 +- 0.028837, vehicles=10.3091, feasible=10000/10000
+{
+  "problem": "pomo_tw",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/pomo_direct/checkpoint-2000.pt",
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrptw50_n10000_seed1234.pt",
+  "instances": 10000,
+  "augmentation": 8,
+  "decode_strategy": "pomo_argmax",
+  "pomo_size": 50,
+  "timing_batch_size": 32,
+  "timing_warmup_batches": 1,
+  "mean_distance_1x": 15.353810841846466,
+  "standard_error_1x": 0.02935909207651413,
+  "mean_distance_aug": 15.071525067806244,
+  "standard_error_aug": 0.02883726286846497,
+  "mean_vehicle_count": 10.3091,
+  "strict_replay_instances": 10000,
+  "strict_replay_feasible_instances": 10000,
+  "all_selected_solutions_feasible": true,
+  "inference_seconds": 19.615278970450163,
+  "strict_replay_seconds": 15.908143475651741,
+  "audited_wall_seconds": 35.93912683054805,
+  "inference_instances_per_second": 509.80666729566803,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/results/fixed_tw/pomo_tw_direct_n50.csv"
+}
+/root/miniconda3/lib/python3.12/site-packages/torch/__init__.py:1264: UserWarning: torch.set_default_tensor_type() is deprecated as of PyTorch 2.1, please use torch.set_default_dtype() and torch.set_default_device() as alternatives. (Triggered internally at /pytorch/torch/csrc/tensor/python_tensor.cpp:434.)
+  _C._set_default_tensor_type(t)
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 32/10000, Elapsed[0.00m], Remain[0.61m], score:15.4500, aug_score:14.8161, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 64/10000, Elapsed[0.00m], Remain[0.55m], score:16.1076, aug_score:15.6409, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 96/10000, Elapsed[0.01m], Remain[0.53m], score:15.9151, aug_score:15.5372, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 128/10000, Elapsed[0.01m], Remain[0.52m], score:16.5248, aug_score:15.9668, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 160/10000, Elapsed[0.01m], Remain[0.51m], score:15.2026, aug_score:14.7595, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 192/10000, Elapsed[0.01m], Remain[0.50m], score:16.1504, aug_score:15.5493, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 224/10000, Elapsed[0.01m], Remain[0.50m], score:15.2815, aug_score:14.9227, strict_feasible:32/32
+[2026-09-22 04:30:52] GiantTourTWTester_strict.py(83) : episode 256/10000, Elapsed[0.01m], Remain[0.49m], score:15.4193, aug_score:14.9357, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 288/10000, Elapsed[0.01m], Remain[0.49m], score:16.8697, aug_score:16.2337, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 320/10000, Elapsed[0.02m], Remain[0.49m], score:15.7531, aug_score:15.1968, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 352/10000, Elapsed[0.02m], Remain[0.49m], score:15.8869, aug_score:15.3463, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 384/10000, Elapsed[0.02m], Remain[0.49m], score:16.5756, aug_score:15.9377, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 416/10000, Elapsed[0.02m], Remain[0.48m], score:16.2387, aug_score:15.6747, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 448/10000, Elapsed[0.02m], Remain[0.48m], score:16.0171, aug_score:15.4179, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 480/10000, Elapsed[0.02m], Remain[0.48m], score:16.2855, aug_score:15.6376, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 512/10000, Elapsed[0.03m], Remain[0.48m], score:16.4352, aug_score:15.8880, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 544/10000, Elapsed[0.03m], Remain[0.48m], score:15.9066, aug_score:15.3774, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 576/10000, Elapsed[0.03m], Remain[0.47m], score:16.8733, aug_score:16.2084, strict_feasible:32/32
+[2026-09-22 04:30:53] GiantTourTWTester_strict.py(83) : episode 608/10000, Elapsed[0.03m], Remain[0.47m], score:16.5258, aug_score:16.0711, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 640/10000, Elapsed[0.03m], Remain[0.47m], score:16.6087, aug_score:16.0614, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 672/10000, Elapsed[0.03m], Remain[0.47m], score:15.2493, aug_score:14.8486, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 704/10000, Elapsed[0.04m], Remain[0.47m], score:16.0362, aug_score:15.3623, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 736/10000, Elapsed[0.04m], Remain[0.46m], score:16.4846, aug_score:15.9449, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 768/10000, Elapsed[0.04m], Remain[0.46m], score:16.6715, aug_score:16.2720, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 800/10000, Elapsed[0.04m], Remain[0.46m], score:16.4164, aug_score:15.7315, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 832/10000, Elapsed[0.04m], Remain[0.46m], score:15.9130, aug_score:15.3192, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 864/10000, Elapsed[0.04m], Remain[0.46m], score:16.6428, aug_score:16.1108, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 896/10000, Elapsed[0.04m], Remain[0.45m], score:16.5546, aug_score:15.9542, strict_feasible:32/32
+[2026-09-22 04:30:54] GiantTourTWTester_strict.py(83) : episode 928/10000, Elapsed[0.05m], Remain[0.45m], score:15.8572, aug_score:15.2709, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 960/10000, Elapsed[0.05m], Remain[0.45m], score:16.4095, aug_score:15.8295, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 992/10000, Elapsed[0.05m], Remain[0.45m], score:16.3869, aug_score:15.8319, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1024/10000, Elapsed[0.05m], Remain[0.45m], score:15.5708, aug_score:15.0708, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1056/10000, Elapsed[0.05m], Remain[0.45m], score:16.0183, aug_score:15.5236, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1088/10000, Elapsed[0.05m], Remain[0.44m], score:15.2389, aug_score:14.8385, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1120/10000, Elapsed[0.06m], Remain[0.44m], score:15.6997, aug_score:15.1441, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1152/10000, Elapsed[0.06m], Remain[0.44m], score:16.2387, aug_score:15.6265, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1184/10000, Elapsed[0.06m], Remain[0.44m], score:16.0338, aug_score:15.3858, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1216/10000, Elapsed[0.06m], Remain[0.44m], score:17.0822, aug_score:16.5989, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1248/10000, Elapsed[0.06m], Remain[0.44m], score:16.0938, aug_score:15.5475, strict_feasible:32/32
+[2026-09-22 04:30:55] GiantTourTWTester_strict.py(83) : episode 1280/10000, Elapsed[0.06m], Remain[0.43m], score:16.3623, aug_score:15.9238, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1312/10000, Elapsed[0.07m], Remain[0.43m], score:15.3598, aug_score:14.9113, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1344/10000, Elapsed[0.07m], Remain[0.43m], score:17.0000, aug_score:16.3022, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1376/10000, Elapsed[0.07m], Remain[0.43m], score:15.7390, aug_score:15.2569, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1408/10000, Elapsed[0.07m], Remain[0.43m], score:16.7771, aug_score:16.2334, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1440/10000, Elapsed[0.07m], Remain[0.43m], score:15.9614, aug_score:15.5297, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1472/10000, Elapsed[0.07m], Remain[0.42m], score:16.3426, aug_score:15.7720, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1504/10000, Elapsed[0.07m], Remain[0.42m], score:17.0143, aug_score:16.4327, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1536/10000, Elapsed[0.08m], Remain[0.42m], score:16.0167, aug_score:15.4542, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1568/10000, Elapsed[0.08m], Remain[0.42m], score:17.0250, aug_score:16.4643, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1600/10000, Elapsed[0.08m], Remain[0.42m], score:16.2864, aug_score:15.7839, strict_feasible:32/32
+[2026-09-22 04:30:56] GiantTourTWTester_strict.py(83) : episode 1632/10000, Elapsed[0.08m], Remain[0.42m], score:15.5901, aug_score:14.9759, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1664/10000, Elapsed[0.08m], Remain[0.41m], score:16.2430, aug_score:15.6513, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1696/10000, Elapsed[0.08m], Remain[0.41m], score:16.6370, aug_score:16.1614, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1728/10000, Elapsed[0.09m], Remain[0.41m], score:16.1494, aug_score:15.5033, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1760/10000, Elapsed[0.09m], Remain[0.41m], score:15.8332, aug_score:15.3001, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1792/10000, Elapsed[0.09m], Remain[0.41m], score:15.9982, aug_score:15.4101, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1824/10000, Elapsed[0.09m], Remain[0.41m], score:16.0732, aug_score:15.5142, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1856/10000, Elapsed[0.09m], Remain[0.40m], score:16.0817, aug_score:15.6627, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1888/10000, Elapsed[0.09m], Remain[0.40m], score:17.1152, aug_score:16.4679, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1920/10000, Elapsed[0.10m], Remain[0.40m], score:15.2139, aug_score:14.9187, strict_feasible:32/32
+[2026-09-22 04:30:57] GiantTourTWTester_strict.py(83) : episode 1952/10000, Elapsed[0.10m], Remain[0.40m], score:17.1371, aug_score:16.4954, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 1984/10000, Elapsed[0.10m], Remain[0.40m], score:16.8162, aug_score:15.9917, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2016/10000, Elapsed[0.10m], Remain[0.40m], score:16.3140, aug_score:15.6438, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2048/10000, Elapsed[0.10m], Remain[0.40m], score:15.4062, aug_score:15.0002, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2080/10000, Elapsed[0.10m], Remain[0.39m], score:15.9424, aug_score:15.3464, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2112/10000, Elapsed[0.10m], Remain[0.39m], score:17.2637, aug_score:16.4322, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2144/10000, Elapsed[0.11m], Remain[0.39m], score:16.7846, aug_score:16.1733, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2176/10000, Elapsed[0.11m], Remain[0.39m], score:15.5256, aug_score:15.0445, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2208/10000, Elapsed[0.11m], Remain[0.39m], score:15.6708, aug_score:15.2179, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2240/10000, Elapsed[0.11m], Remain[0.39m], score:15.5106, aug_score:15.1244, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2272/10000, Elapsed[0.11m], Remain[0.38m], score:15.5983, aug_score:15.1386, strict_feasible:32/32
+[2026-09-22 04:30:58] GiantTourTWTester_strict.py(83) : episode 2304/10000, Elapsed[0.11m], Remain[0.38m], score:16.2047, aug_score:15.6158, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2336/10000, Elapsed[0.12m], Remain[0.38m], score:16.6879, aug_score:16.1752, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2368/10000, Elapsed[0.12m], Remain[0.38m], score:16.4867, aug_score:15.8584, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2400/10000, Elapsed[0.12m], Remain[0.38m], score:15.2352, aug_score:14.6999, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2432/10000, Elapsed[0.12m], Remain[0.38m], score:16.5097, aug_score:15.9269, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2464/10000, Elapsed[0.12m], Remain[0.37m], score:15.5487, aug_score:15.1025, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2496/10000, Elapsed[0.12m], Remain[0.37m], score:15.9704, aug_score:15.4302, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2528/10000, Elapsed[0.13m], Remain[0.37m], score:16.2111, aug_score:15.5560, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2560/10000, Elapsed[0.13m], Remain[0.37m], score:15.6182, aug_score:15.0657, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2592/10000, Elapsed[0.13m], Remain[0.37m], score:16.9942, aug_score:16.5378, strict_feasible:32/32
+[2026-09-22 04:30:59] GiantTourTWTester_strict.py(83) : episode 2624/10000, Elapsed[0.13m], Remain[0.37m], score:15.1311, aug_score:14.6200, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2656/10000, Elapsed[0.13m], Remain[0.36m], score:15.5408, aug_score:15.0572, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2688/10000, Elapsed[0.13m], Remain[0.36m], score:17.8519, aug_score:17.2937, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2720/10000, Elapsed[0.14m], Remain[0.36m], score:15.9507, aug_score:15.5401, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2752/10000, Elapsed[0.14m], Remain[0.36m], score:15.7663, aug_score:15.3806, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2784/10000, Elapsed[0.14m], Remain[0.36m], score:16.7968, aug_score:16.3584, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2816/10000, Elapsed[0.14m], Remain[0.36m], score:17.3037, aug_score:16.6104, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2848/10000, Elapsed[0.14m], Remain[0.35m], score:16.0959, aug_score:15.3832, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2880/10000, Elapsed[0.14m], Remain[0.35m], score:17.0135, aug_score:16.3268, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2912/10000, Elapsed[0.14m], Remain[0.35m], score:15.9718, aug_score:15.5255, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2944/10000, Elapsed[0.15m], Remain[0.35m], score:16.7423, aug_score:16.0564, strict_feasible:32/32
+[2026-09-22 04:31:00] GiantTourTWTester_strict.py(83) : episode 2976/10000, Elapsed[0.15m], Remain[0.35m], score:15.4299, aug_score:14.8528, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3008/10000, Elapsed[0.15m], Remain[0.35m], score:15.9964, aug_score:15.4298, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3040/10000, Elapsed[0.15m], Remain[0.35m], score:16.4093, aug_score:15.8409, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3072/10000, Elapsed[0.15m], Remain[0.34m], score:15.7176, aug_score:15.2536, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3104/10000, Elapsed[0.15m], Remain[0.34m], score:16.5688, aug_score:15.9299, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3136/10000, Elapsed[0.16m], Remain[0.34m], score:15.6267, aug_score:15.1016, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3168/10000, Elapsed[0.16m], Remain[0.34m], score:15.2806, aug_score:14.7252, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3200/10000, Elapsed[0.16m], Remain[0.34m], score:17.0171, aug_score:16.3746, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3232/10000, Elapsed[0.16m], Remain[0.34m], score:15.6637, aug_score:15.2671, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3264/10000, Elapsed[0.16m], Remain[0.33m], score:17.4278, aug_score:16.7275, strict_feasible:32/32
+[2026-09-22 04:31:01] GiantTourTWTester_strict.py(83) : episode 3296/10000, Elapsed[0.16m], Remain[0.33m], score:16.0219, aug_score:15.4837, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3328/10000, Elapsed[0.17m], Remain[0.33m], score:16.7194, aug_score:16.0544, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3360/10000, Elapsed[0.17m], Remain[0.33m], score:16.3771, aug_score:15.8454, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3392/10000, Elapsed[0.17m], Remain[0.33m], score:16.0782, aug_score:15.5707, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3424/10000, Elapsed[0.17m], Remain[0.33m], score:16.2115, aug_score:15.7345, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3456/10000, Elapsed[0.17m], Remain[0.32m], score:15.5110, aug_score:14.9957, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3488/10000, Elapsed[0.17m], Remain[0.32m], score:15.3064, aug_score:14.9276, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3520/10000, Elapsed[0.17m], Remain[0.32m], score:16.2014, aug_score:15.7481, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3552/10000, Elapsed[0.18m], Remain[0.32m], score:16.7322, aug_score:16.2023, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3584/10000, Elapsed[0.18m], Remain[0.32m], score:16.6410, aug_score:16.0060, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3616/10000, Elapsed[0.18m], Remain[0.32m], score:16.3307, aug_score:15.8860, strict_feasible:32/32
+[2026-09-22 04:31:02] GiantTourTWTester_strict.py(83) : episode 3648/10000, Elapsed[0.18m], Remain[0.32m], score:15.6759, aug_score:15.1636, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3680/10000, Elapsed[0.18m], Remain[0.31m], score:16.0648, aug_score:15.6013, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3712/10000, Elapsed[0.18m], Remain[0.31m], score:16.0026, aug_score:15.3638, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3744/10000, Elapsed[0.19m], Remain[0.31m], score:15.3787, aug_score:14.9976, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3776/10000, Elapsed[0.19m], Remain[0.31m], score:16.8359, aug_score:16.2628, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3808/10000, Elapsed[0.19m], Remain[0.31m], score:15.9975, aug_score:15.4779, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3840/10000, Elapsed[0.19m], Remain[0.31m], score:16.0004, aug_score:15.5669, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3872/10000, Elapsed[0.19m], Remain[0.30m], score:16.6930, aug_score:16.2200, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3904/10000, Elapsed[0.19m], Remain[0.30m], score:15.4219, aug_score:14.7980, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3936/10000, Elapsed[0.20m], Remain[0.30m], score:17.3818, aug_score:16.6921, strict_feasible:32/32
+[2026-09-22 04:31:03] GiantTourTWTester_strict.py(83) : episode 3968/10000, Elapsed[0.20m], Remain[0.30m], score:16.4394, aug_score:15.6989, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4000/10000, Elapsed[0.20m], Remain[0.30m], score:16.7673, aug_score:16.2074, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4032/10000, Elapsed[0.20m], Remain[0.30m], score:16.8383, aug_score:16.2352, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4064/10000, Elapsed[0.20m], Remain[0.29m], score:16.3488, aug_score:15.7983, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4096/10000, Elapsed[0.20m], Remain[0.29m], score:16.1545, aug_score:15.5127, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4128/10000, Elapsed[0.20m], Remain[0.29m], score:15.9672, aug_score:15.4112, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4160/10000, Elapsed[0.21m], Remain[0.29m], score:16.2829, aug_score:15.8559, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4192/10000, Elapsed[0.21m], Remain[0.29m], score:16.1984, aug_score:15.7834, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4224/10000, Elapsed[0.21m], Remain[0.29m], score:15.8348, aug_score:15.3882, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4256/10000, Elapsed[0.21m], Remain[0.29m], score:16.1415, aug_score:15.7035, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4288/10000, Elapsed[0.21m], Remain[0.28m], score:15.5735, aug_score:15.0437, strict_feasible:32/32
+[2026-09-22 04:31:04] GiantTourTWTester_strict.py(83) : episode 4320/10000, Elapsed[0.21m], Remain[0.28m], score:16.5783, aug_score:16.0051, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4352/10000, Elapsed[0.22m], Remain[0.28m], score:16.2653, aug_score:15.6216, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4384/10000, Elapsed[0.22m], Remain[0.28m], score:16.2125, aug_score:15.6554, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4416/10000, Elapsed[0.22m], Remain[0.28m], score:16.5084, aug_score:16.0557, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4448/10000, Elapsed[0.22m], Remain[0.28m], score:16.9785, aug_score:16.4091, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4480/10000, Elapsed[0.22m], Remain[0.27m], score:16.4207, aug_score:15.8870, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4512/10000, Elapsed[0.22m], Remain[0.27m], score:17.4116, aug_score:16.6947, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4544/10000, Elapsed[0.23m], Remain[0.27m], score:16.6999, aug_score:16.2345, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4576/10000, Elapsed[0.23m], Remain[0.27m], score:16.8250, aug_score:16.1996, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4608/10000, Elapsed[0.23m], Remain[0.27m], score:16.3629, aug_score:15.7453, strict_feasible:32/32
+[2026-09-22 04:31:05] GiantTourTWTester_strict.py(83) : episode 4640/10000, Elapsed[0.23m], Remain[0.27m], score:17.1291, aug_score:16.5173, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4672/10000, Elapsed[0.23m], Remain[0.26m], score:16.8925, aug_score:16.2136, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4704/10000, Elapsed[0.23m], Remain[0.26m], score:16.7115, aug_score:16.1516, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4736/10000, Elapsed[0.24m], Remain[0.26m], score:16.0206, aug_score:15.3632, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4768/10000, Elapsed[0.24m], Remain[0.26m], score:16.3038, aug_score:15.6997, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4800/10000, Elapsed[0.24m], Remain[0.26m], score:16.4151, aug_score:15.7956, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4832/10000, Elapsed[0.24m], Remain[0.26m], score:17.5899, aug_score:16.9623, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4864/10000, Elapsed[0.24m], Remain[0.25m], score:15.9425, aug_score:15.5195, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4896/10000, Elapsed[0.24m], Remain[0.25m], score:16.5987, aug_score:15.9733, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4928/10000, Elapsed[0.24m], Remain[0.25m], score:15.0457, aug_score:14.5949, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4960/10000, Elapsed[0.25m], Remain[0.25m], score:16.6557, aug_score:16.2411, strict_feasible:32/32
+[2026-09-22 04:31:06] GiantTourTWTester_strict.py(83) : episode 4992/10000, Elapsed[0.25m], Remain[0.25m], score:16.1059, aug_score:15.5004, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5024/10000, Elapsed[0.25m], Remain[0.25m], score:15.7015, aug_score:15.1645, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5056/10000, Elapsed[0.25m], Remain[0.25m], score:15.9235, aug_score:15.3356, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5088/10000, Elapsed[0.25m], Remain[0.24m], score:15.9999, aug_score:15.5490, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5120/10000, Elapsed[0.25m], Remain[0.24m], score:15.9938, aug_score:15.5294, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5152/10000, Elapsed[0.26m], Remain[0.24m], score:16.5680, aug_score:16.0037, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5184/10000, Elapsed[0.26m], Remain[0.24m], score:17.0395, aug_score:16.4007, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5216/10000, Elapsed[0.26m], Remain[0.24m], score:16.5899, aug_score:16.0501, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5248/10000, Elapsed[0.26m], Remain[0.24m], score:16.1523, aug_score:15.5969, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5280/10000, Elapsed[0.26m], Remain[0.23m], score:16.8645, aug_score:16.3264, strict_feasible:32/32
+[2026-09-22 04:31:07] GiantTourTWTester_strict.py(83) : episode 5312/10000, Elapsed[0.26m], Remain[0.23m], score:16.8581, aug_score:16.3257, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5344/10000, Elapsed[0.26m], Remain[0.23m], score:16.7223, aug_score:16.2247, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5376/10000, Elapsed[0.27m], Remain[0.23m], score:16.0845, aug_score:15.4878, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5408/10000, Elapsed[0.27m], Remain[0.23m], score:16.4439, aug_score:15.8399, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5440/10000, Elapsed[0.27m], Remain[0.23m], score:15.4326, aug_score:14.9764, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5472/10000, Elapsed[0.27m], Remain[0.22m], score:16.1513, aug_score:15.6583, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5504/10000, Elapsed[0.27m], Remain[0.22m], score:15.8285, aug_score:15.3479, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5536/10000, Elapsed[0.27m], Remain[0.22m], score:16.4976, aug_score:15.9466, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5568/10000, Elapsed[0.28m], Remain[0.22m], score:15.7895, aug_score:15.3938, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5600/10000, Elapsed[0.28m], Remain[0.22m], score:16.1127, aug_score:15.4916, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5632/10000, Elapsed[0.28m], Remain[0.22m], score:16.3775, aug_score:15.8206, strict_feasible:32/32
+[2026-09-22 04:31:08] GiantTourTWTester_strict.py(83) : episode 5664/10000, Elapsed[0.28m], Remain[0.21m], score:16.5108, aug_score:15.9762, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5696/10000, Elapsed[0.28m], Remain[0.21m], score:16.1062, aug_score:15.5374, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5728/10000, Elapsed[0.28m], Remain[0.21m], score:16.5609, aug_score:16.1363, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5760/10000, Elapsed[0.29m], Remain[0.21m], score:16.4698, aug_score:15.8554, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5792/10000, Elapsed[0.29m], Remain[0.21m], score:16.0179, aug_score:15.5248, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5824/10000, Elapsed[0.29m], Remain[0.21m], score:16.9273, aug_score:16.3793, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5856/10000, Elapsed[0.29m], Remain[0.21m], score:16.1935, aug_score:15.7327, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5888/10000, Elapsed[0.29m], Remain[0.20m], score:15.9270, aug_score:15.3911, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5920/10000, Elapsed[0.29m], Remain[0.20m], score:17.2216, aug_score:16.5851, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5952/10000, Elapsed[0.29m], Remain[0.20m], score:16.3281, aug_score:15.8120, strict_feasible:32/32
+[2026-09-22 04:31:09] GiantTourTWTester_strict.py(83) : episode 5984/10000, Elapsed[0.30m], Remain[0.20m], score:16.6234, aug_score:16.0501, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6016/10000, Elapsed[0.30m], Remain[0.20m], score:15.4882, aug_score:15.0177, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6048/10000, Elapsed[0.30m], Remain[0.20m], score:16.1087, aug_score:15.6801, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6080/10000, Elapsed[0.30m], Remain[0.19m], score:16.7796, aug_score:16.1371, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6112/10000, Elapsed[0.30m], Remain[0.19m], score:16.1377, aug_score:15.6673, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6144/10000, Elapsed[0.30m], Remain[0.19m], score:18.0825, aug_score:17.2369, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6176/10000, Elapsed[0.31m], Remain[0.19m], score:16.4810, aug_score:15.8799, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6208/10000, Elapsed[0.31m], Remain[0.19m], score:16.5913, aug_score:15.9738, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6240/10000, Elapsed[0.31m], Remain[0.19m], score:16.4975, aug_score:15.8901, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6272/10000, Elapsed[0.31m], Remain[0.18m], score:16.5937, aug_score:16.0552, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6304/10000, Elapsed[0.31m], Remain[0.18m], score:16.4016, aug_score:15.8254, strict_feasible:32/32
+[2026-09-22 04:31:10] GiantTourTWTester_strict.py(83) : episode 6336/10000, Elapsed[0.31m], Remain[0.18m], score:16.0939, aug_score:15.5076, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6368/10000, Elapsed[0.32m], Remain[0.18m], score:15.7311, aug_score:15.2447, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6400/10000, Elapsed[0.32m], Remain[0.18m], score:16.4789, aug_score:15.9312, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6432/10000, Elapsed[0.32m], Remain[0.18m], score:15.7191, aug_score:15.2129, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6464/10000, Elapsed[0.32m], Remain[0.18m], score:17.2702, aug_score:16.6992, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6496/10000, Elapsed[0.32m], Remain[0.17m], score:16.4314, aug_score:15.9000, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6528/10000, Elapsed[0.32m], Remain[0.17m], score:15.6420, aug_score:15.1692, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6560/10000, Elapsed[0.33m], Remain[0.17m], score:16.1933, aug_score:15.5291, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6592/10000, Elapsed[0.33m], Remain[0.17m], score:15.9624, aug_score:15.3670, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6624/10000, Elapsed[0.33m], Remain[0.17m], score:15.8356, aug_score:15.3730, strict_feasible:32/32
+[2026-09-22 04:31:11] GiantTourTWTester_strict.py(83) : episode 6656/10000, Elapsed[0.33m], Remain[0.17m], score:16.3154, aug_score:15.7317, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6688/10000, Elapsed[0.33m], Remain[0.16m], score:18.2231, aug_score:17.5081, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6720/10000, Elapsed[0.33m], Remain[0.16m], score:17.2562, aug_score:16.6626, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6752/10000, Elapsed[0.34m], Remain[0.16m], score:15.6719, aug_score:15.2318, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6784/10000, Elapsed[0.34m], Remain[0.16m], score:16.7916, aug_score:16.3262, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6816/10000, Elapsed[0.34m], Remain[0.16m], score:16.0393, aug_score:15.5636, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6848/10000, Elapsed[0.34m], Remain[0.16m], score:15.0834, aug_score:14.5980, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6880/10000, Elapsed[0.34m], Remain[0.15m], score:15.7102, aug_score:15.2958, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6912/10000, Elapsed[0.34m], Remain[0.15m], score:16.5197, aug_score:15.7973, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6944/10000, Elapsed[0.34m], Remain[0.15m], score:17.0304, aug_score:16.5066, strict_feasible:32/32
+[2026-09-22 04:31:12] GiantTourTWTester_strict.py(83) : episode 6976/10000, Elapsed[0.35m], Remain[0.15m], score:16.8513, aug_score:16.2302, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7008/10000, Elapsed[0.35m], Remain[0.15m], score:16.5479, aug_score:15.9984, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7040/10000, Elapsed[0.35m], Remain[0.15m], score:16.7071, aug_score:16.0441, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7072/10000, Elapsed[0.35m], Remain[0.15m], score:16.3094, aug_score:15.7949, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7104/10000, Elapsed[0.35m], Remain[0.14m], score:17.5100, aug_score:16.8269, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7136/10000, Elapsed[0.35m], Remain[0.14m], score:14.9848, aug_score:14.6734, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7168/10000, Elapsed[0.36m], Remain[0.14m], score:16.2780, aug_score:15.6284, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7200/10000, Elapsed[0.36m], Remain[0.14m], score:17.7850, aug_score:17.1727, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7232/10000, Elapsed[0.36m], Remain[0.14m], score:16.4212, aug_score:15.8933, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7264/10000, Elapsed[0.36m], Remain[0.14m], score:16.8882, aug_score:16.4476, strict_feasible:32/32
+[2026-09-22 04:31:13] GiantTourTWTester_strict.py(83) : episode 7296/10000, Elapsed[0.36m], Remain[0.13m], score:15.5775, aug_score:15.1976, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7328/10000, Elapsed[0.36m], Remain[0.13m], score:17.4033, aug_score:16.8817, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7360/10000, Elapsed[0.37m], Remain[0.13m], score:16.0298, aug_score:15.5220, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7392/10000, Elapsed[0.37m], Remain[0.13m], score:16.3010, aug_score:15.8293, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7424/10000, Elapsed[0.37m], Remain[0.13m], score:17.0466, aug_score:16.4623, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7456/10000, Elapsed[0.37m], Remain[0.13m], score:17.0790, aug_score:16.4403, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7488/10000, Elapsed[0.37m], Remain[0.13m], score:16.3728, aug_score:15.8675, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7520/10000, Elapsed[0.37m], Remain[0.12m], score:16.0347, aug_score:15.7102, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7552/10000, Elapsed[0.38m], Remain[0.12m], score:16.5273, aug_score:15.8629, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7584/10000, Elapsed[0.38m], Remain[0.12m], score:17.4457, aug_score:16.7352, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7616/10000, Elapsed[0.38m], Remain[0.12m], score:16.5566, aug_score:16.0232, strict_feasible:32/32
+[2026-09-22 04:31:14] GiantTourTWTester_strict.py(83) : episode 7648/10000, Elapsed[0.38m], Remain[0.12m], score:17.8112, aug_score:17.2726, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7680/10000, Elapsed[0.38m], Remain[0.12m], score:15.8620, aug_score:15.3285, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7712/10000, Elapsed[0.38m], Remain[0.11m], score:16.1788, aug_score:15.7316, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7744/10000, Elapsed[0.39m], Remain[0.11m], score:15.9850, aug_score:15.4710, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7776/10000, Elapsed[0.39m], Remain[0.11m], score:16.1643, aug_score:15.5144, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7808/10000, Elapsed[0.39m], Remain[0.11m], score:16.4267, aug_score:15.8186, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7840/10000, Elapsed[0.39m], Remain[0.11m], score:17.2387, aug_score:16.6205, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7872/10000, Elapsed[0.39m], Remain[0.11m], score:16.4666, aug_score:15.9181, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7904/10000, Elapsed[0.39m], Remain[0.10m], score:15.7796, aug_score:15.2749, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7936/10000, Elapsed[0.40m], Remain[0.10m], score:16.3155, aug_score:15.8217, strict_feasible:32/32
+[2026-09-22 04:31:15] GiantTourTWTester_strict.py(83) : episode 7968/10000, Elapsed[0.40m], Remain[0.10m], score:15.5375, aug_score:14.9972, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8000/10000, Elapsed[0.40m], Remain[0.10m], score:15.7319, aug_score:15.1904, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8032/10000, Elapsed[0.40m], Remain[0.10m], score:16.1014, aug_score:15.4418, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8064/10000, Elapsed[0.40m], Remain[0.10m], score:16.9116, aug_score:16.2843, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8096/10000, Elapsed[0.40m], Remain[0.09m], score:17.2740, aug_score:16.5090, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8128/10000, Elapsed[0.41m], Remain[0.09m], score:16.6892, aug_score:16.2594, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8160/10000, Elapsed[0.41m], Remain[0.09m], score:15.9968, aug_score:15.3544, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8192/10000, Elapsed[0.41m], Remain[0.09m], score:16.6691, aug_score:16.0725, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8224/10000, Elapsed[0.41m], Remain[0.09m], score:15.9493, aug_score:15.3274, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8256/10000, Elapsed[0.41m], Remain[0.09m], score:16.4468, aug_score:15.9687, strict_feasible:32/32
+[2026-09-22 04:31:16] GiantTourTWTester_strict.py(83) : episode 8288/10000, Elapsed[0.41m], Remain[0.09m], score:15.8610, aug_score:15.1325, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8320/10000, Elapsed[0.41m], Remain[0.08m], score:16.7997, aug_score:16.2859, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8352/10000, Elapsed[0.42m], Remain[0.08m], score:15.4819, aug_score:14.8996, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8384/10000, Elapsed[0.42m], Remain[0.08m], score:16.4883, aug_score:15.9020, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8416/10000, Elapsed[0.42m], Remain[0.08m], score:15.6600, aug_score:15.1769, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8448/10000, Elapsed[0.42m], Remain[0.08m], score:16.1400, aug_score:15.7681, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8480/10000, Elapsed[0.42m], Remain[0.08m], score:15.6806, aug_score:15.0134, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8512/10000, Elapsed[0.42m], Remain[0.07m], score:15.7085, aug_score:15.1547, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8544/10000, Elapsed[0.43m], Remain[0.07m], score:16.4528, aug_score:15.7500, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8576/10000, Elapsed[0.43m], Remain[0.07m], score:15.1952, aug_score:14.6995, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8608/10000, Elapsed[0.43m], Remain[0.07m], score:16.7645, aug_score:16.1448, strict_feasible:32/32
+[2026-09-22 04:31:17] GiantTourTWTester_strict.py(83) : episode 8640/10000, Elapsed[0.43m], Remain[0.07m], score:17.3103, aug_score:16.7000, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8672/10000, Elapsed[0.43m], Remain[0.07m], score:16.8944, aug_score:16.2685, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8704/10000, Elapsed[0.43m], Remain[0.06m], score:16.3158, aug_score:15.7823, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8736/10000, Elapsed[0.44m], Remain[0.06m], score:16.9129, aug_score:16.1919, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8768/10000, Elapsed[0.44m], Remain[0.06m], score:16.5887, aug_score:16.0735, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8800/10000, Elapsed[0.44m], Remain[0.06m], score:15.7014, aug_score:15.1830, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8832/10000, Elapsed[0.44m], Remain[0.06m], score:16.0172, aug_score:15.4547, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8864/10000, Elapsed[0.44m], Remain[0.06m], score:16.1332, aug_score:15.6675, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8896/10000, Elapsed[0.44m], Remain[0.06m], score:18.0259, aug_score:17.4655, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8928/10000, Elapsed[0.45m], Remain[0.05m], score:15.1973, aug_score:14.6711, strict_feasible:32/32
+[2026-09-22 04:31:18] GiantTourTWTester_strict.py(83) : episode 8960/10000, Elapsed[0.45m], Remain[0.05m], score:16.2725, aug_score:15.7983, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 8992/10000, Elapsed[0.45m], Remain[0.05m], score:16.1109, aug_score:15.5636, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9024/10000, Elapsed[0.45m], Remain[0.05m], score:16.3958, aug_score:15.8143, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9056/10000, Elapsed[0.45m], Remain[0.05m], score:15.1233, aug_score:14.7072, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9088/10000, Elapsed[0.45m], Remain[0.05m], score:16.9514, aug_score:16.3396, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9120/10000, Elapsed[0.46m], Remain[0.04m], score:15.5859, aug_score:15.0845, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9152/10000, Elapsed[0.46m], Remain[0.04m], score:15.3425, aug_score:14.8034, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9184/10000, Elapsed[0.46m], Remain[0.04m], score:17.1363, aug_score:16.6260, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9216/10000, Elapsed[0.46m], Remain[0.04m], score:16.6899, aug_score:16.1198, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9248/10000, Elapsed[0.46m], Remain[0.04m], score:17.7012, aug_score:16.9758, strict_feasible:32/32
+[2026-09-22 04:31:19] GiantTourTWTester_strict.py(83) : episode 9280/10000, Elapsed[0.46m], Remain[0.04m], score:16.5226, aug_score:16.0497, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9312/10000, Elapsed[0.47m], Remain[0.03m], score:16.3295, aug_score:15.6664, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9344/10000, Elapsed[0.47m], Remain[0.03m], score:16.2031, aug_score:15.6780, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9376/10000, Elapsed[0.47m], Remain[0.03m], score:16.3108, aug_score:15.5563, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9408/10000, Elapsed[0.47m], Remain[0.03m], score:16.7777, aug_score:16.1282, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9440/10000, Elapsed[0.47m], Remain[0.03m], score:16.9831, aug_score:16.4912, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9472/10000, Elapsed[0.47m], Remain[0.03m], score:16.3531, aug_score:15.5763, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9504/10000, Elapsed[0.48m], Remain[0.02m], score:16.7899, aug_score:16.1203, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9536/10000, Elapsed[0.48m], Remain[0.02m], score:15.6357, aug_score:15.1777, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9568/10000, Elapsed[0.48m], Remain[0.02m], score:16.7886, aug_score:16.2423, strict_feasible:32/32
+[2026-09-22 04:31:20] GiantTourTWTester_strict.py(83) : episode 9600/10000, Elapsed[0.48m], Remain[0.02m], score:16.2274, aug_score:15.5985, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9632/10000, Elapsed[0.48m], Remain[0.02m], score:16.6324, aug_score:16.1089, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9664/10000, Elapsed[0.48m], Remain[0.02m], score:16.4063, aug_score:15.8309, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9696/10000, Elapsed[0.49m], Remain[0.02m], score:15.9392, aug_score:15.4745, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9728/10000, Elapsed[0.49m], Remain[0.01m], score:15.8971, aug_score:15.2905, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9760/10000, Elapsed[0.49m], Remain[0.01m], score:16.3861, aug_score:15.8281, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9792/10000, Elapsed[0.49m], Remain[0.01m], score:17.6024, aug_score:17.1179, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9824/10000, Elapsed[0.49m], Remain[0.01m], score:16.2099, aug_score:15.5805, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9856/10000, Elapsed[0.49m], Remain[0.01m], score:16.8126, aug_score:16.2752, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9888/10000, Elapsed[0.49m], Remain[0.01m], score:16.0145, aug_score:15.5619, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9920/10000, Elapsed[0.50m], Remain[0.00m], score:16.5820, aug_score:16.0965, strict_feasible:32/32
+[2026-09-22 04:31:21] GiantTourTWTester_strict.py(83) : episode 9952/10000, Elapsed[0.50m], Remain[0.00m], score:16.8597, aug_score:16.3869, strict_feasible:32/32
+[2026-09-22 04:31:22] GiantTourTWTester_strict.py(83) : episode 9984/10000, Elapsed[0.50m], Remain[0.00m], score:17.3395, aug_score:16.7018, strict_feasible:32/32
+[2026-09-22 04:31:22] GiantTourTWTester_strict.py(83) : episode 10000/10000, Elapsed[0.50m], Remain[0.00m], score:17.3507, aug_score:16.5882, strict_feasible:16/16
+[2026-09-22 04:31:22] GiantTourTWTester_strict.py(141) : Test done: distance=15.763099 +- 0.031735, vehicles=11.1383, feasible=10000/10000
+{
+  "problem": "pomo_split_tw",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/pomo_split_v4/checkpoint-2000.pt",
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrptw50_n10000_seed1234.pt",
+  "instances": 10000,
+  "augmentation": 8,
+  "decode_strategy": "pomo_argmax",
+  "pomo_size": 50,
+  "timing_batch_size": 32,
+  "timing_warmup_batches": 1,
+  "mean_distance_1x": 16.314488486385347,
+  "standard_error_1x": 0.03330320319570239,
+  "mean_distance_aug": 15.763099152374268,
+  "standard_error_aug": 0.03173459009420763,
+  "mean_vehicle_count": 11.1383,
+  "strict_replay_instances": 10000,
+  "strict_replay_feasible_instances": 10000,
+  "all_selected_solutions_feasible": true,
+  "inference_seconds": 13.607533693313599,
+  "strict_replay_seconds": 16.071324098855257,
+  "audited_wall_seconds": 30.05281950160861,
+  "inference_instances_per_second": 734.8870284196871,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/results/fixed_tw/pomo_tw_split_v4_n50.csv"
+}
+pomo_tw_direct_n50 C101 n=50 selected=8/497.86 protocol=mvmoe
+pomo_tw_direct_n50 C102 n=50 selected=8/583.28 protocol=mvmoe
+pomo_tw_direct_n50 C103 n=50 selected=6/561.70 protocol=mvmoe
+pomo_tw_direct_n50 C104 n=50 selected=6/595.72 protocol=mvmoe
+pomo_tw_direct_n50 C105 n=50 selected=8/498.41 protocol=mvmoe
+pomo_tw_direct_n50 C106 n=50 selected=7/438.91 protocol=mvmoe
+pomo_tw_direct_n50 C107 n=50 selected=7/569.45 protocol=mvmoe
+pomo_tw_direct_n50 C108 n=50 selected=8/567.63 protocol=mvmoe
+pomo_tw_direct_n50 C109 n=50 selected=10/622.17 protocol=mvmoe
+pomo_tw_direct_n50 C201 n=50 selected=7/782.98 protocol=mvmoe
+pomo_tw_direct_n50 C202 n=50 selected=5/820.02 protocol=mvmoe
+pomo_tw_direct_n50 C203 n=50 selected=3/888.49 protocol=mvmoe
+pomo_tw_direct_n50 C204 n=50 selected=8/874.40 protocol=mvmoe
+pomo_tw_direct_n50 C205 n=50 selected=5/565.34 protocol=mvmoe
+pomo_tw_direct_n50 C206 n=50 selected=5/696.38 protocol=mvmoe
+pomo_tw_direct_n50 C207 n=50 selected=4/683.51 protocol=mvmoe
+pomo_tw_direct_n50 C208 n=50 selected=7/680.64 protocol=mvmoe
+pomo_tw_direct_n50 R101 n=50 selected=13/1052.39 protocol=mvmoe
+pomo_tw_direct_n50 R102 n=50 selected=11/953.78 protocol=mvmoe
+pomo_tw_direct_n50 R103 n=50 selected=9/846.75 protocol=mvmoe
+pomo_tw_direct_n50 R104 n=50 selected=7/713.01 protocol=mvmoe
+pomo_tw_direct_n50 R105 n=50 selected=11/967.23 protocol=mvmoe
+pomo_tw_direct_n50 R106 n=50 selected=9/883.99 protocol=mvmoe
+pomo_tw_direct_n50 R107 n=50 selected=8/780.48 protocol=mvmoe
+pomo_tw_direct_n50 R108 n=50 selected=7/702.95 protocol=mvmoe
+pomo_tw_direct_n50 R109 n=50 selected=9/828.12 protocol=mvmoe
+pomo_tw_direct_n50 R110 n=50 selected=8/730.82 protocol=mvmoe
+pomo_tw_direct_n50 R111 n=50 selected=8/755.18 protocol=mvmoe
+pomo_tw_direct_n50 R112 n=50 selected=7/668.85 protocol=mvmoe
+pomo_tw_direct_n50 R201 n=50 selected=7/1036.70 protocol=mvmoe
+pomo_tw_direct_n50 R202 n=50 selected=6/964.96 protocol=mvmoe
+pomo_tw_direct_n50 R203 n=50 selected=4/874.07 protocol=mvmoe
+pomo_tw_direct_n50 R204 n=50 selected=3/688.38 protocol=mvmoe
+pomo_tw_direct_n50 R205 n=50 selected=6/881.71 protocol=mvmoe
+pomo_tw_direct_n50 R206 n=50 selected=6/861.67 protocol=mvmoe
+pomo_tw_direct_n50 R207 n=50 selected=4/869.27 protocol=mvmoe
+pomo_tw_direct_n50 R208 n=50 selected=3/694.08 protocol=mvmoe
+pomo_tw_direct_n50 R209 n=50 selected=7/832.57 protocol=mvmoe
+pomo_tw_direct_n50 R210 n=50 selected=5/862.50 protocol=mvmoe
+pomo_tw_direct_n50 R211 n=50 selected=5/756.60 protocol=mvmoe
+pomo_tw_direct_n50 RC101 n=50 selected=10/1021.81 protocol=mvmoe
+pomo_tw_direct_n50 RC102 n=50 selected=8/909.52 protocol=mvmoe
+pomo_tw_direct_n50 RC103 n=50 selected=7/844.13 protocol=mvmoe
+pomo_tw_direct_n50 RC104 n=50 selected=6/629.97 protocol=mvmoe
+pomo_tw_direct_n50 RC105 n=50 selected=8/911.07 protocol=mvmoe
+pomo_tw_direct_n50 RC106 n=50 selected=8/872.73 protocol=mvmoe
+pomo_tw_direct_n50 RC107 n=50 selected=7/746.94 protocol=mvmoe
+pomo_tw_direct_n50 RC108 n=50 selected=6/709.11 protocol=mvmoe
+pomo_tw_direct_n50 RC201 n=50 selected=5/745.67 protocol=mvmoe
+pomo_tw_direct_n50 RC202 n=50 selected=5/716.70 protocol=mvmoe
+pomo_tw_direct_n50 RC203 n=50 selected=4/693.53 protocol=mvmoe
+pomo_tw_direct_n50 RC204 n=50 selected=3/539.37 protocol=mvmoe
+pomo_tw_direct_n50 RC205 n=50 selected=5/723.64 protocol=mvmoe
+pomo_tw_direct_n50 RC206 n=50 selected=5/686.98 protocol=mvmoe
+pomo_tw_direct_n50 RC207 n=50 selected=5/707.68 protocol=mvmoe
+pomo_tw_direct_n50 RC208 n=50 selected=4/630.28 protocol=mvmoe
+pomo_tw_split_v4_n50 C101 n=50 selected=8/504.27 protocol=mvmoe
+pomo_tw_split_v4_n50 C102 n=50 selected=8/583.87 protocol=mvmoe
+pomo_tw_split_v4_n50 C103 n=50 selected=8/544.75 protocol=mvmoe
+pomo_tw_split_v4_n50 C104 n=50 selected=7/546.80 protocol=mvmoe
+pomo_tw_split_v4_n50 C105 n=50 selected=8/535.84 protocol=mvmoe
+pomo_tw_split_v4_n50 C106 n=50 selected=8/553.08 protocol=mvmoe
+pomo_tw_split_v4_n50 C107 n=50 selected=7/525.09 protocol=mvmoe
+pomo_tw_split_v4_n50 C108 n=50 selected=7/534.37 protocol=mvmoe
+pomo_tw_split_v4_n50 C109 n=50 selected=6/420.54 protocol=mvmoe
+pomo_tw_split_v4_n50 C201 n=50 selected=10/934.33 protocol=mvmoe
+pomo_tw_split_v4_n50 C202 n=50 selected=8/893.49 protocol=mvmoe
+pomo_tw_split_v4_n50 C203 n=50 selected=8/784.50 protocol=mvmoe
+pomo_tw_split_v4_n50 C204 n=50 selected=4/637.35 protocol=mvmoe
+pomo_tw_split_v4_n50 C205 n=50 selected=8/915.78 protocol=mvmoe
+pomo_tw_split_v4_n50 C206 n=50 selected=8/895.46 protocol=mvmoe
+pomo_tw_split_v4_n50 C207 n=50 selected=7/793.65 protocol=mvmoe
+pomo_tw_split_v4_n50 C208 n=50 selected=7/706.17 protocol=mvmoe
+pomo_tw_split_v4_n50 R101 n=50 selected=16/1136.57 protocol=mvmoe
+pomo_tw_split_v4_n50 R102 n=50 selected=12/949.59 protocol=mvmoe
+pomo_tw_split_v4_n50 R103 n=50 selected=11/889.13 protocol=mvmoe
+pomo_tw_split_v4_n50 R104 n=50 selected=8/746.11 protocol=mvmoe
+pomo_tw_split_v4_n50 R105 n=50 selected=11/973.09 protocol=mvmoe
+pomo_tw_split_v4_n50 R106 n=50 selected=11/878.56 protocol=mvmoe
+pomo_tw_split_v4_n50 R107 n=50 selected=9/825.65 protocol=mvmoe
+pomo_tw_split_v4_n50 R108 n=50 selected=7/707.12 protocol=mvmoe
+pomo_tw_split_v4_n50 R109 n=50 selected=10/887.65 protocol=mvmoe
+pomo_tw_split_v4_n50 R110 n=50 selected=10/800.73 protocol=mvmoe
+pomo_tw_split_v4_n50 R111 n=50 selected=9/791.37 protocol=mvmoe
+pomo_tw_split_v4_n50 R112 n=50 selected=8/704.86 protocol=mvmoe
+pomo_tw_split_v4_n50 R201 n=50 selected=10/1012.64 protocol=mvmoe
+pomo_tw_split_v4_n50 R202 n=50 selected=8/948.38 protocol=mvmoe
+pomo_tw_split_v4_n50 R203 n=50 selected=7/794.63 protocol=mvmoe
+pomo_tw_split_v4_n50 R204 n=50 selected=4/689.32 protocol=mvmoe
+pomo_tw_split_v4_n50 R205 n=50 selected=8/921.02 protocol=mvmoe
+pomo_tw_split_v4_n50 R206 n=50 selected=7/874.02 protocol=mvmoe
+pomo_tw_split_v4_n50 R207 n=50 selected=6/776.37 protocol=mvmoe
+pomo_tw_split_v4_n50 R208 n=50 selected=3/692.34 protocol=mvmoe
+pomo_tw_split_v4_n50 R209 n=50 selected=8/861.12 protocol=mvmoe
+pomo_tw_split_v4_n50 R210 n=50 selected=7/872.15 protocol=mvmoe
+pomo_tw_split_v4_n50 R211 n=50 selected=5/748.29 protocol=mvmoe
+pomo_tw_split_v4_n50 RC101 n=50 selected=10/986.77 protocol=mvmoe
+pomo_tw_split_v4_n50 RC102 n=50 selected=9/931.82 protocol=mvmoe
+pomo_tw_split_v4_n50 RC103 n=50 selected=9/917.73 protocol=mvmoe
+pomo_tw_split_v4_n50 RC104 n=50 selected=7/708.76 protocol=mvmoe
+pomo_tw_split_v4_n50 RC105 n=50 selected=9/933.59 protocol=mvmoe
+pomo_tw_split_v4_n50 RC106 n=50 selected=9/932.17 protocol=mvmoe
+pomo_tw_split_v4_n50 RC107 n=50 selected=8/849.71 protocol=mvmoe
+pomo_tw_split_v4_n50 RC108 n=50 selected=7/792.17 protocol=mvmoe
+pomo_tw_split_v4_n50 RC201 n=50 selected=8/958.84 protocol=mvmoe
+pomo_tw_split_v4_n50 RC202 n=50 selected=6/857.46 protocol=mvmoe
+pomo_tw_split_v4_n50 RC203 n=50 selected=6/758.65 protocol=mvmoe
+pomo_tw_split_v4_n50 RC204 n=50 selected=3/562.02 protocol=mvmoe
+pomo_tw_split_v4_n50 RC205 n=50 selected=7/943.24 protocol=mvmoe
+pomo_tw_split_v4_n50 RC206 n=50 selected=6/871.38 protocol=mvmoe
+pomo_tw_split_v4_n50 RC207 n=50 selected=6/774.01 protocol=mvmoe
+pomo_tw_split_v4_n50 RC208 n=50 selected=4/640.55 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C101 n=50 selected=7/551.30 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C102 n=50 selected=9/781.58 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C103 n=50 selected=7/770.53 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C104 n=50 selected=5/664.63 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C105 n=50 selected=9/669.87 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C106 n=50 selected=7/691.85 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C107 n=50 selected=10/621.45 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C108 n=50 selected=8/795.93 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C109 n=50 selected=9/656.33 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C201 n=50 selected=2/484.46 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C202 n=50 selected=2/672.41 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C203 n=50 selected=3/878.26 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C204 n=50 selected=3/809.11 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C205 n=50 selected=2/535.12 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C206 n=50 selected=3/837.19 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C207 n=50 selected=3/821.98 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 C208 n=50 selected=3/742.53 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R101 n=50 selected=13/1107.63 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R102 n=50 selected=11/986.96 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R103 n=50 selected=10/869.31 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R104 n=50 selected=8/781.40 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R105 n=50 selected=11/991.27 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R106 n=50 selected=10/926.86 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R107 n=50 selected=8/825.77 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R108 n=50 selected=7/762.97 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R109 n=50 selected=9/888.65 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R110 n=50 selected=9/785.42 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R111 n=50 selected=8/812.27 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R112 n=50 selected=7/731.12 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R201 n=50 selected=6/1105.70 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R202 n=50 selected=8/1166.28 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R203 n=50 selected=5/1041.43 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R204 n=50 selected=3/815.41 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R205 n=50 selected=7/1052.99 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R206 n=50 selected=6/1044.71 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R207 n=50 selected=4/998.66 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R208 n=50 selected=3/829.29 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R209 n=50 selected=5/1020.48 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R210 n=50 selected=6/1065.96 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 R211 n=50 selected=4/886.54 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC101 n=50 selected=9/1011.95 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC102 n=50 selected=8/948.17 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC103 n=50 selected=8/895.90 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC104 n=50 selected=6/690.44 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC105 n=50 selected=9/978.98 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC106 n=50 selected=7/863.02 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC107 n=50 selected=6/801.48 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC108 n=50 selected=7/778.65 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC201 n=50 selected=5/918.78 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC202 n=50 selected=7/1026.00 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC203 n=50 selected=5/818.13 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC204 n=50 selected=3/737.89 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC205 n=50 selected=6/984.64 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC206 n=50 selected=4/852.94 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC207 n=50 selected=4/808.40 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_direct/epoch-100.pt
+am_tw_direct_n50 RC208 n=50 selected=4/716.93 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C101 n=50 selected=10/855.56 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C102 n=50 selected=8/833.81 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C103 n=50 selected=7/777.71 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C104 n=50 selected=8/685.64 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C105 n=50 selected=9/840.58 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C106 n=50 selected=9/900.49 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C107 n=50 selected=7/683.81 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C108 n=50 selected=8/630.58 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C109 n=50 selected=7/617.69 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C201 n=50 selected=9/1236.35 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C202 n=50 selected=7/1150.68 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C203 n=50 selected=6/1111.43 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C204 n=50 selected=4/918.62 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C205 n=50 selected=8/1174.91 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C206 n=50 selected=6/1061.08 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C207 n=50 selected=6/1101.10 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 C208 n=50 selected=7/1076.59 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R101 n=50 selected=17/1204.77 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R102 n=50 selected=13/1038.14 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R103 n=50 selected=11/932.98 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R104 n=50 selected=8/739.51 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R105 n=50 selected=14/1040.82 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R106 n=50 selected=12/952.18 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R107 n=50 selected=10/865.93 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R108 n=50 selected=8/745.82 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R109 n=50 selected=10/913.26 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R110 n=50 selected=10/838.07 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R111 n=50 selected=8/800.69 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R112 n=50 selected=8/723.71 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R201 n=50 selected=10/1223.50 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R202 n=50 selected=7/1128.91 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R203 n=50 selected=5/973.12 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R204 n=50 selected=5/836.44 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R205 n=50 selected=6/1158.00 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R206 n=50 selected=5/910.47 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R207 n=50 selected=5/964.99 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R208 n=50 selected=4/779.84 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R209 n=50 selected=6/1017.58 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R210 n=50 selected=6/1045.89 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 R211 n=50 selected=5/914.83 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC101 n=50 selected=12/1164.84 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC102 n=50 selected=9/958.34 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC103 n=50 selected=9/938.52 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC104 n=50 selected=8/770.43 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC105 n=50 selected=11/1072.25 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC106 n=50 selected=9/968.84 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC107 n=50 selected=8/888.15 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC108 n=50 selected=7/782.12 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC201 n=50 selected=10/1177.55 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC202 n=50 selected=5/879.79 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC203 n=50 selected=5/772.11 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC204 n=50 selected=4/697.38 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC205 n=50 selected=7/1007.40 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC206 n=50 selected=6/963.09 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC207 n=50 selected=6/884.82 protocol=mvmoe
+  [*] Loading model from /root/autodl-tmp/split_v4_n50_eval_20260922/models/tw/am_split_v4/epoch-100.pt
+am_tw_split_v4_n50 RC208 n=50 selected=3/617.72 protocol=mvmoe
+saved 224 rows to /root/autodl-tmp/split_v4_n50_eval_20260922/results/solomon50/solomon_results.csv
+Traceback (most recent call last):
+  File "/root/autodl-tmp/split_v4_n50_eval_20260922/scripts/solomon/verify_solomon_batch.py", line 71, in <module>
+    main()
+  File "/root/autodl-tmp/split_v4_n50_eval_20260922/scripts/solomon/verify_solomon_batch.py", line 45, in main
+    expected_distance = float(row["distance_raw"])
+                              ~~~^^^^^^^^^^^^^^^^
+KeyError: 'distance_raw'

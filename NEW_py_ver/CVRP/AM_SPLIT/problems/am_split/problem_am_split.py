@@ -9,14 +9,14 @@ from split_decoder import raw_giant_tour_cost, split_giant_tours
 
 
 class AMSplit:
-    """Demand-blind Attention Model followed by exact capacity Split."""
+    """Attention Model customer ordering followed by exact capacity Split."""
 
     NAME = "am_split"
     VEHICLE_CAPACITY = 1.0
     TRAIN_REWARD = "split"
 
     @classmethod
-    def configure(cls, capacity=1.0, train_reward="split"):
+    def configure(cls, capacity=1.0, train_reward="split", **_unused):
         if capacity <= 0:
             raise ValueError("capacity must be positive")
         if train_reward not in ("split", "raw"):
@@ -64,9 +64,9 @@ class AMSplit:
     def make_dataset(*args, **kwargs):
         return AMSplitDataset(*args, **kwargs)
 
-    @staticmethod
-    def make_state(*args, **kwargs):
-        return StateAMSplit.initialize(*args, **kwargs)
+    @classmethod
+    def make_state(cls, input, *args, **kwargs):
+        return StateAMSplit.initialize(input, *args, **kwargs)
 
     @staticmethod
     def beam_search(*args, **kwargs):

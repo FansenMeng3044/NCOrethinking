@@ -102,6 +102,33 @@ class SplitDecoderTest(unittest.TestCase):
 
 
 class PomoGiantTourIntegrationTest(unittest.TestCase):
+    def test_decoder_receives_direct_load_state_without_capacity_mask(self):
+        env = GiantTourEnv(problem_size=2, pomo_size=1, capacity=1.0, device="cpu")
+        env.load_problems_manual(
+            torch.tensor([[[0.0, 0.0]]]),
+            torch.tensor([[[1.0, 0.0], [2.0, 0.0]]]),
+            torch.tensor([[0.8, 0.8]]),
+        )
+        state, _, _ = env.reset()
+        model = GiantTourModel(
+            node_feature_dim=3,
+            embedding_dim=16,
+            sqrt_embedding_dim=4.0,
+            encoder_layer_num=1,
+            qkv_dim=4,
+            head_num=4,
+            logit_clipping=10,
+            ff_hidden_dim=32,
+            eval_type="argmax",
+        )
+        self.assertEqual(model.decoder.Wq_last.in_features, 17)
+        state, _, _ = env.step(torch.tensor([[1]]))
+        self.assertAlmostEqual(state.load.item(), 0.2, places=6)
+        self.assertFalse(state.ninf_mask[0, 0, 2].isneginf().item())
+        state, _, done = env.step(torch.tensor([[2]]))
+        self.assertTrue(done)
+        self.assertAlmostEqual(state.load.item(), -0.6, places=6)
+
     def test_policy_selects_customers_only_and_reward_is_split_cost(self):
         torch.manual_seed(7)
         n = 5
@@ -112,6 +139,7 @@ class PomoGiantTourIntegrationTest(unittest.TestCase):
         env.load_problems_manual(depot, nodes, demands)
 
         model = GiantTourModel(
+            node_feature_dim=3,
             embedding_dim=16,
             sqrt_embedding_dim=4.0,
             encoder_layer_num=2,
@@ -121,6 +149,7 @@ class PomoGiantTourIntegrationTest(unittest.TestCase):
             ff_hidden_dim=32,
             eval_type="argmax",
         )
+        self.assertEqual(model.encoder.embedding_node.in_features, 3)
         model.train()
         reset_state, _, _ = env.reset()
         model.pre_forward(reset_state)

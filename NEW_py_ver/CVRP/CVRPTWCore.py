@@ -76,52 +76,64 @@ def get_random_problems(
     if speed <= 0 or depot_end <= depot_start or service_duration < 0:
         raise ValueError("invalid speed, depot interval, or service duration")
 
-    depot_xy = torch.rand(batch_size, 1, 2, device=device)
-    node_xy = torch.rand(batch_size, problem_size, 2, device=device)
-    service_time = torch.full(
-        (batch_size, problem_size),
-        float(service_duration),
-        device=device,
-        dtype=node_xy.dtype,
-    )
-
-    travel_time = (node_xy - depot_xy).norm(p=2, dim=-1) / speed
-    earliest_center = depot_start + travel_time
-    latest_center = depot_end - travel_time - service_time
-    # These two expressions intentionally retain the ordering used by the
-    # reference implementation, including its RNG consumption order.
-    centers = (
-        (earliest_center - latest_center) * torch.rand_like(travel_time)
-        + latest_center
-    )
-    half_width = (
-        (service_time / 2.0 - depot_end / 3.0) * torch.rand_like(travel_time)
-        + depot_end / 3.0
-    )
-    tw_start = torch.clamp(
-        centers - half_width, min=depot_start, max=depot_end
-    )
-    tw_end = torch.clamp(
-        centers + half_width, min=depot_start, max=depot_end
-    )
-
-    # Match the reference environment: reject the whole generated batch when
-    # any customer is not feasible on its own fresh-vehicle route.
-    single_route_completion = (
-        torch.maximum(depot_start + travel_time, tw_start)
-        + service_time
-        + travel_time
-    )
-    if (single_route_completion > depot_end + VRPTW_EPSILON).any():
-        return get_random_problems(
-            batch_size,
-            problem_size,
+    def sample_geometry(count: int):
+        depot_xy = torch.rand(count, 1, 2, device=device)
+        node_xy = torch.rand(count, problem_size, 2, device=device)
+        service_time = torch.full(
+            (count, problem_size),
+            float(service_duration),
             device=device,
-            depot_start=depot_start,
-            depot_end=depot_end,
-            speed=speed,
-            service_duration=service_duration,
+            dtype=node_xy.dtype,
         )
+
+        travel_time = (node_xy - depot_xy).norm(p=2, dim=-1) / speed
+        earliest_center = depot_start + travel_time
+        latest_center = depot_end - travel_time - service_time
+        # Retain the reference implementation's sampling equations and RNG
+        # consumption order within each problem row.
+        centers = (
+            (earliest_center - latest_center) * torch.rand_like(travel_time)
+            + latest_center
+        )
+        half_width = (
+            (service_time / 2.0 - depot_end / 3.0)
+            * torch.rand_like(travel_time)
+            + depot_end / 3.0
+        )
+        tw_start = torch.clamp(
+            centers - half_width, min=depot_start, max=depot_end
+        )
+        tw_end = torch.clamp(
+            centers + half_width, min=depot_start, max=depot_end
+        )
+        single_route_completion = (
+            torch.maximum(depot_start + travel_time, tw_start)
+            + service_time
+            + travel_time
+        )
+        invalid_problem = (
+            single_route_completion > depot_end + VRPTW_EPSILON
+        ).any(dim=1)
+        return (
+            depot_xy,
+            node_xy,
+            service_time,
+            tw_start,
+            tw_end,
+        ), invalid_problem
+
+    # Conditioning independent problem rows on their own feasibility
+    # factorizes. Resampling only invalid rows therefore has the same accepted
+    # distribution as full-batch rejection, without recursive full-batch
+    # allocation. Whole rows are replaced to preserve the shared-depot law.
+    geometry, invalid_problem = sample_geometry(batch_size)
+    depot_xy, node_xy, service_time, tw_start, tw_end = geometry
+    pending = invalid_problem.nonzero(as_tuple=False).squeeze(1)
+    while pending.numel() > 0:
+        replacement, replacement_invalid = sample_geometry(pending.numel())
+        for destination, source in zip(geometry, replacement):
+            destination[pending] = source
+        pending = pending[replacement_invalid]
 
     node_demand = torch.randint(
         1, 10, (batch_size, problem_size), device=device

@@ -94,7 +94,7 @@ class AttentionModelIntegrationTest(unittest.TestCase):
         self.assertTrue(gradients)
         self.assertTrue(all(torch.isfinite(g).all().item() for g in gradients))
 
-    def test_policy_is_demand_blind(self):
+    def test_customer_encoder_uses_demand(self):
         torch.manual_seed(11)
         AMSplit.configure(capacity=1.0, train_reward="split")
         n = 5
@@ -103,11 +103,31 @@ class AttentionModelIntegrationTest(unittest.TestCase):
         demand = torch.stack((torch.full((n,), 0.1), torch.full((n,), 0.4)))
         model = self.make_model()
         model.eval()
-        set_decode_type(model, "greedy")
-        _, _, tours = model(
-            {"depot": depot, "loc": loc, "demand": demand}, return_pi=True
+        embedded = model._init_embed(
+            {"depot": depot, "loc": loc, "demand": demand}
         )
-        self.assertTrue(torch.equal(tours[0], tours[1]))
+        self.assertEqual(model.init_embed.in_features, 3)
+        self.assertTrue(torch.equal(embedded[0, 0], embedded[1, 0]))
+        self.assertFalse(torch.equal(embedded[0, 1:], embedded[1, 1:]))
+
+    def test_decoder_receives_direct_capacity_state_without_capacity_mask(self):
+        AMSplit.configure(capacity=1.0, train_reward="split")
+        data = {
+            "depot": torch.tensor([[0.0, 0.0]]),
+            "loc": torch.tensor([[[1.0, 0.0], [2.0, 0.0]]]),
+            "demand": torch.tensor([[0.8, 0.8]]),
+        }
+        model = self.make_model()
+        state = AMSplit.make_state(data)
+        state = state.update(torch.tensor([1]))
+        self.assertAlmostEqual(state.used_capacity.item(), 0.8, places=6)
+        # Customer 2 exceeds the remaining capacity but must remain available;
+        # only the final Split operation enforces capacity feasibility.
+        self.assertFalse(state.get_mask()[0, 0, 2].item())
+        embeddings = torch.randn(1, 3, 16)
+        context = model._get_parallel_step_context(embeddings, state)
+        self.assertEqual(context.shape, (1, 1, 17))
+        self.assertAlmostEqual(context[0, 0, -1].item(), 0.2, places=6)
 
 
 if __name__ == "__main__":

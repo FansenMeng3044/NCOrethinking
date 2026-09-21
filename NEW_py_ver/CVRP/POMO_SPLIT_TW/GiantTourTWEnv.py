@@ -33,11 +33,13 @@ class StepState:
     BATCH_IDX: torch.Tensor
     POMO_IDX: torch.Tensor
     current_node: torch.Tensor = None
+    load: torch.Tensor = None
+    current_time: torch.Tensor = None
     ninf_mask: torch.Tensor = None
 
 
 class GiantTourTWEnv:
-    """XY-only POMO giant tour followed by exact hard CVRPTW Split."""
+    """POMO customer ordering followed by exact hard CVRPTW Split."""
 
     def __init__(self, **env_params):
         self.problem_size = env_params["problem_size"]
@@ -117,6 +119,16 @@ class GiantTourTWEnv:
             self.batch_size, self.pomo_size, 0, dtype=torch.long, device=self.device
         )
         self.step_state = StepState(self.BATCH_IDX, self.POMO_IDX)
+        shape = (self.batch_size, self.pomo_size)
+        self.load = torch.full(
+            shape, self.capacity, device=self.device, dtype=self.node_demand.dtype
+        )
+        self.current_time = torch.full(
+            shape, self.depot_start, device=self.device, dtype=self.node_xy.dtype
+        )
+        self.current_coord = self.depot_xy.expand(-1, self.pomo_size, -1).clone()
+        self.step_state.load = self.load
+        self.step_state.current_time = self.current_time
         self.step_state.ninf_mask = torch.zeros(
             self.batch_size, self.pomo_size, self.problem_size + 1, device=self.device
         )
@@ -141,7 +153,30 @@ class GiantTourTWEnv:
         self.selected_node_list = torch.cat(
             (self.selected_node_list, selected[:, :, None]), dim=2
         )
+        selected_customer = selected - 1
+        selected_coord = self.node_xy[self.BATCH_IDX, selected_customer]
+        selected_demand = self.node_demand[self.BATCH_IDX, selected_customer]
+        selected_service = self.node_service_time[
+            self.BATCH_IDX, selected_customer
+        ]
+        selected_tw_start = self.node_tw_start[
+            self.BATCH_IDX, selected_customer
+        ]
+        travel = torch.linalg.vector_norm(
+            selected_coord - self.current_coord, dim=2
+        )
+        service_start = torch.maximum(
+            self.current_time + travel / self.speed, selected_tw_start
+        )
+        # These are the same dynamic quantities supplied to the Direct
+        # decoder. Capacity and time-window violations do not enter the mask;
+        # the final Split decoder remains responsible for feasibility.
+        self.load = self.load - selected_demand
+        self.current_time = service_start + selected_service
+        self.current_coord = selected_coord
         self.step_state.current_node = selected
+        self.step_state.load = self.load
+        self.step_state.current_time = self.current_time
         self.step_state.ninf_mask[
             self.BATCH_IDX, self.POMO_IDX, selected
         ] = float("-inf")

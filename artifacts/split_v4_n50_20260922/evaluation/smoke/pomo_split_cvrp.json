@@ -1,0 +1,18 @@
+{
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrp50_n10000_seed1234.pt",
+  "dataset_sha256": "1d93efdad31b4d402bc4366403732c696d358217eafebceb6dfbb12ac6de5d7e",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/pomo_split_v4/checkpoint-2000.pt",
+  "checkpoint_sha256": "56f608725a5cbf1c1f089da9f2ead35ccd677abed041ffd7b46ffaa6b5f20059",
+  "architecture": "pomo_split",
+  "training_size": 50,
+  "instances": 1,
+  "decoding": "greedy POMO with 50 starts",
+  "pomo_size": 50,
+  "augmentation": 8,
+  "mean_distance_1x": 10.966684341430664,
+  "standard_error_1x": NaN,
+  "mean_distance_aug": 10.883214950561523,
+  "standard_error_aug": NaN,
+  "elapsed_seconds": 0.5529905781149864,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/smoke/pomo_split_cvrp.csv"
+}

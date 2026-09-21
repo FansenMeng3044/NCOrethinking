@@ -7,19 +7,40 @@ class GiantTourModel(nn.Module):
     """POMO policy that outputs only a permutation of the customers.
 
     The depot is encoded as context but is permanently masked from the action
-    space by the environment. Customer demand and remaining capacity are not
-    policy inputs; capacity is handled only by terminal Split decoding.
+    space by the environment. Static customer attributes and the dynamic decoder
+    context match the corresponding Direct model. Capacity and time-window
+    feasibility masks are omitted; route partitioning is handled by terminal
+    Split decoding.
     """
 
     def __init__(self, **model_params):
         super().__init__()
+        node_feature_dim = model_params.get("node_feature_dim")
+        if node_feature_dim not in (3, 6):
+            raise ValueError(
+                "node_feature_dim must be 3 for CVRP or 6 for CVRPTW"
+            )
         self.model_params = model_params
         self.encoder = Encoder(**model_params)
         self.decoder = Decoder(**model_params)
         self.encoded_nodes = None
 
     def pre_forward(self, reset_state):
-        self.encoded_nodes = self.encoder(reset_state.depot_xy, reset_state.node_xy)
+        node_features = [reset_state.node_xy, reset_state.node_demand[:, :, None]]
+        if self.model_params["node_feature_dim"] == 6:
+            required = ("node_service_time", "node_tw_start", "node_tw_end")
+            missing = [name for name in required if not hasattr(reset_state, name)]
+            if missing:
+                raise ValueError(
+                    "CVRPTW customer features are missing from reset state: {}".format(
+                        ", ".join(missing)
+                    )
+                )
+            node_features.extend(
+                getattr(reset_state, name)[:, :, None] for name in required
+            )
+        customer_features = torch.cat(node_features, dim=2)
+        self.encoded_nodes = self.encoder(reset_state.depot_xy, customer_features)
         self.decoder.set_kv(self.encoded_nodes)
 
     def forward(self, state):
@@ -31,11 +52,16 @@ class GiantTourModel(nn.Module):
                 1, pomo_size + 1, device=state.BATCH_IDX.device, dtype=torch.long
             )[None, :].expand(batch_size, pomo_size)
             prob = torch.ones(batch_size, pomo_size, device=state.BATCH_IDX.device)
-            self.decoder.set_q_first(_get_encoding(self.encoded_nodes, selected))
             return selected, prob
 
         encoded_last = _get_encoding(self.encoded_nodes, state.current_node)
-        probs = self.decoder(encoded_last, state.ninf_mask)
+        if self.model_params["node_feature_dim"] == 6:
+            probs = self.decoder(
+                encoded_last, state.load, state.ninf_mask,
+                current_time=state.current_time,
+            )
+        else:
+            probs = self.decoder(encoded_last, state.load, state.ninf_mask)
 
         if self.training or self.model_params["eval_type"] == "softmax":
             while True:
@@ -55,17 +81,18 @@ class Encoder(nn.Module):
     def __init__(self, **model_params):
         super().__init__()
         embedding_dim = model_params["embedding_dim"]
-        # Separate projections identify which coordinate is the depot without
-        # exposing demand/capacity information to the sequencing policy.
+        node_feature_dim = model_params["node_feature_dim"]
+        # The depot has coordinates only; customer features match the Direct
+        # encoder for the selected problem class.
         self.embedding_depot = nn.Linear(2, embedding_dim)
-        self.embedding_node = nn.Linear(2, embedding_dim)
+        self.embedding_node = nn.Linear(node_feature_dim, embedding_dim)
         self.layers = nn.ModuleList(
             EncoderLayer(**model_params) for _ in range(model_params["encoder_layer_num"])
         )
 
-    def forward(self, depot_xy, node_xy):
+    def forward(self, depot_xy, node_features):
         out = torch.cat(
-            (self.embedding_depot(depot_xy), self.embedding_node(node_xy)), dim=1
+            (self.embedding_depot(depot_xy), self.embedding_node(node_features)), dim=1
         )
         for layer in self.layers:
             out = layer(out)
@@ -104,28 +131,32 @@ class Decoder(nn.Module):
         head_num = model_params["head_num"]
         qkv_dim = model_params["qkv_dim"]
         self.head_num = head_num
-        self.Wq_first = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
-        self.Wq_last = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
+        dynamic_dim = 2 if model_params["node_feature_dim"] == 6 else 1
+        self.Wq_last = nn.Linear(
+            embedding_dim + dynamic_dim, head_num * qkv_dim, bias=False
+        )
         self.Wk = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
         self.Wv = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
         self.combine = nn.Linear(head_num * qkv_dim, embedding_dim)
         self.k = None
         self.v = None
         self.single_head_key = None
-        self.q_first = None
 
     def set_kv(self, encoded_nodes):
         self.k = _reshape_by_heads(self.Wk(encoded_nodes), self.head_num)
         self.v = _reshape_by_heads(self.Wv(encoded_nodes), self.head_num)
         self.single_head_key = encoded_nodes.transpose(1, 2)
 
-    def set_q_first(self, encoded_first):
-        self.q_first = _reshape_by_heads(self.Wq_first(encoded_first), self.head_num)
-
-    def forward(self, encoded_last, ninf_mask):
-        q_last = _reshape_by_heads(self.Wq_last(encoded_last), self.head_num)
+    def forward(self, encoded_last, load, ninf_mask, current_time=None):
+        context_parts = [encoded_last, load[:, :, None]]
+        if self.model_params["node_feature_dim"] == 6:
+            if current_time is None:
+                raise ValueError("CVRPTW decoder requires current_time")
+            context_parts.append(current_time[:, :, None])
+        context = torch.cat(context_parts, dim=2)
+        q_last = _reshape_by_heads(self.Wq_last(context), self.head_num)
         out = _multi_head_attention(
-            self.q_first + q_last, self.k, self.v, rank3_ninf_mask=ninf_mask
+            q_last, self.k, self.v, rank3_ninf_mask=ninf_mask
         )
         mh_out = self.combine(out)
         score = torch.matmul(mh_out, self.single_head_key)

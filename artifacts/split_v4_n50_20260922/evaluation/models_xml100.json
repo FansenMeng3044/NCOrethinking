@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "name": "pomo_direct_n50",
+      "architecture": "pomo",
+      "training_size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/pomo_direct/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "679c767092fd64e7924d1c9a9ba5f4a4adaaf729316ab9dd37573206281bbcf5",
+      "enabled": true
+    },
+    {
+      "name": "pomo_split_v4_n50",
+      "architecture": "pomo_split",
+      "training_size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/pomo_split_v4/checkpoint-2000.pt",
+      "expected_epoch": 2000,
+      "expected_sha256": "56f608725a5cbf1c1f089da9f2ead35ccd677abed041ffd7b46ffaa6b5f20059",
+      "model_params": {"node_feature_dim": 3},
+      "enabled": true
+    },
+    {
+      "name": "am_direct_n50",
+      "architecture": "am",
+      "training_size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/am_direct/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "bcdcdcf5ebc9b7ffdb70b6f2350a39b13b32829d1d92f5ad397e85e5ae2319c0",
+      "enabled": true
+    },
+    {
+      "name": "am_split_v4_n50",
+      "architecture": "am_split",
+      "training_size": 50,
+      "checkpoint": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/am_split_v4/epoch-100.pt",
+      "expected_epoch": 100,
+      "expected_sha256": "ff3c9fe072f56d4e888aed8eceef14d8b023e2aef4f04abd1c35567f5bb87279",
+      "enabled": true
+    }
+  ]
+}

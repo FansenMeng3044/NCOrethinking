@@ -15,7 +15,7 @@ from split_decoder import raw_giant_tour_cost
 
 
 class AMSplitTW:
-    """XY-only Attention Model followed by exact capacity-and-TW Split."""
+    """Attention Model customer ordering followed by exact capacity-and-TW Split."""
 
     NAME = "am_split_tw"
     VEHICLE_CAPACITY = VRPTW_CAPACITY
@@ -96,9 +96,11 @@ class AMSplitTW:
     def make_dataset(*args, **kwargs):
         return CVRPTWDataset(*args, **kwargs)
 
-    @staticmethod
-    def make_state(*args, **kwargs):
-        return StateAMSplit.initialize(*args, **kwargs)
+    @classmethod
+    def make_state(cls, input, *args, **kwargs):
+        kwargs.setdefault("depot_start_default", cls.DEPOT_START)
+        kwargs.setdefault("speed_default", cls.SPEED)
+        return StateAMSplit.initialize(input, *args, **kwargs)
 
     @staticmethod
     def beam_search(*args, **kwargs):

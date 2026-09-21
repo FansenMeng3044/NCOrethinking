@@ -1,0 +1,17 @@
+{
+  "dataset": "/root/autodl-tmp/split_v4_n50_eval_20260922/data/fixed/cvrp50_n10000_seed1234.pt",
+  "dataset_sha256": "1d93efdad31b4d402bc4366403732c696d358217eafebceb6dfbb12ac6de5d7e",
+  "model": "/root/autodl-tmp/split_v4_n50_eval_20260922/models/cvrp/am_split_v4/epoch-100.pt",
+  "checkpoint_sha256": "ff3c9fe072f56d4e888aed8eceef14d8b023e2aef4f04abd1c35567f5bb87279",
+  "architecture": "am_split",
+  "training_size": 50,
+  "instances": 10000,
+  "decoding": "greedy",
+  "augmentation": 8,
+  "mean_distance_1x": 11.441627861690522,
+  "standard_error_1x": 0.014282658486016432,
+  "mean_distance_aug": 11.103735465097428,
+  "standard_error_aug": 0.013734041454949705,
+  "elapsed_seconds": 3.5165521688759327,
+  "per_instance_output": "/root/autodl-tmp/split_v4_n50_eval_20260922/results/fixed_cvrp/am_split_v4_n50.csv"
+}

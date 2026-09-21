@@ -40,6 +40,7 @@ def main():
         "capacity": 1.0, "speed": 1.0, "depot_start": 0.0, "depot_end": 3.0,
     }
     model_params = {
+        "node_feature_dim": 6,
         "embedding_dim": 128, "sqrt_embedding_dim": 128 ** 0.5,
         "encoder_layer_num": 6, "qkv_dim": 16, "head_num": 8,
         "logit_clipping": 10, "ff_hidden_dim": 512, "eval_type": "argmax",
