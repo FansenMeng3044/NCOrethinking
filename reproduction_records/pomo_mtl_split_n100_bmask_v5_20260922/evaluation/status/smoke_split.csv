@@ -1,0 +1,3 @@
+problem,instance,status,cost,vehicles
+CVRP,0,ok,14.8085100815,12
+CVRP,1,ok,20.4771721685,11

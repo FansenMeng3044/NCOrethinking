@@ -1,0 +1,37 @@
+[2026-09-22T11:08:57Z] Direct trained-n100 evaluated at n=200 batch=8
+CVRP: 1000/1000 ok, mean cost=22.596840
+OVRP: 1000/1000 ok, mean cost=14.903629
+VRPB: 1000/1000 ok, mean cost=17.321867
+VRPL: 1000/1000 ok, mean cost=22.590667
+VRPTW: 1000/1000 ok, mean cost=46.376410
+OVRPTW: 1000/1000 ok, mean cost=26.335648
+OVRPB: 1000/1000 ok, mean cost=13.089111
+OVRPL: 1000/1000 ok, mean cost=14.911119
+VRPBL: 1000/1000 ok, mean cost=17.399000
+VRPBTW: 1000/1000 ok, mean cost=48.716841
+VRPLTW: 1000/1000 ok, mean cost=47.219259
+OVRPBL: 1000/1000 ok, mean cost=13.059076
+OVRPBTW: 1000/1000 ok, mean cost=27.808600
+OVRPLTW: 1000/1000 ok, mean cost=26.229458
+VRPBLTW: 1000/1000 ok, mean cost=49.626841
+OVRPBLTW: 1000/1000 ok, mean cost=27.511020
+checkpoint epoch=5000; wrote 16000 rows to /root/autodl-tmp/pomo_mtl_split_n100_official_eval_20260922/results/direct_n200.csv
+[2026-09-22T11:21:10Z] Split trained-n100 evaluated at n=200 batch=8
+CVRP: 1000/1000 feasible, mean cost=24.421882
+OVRP: 1000/1000 feasible, mean cost=15.690083
+VRPB: 1000/1000 feasible, mean cost=18.677621
+VRPL: 1000/1000 feasible, mean cost=24.403276
+VRPTW: 1000/1000 feasible, mean cost=53.810885
+OVRPTW: 1000/1000 feasible, mean cost=29.117328
+OVRPB: 1000/1000 feasible, mean cost=14.192327
+OVRPL: 1000/1000 feasible, mean cost=15.693680
+VRPBL: 1000/1000 feasible, mean cost=18.844505
+VRPBTW: 1/1000 feasible, mean cost=58.089464
+VRPLTW: 1000/1000 feasible, mean cost=54.830323
+OVRPBL: 1000/1000 feasible, mean cost=14.124093
+OVRPBTW: 1/1000 feasible, mean cost=26.807942
+OVRPLTW: 1000/1000 feasible, mean cost=28.966799
+VRPBLTW: 0/1000 feasible, mean cost=nan
+OVRPBLTW: 0/1000 feasible, mean cost=nan
+wrote 16000 rows to /root/autodl-tmp/pomo_mtl_split_n100_official_eval_20260922/results/split_n200.csv
+[2026-09-22T11:39:41Z] n=200 complete

@@ -1,0 +1,43 @@
+{
+  "checkpoint": {
+    "cpu_load_ok": true,
+    "epoch": 5000,
+    "size_bytes": 15223795,
+    "sha256": "85c8dcc12aeca7cd3a99684a44329f5eab522c14aa5cf329416269b0fa0653cb",
+    "strict_resume_state_present": true
+  },
+  "source": {
+    "overlay_path": "third_party/Routing-MVMoE-overlay",
+    "official_mvmoe_commit": "af29e5af0595f94f3ecc3bc46d72df1089a62682",
+    "fingerprint_files_match_checkpoint": true,
+    "fingerprint_file_count": 10,
+    "tests_passed": 152,
+    "tests_skipped_without_cuda": 82
+  },
+  "training": {
+    "exit_code": 0,
+    "phase": "completed",
+    "metrics_data_rows": 405019,
+    "last_record_type": "run_summary",
+    "last_event": "run_finished",
+    "last_completed_epoch": 5000,
+    "samples_seen": 100000000,
+    "bad_applicable_numeric_values": 0,
+    "learning_rate_values": [0.0001, 0.00001],
+    "elapsed_seconds": 85815.24952217704,
+    "uncompressed_metrics_sha256": "8b709fe1eefb1f1d2fa9ed631cfac5c14adb193a14889a9e673098c77d4f5221",
+    "compressed_metrics_sha256": "86744f0d5cf25e1a33b701aa1c6d4606a419ee5dd9eff3adb9c5b199ca5832f2"
+  },
+  "evaluation": {
+    "exit_code": 0,
+    "phase": "completed",
+    "protocol": "official fixed data, greedy POMO, 8-fold augmentation, 1000 instances per variant",
+    "results": {
+      "n50": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12700, "split_no_feasible_candidate": 3300},
+      "n100": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12099, "split_no_feasible_candidate": 3901},
+      "n200": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12002, "split_no_feasible_candidate": 3998}
+    },
+    "unique_problem_instance_keys": true,
+    "finite_costs_for_ok_rows": true
+  }
+}
