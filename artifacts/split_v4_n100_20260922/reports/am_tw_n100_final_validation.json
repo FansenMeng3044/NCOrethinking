@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "fixed_cvrptw100_rows": 20000,
+  "solomon100_rows": 112,
+  "xml100_rows": 20000,
+  "generalization_rows": 6000,
+  "total_result_rows": 46112,
+  "route_files_checked": 46112,
+  "all_status_ok": true
+}
