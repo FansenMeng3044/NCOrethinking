@@ -15,10 +15,6 @@ from models.MOEModel_Light import MTL_Decoder as DirectLightDecoder
 from models.MOEModel_Light import MTL_Encoder as DirectLightEncoder
 
 
-B_CONTEXT_DIM = 2
-B_CANDIDATE_DIM = 3
-
-
 def _distributed_active() -> bool:
     return dist.is_available() and dist.is_initialized() and dist.get_world_size() > 1
 
@@ -93,58 +89,32 @@ def _multi_head_attention(q, k, v, ninf_mask):
     return out.reshape(out.size(0), out.size(1), -1)
 
 
-def _xy_raw_embedding(model_params) -> nn.Module:
-    embedding_dim = model_params["embedding_dim"]
-    if model_params["num_experts"] > 1 and "Raw" in model_params["expert_loc"]:
-        return MoE(
-            input_size=2,
-            output_size=embedding_dim,
-            num_experts=model_params["num_experts"],
-            k=model_params["topk"],
-            T=1.0,
-            noisy_gating=True,
-            routing_level=model_params["routing_level"],
-            routing_method=model_params["routing_method"],
-            moe_model="Linear",
-        )
-    return nn.Linear(2, embedding_dim)
-
-
-def _make_xy_encoder(kind: str, model_params) -> nn.Module:
+def _make_static_encoder(kind: str, model_params) -> nn.Module:
+    """Build the unchanged original encoder with five customer features."""
     if kind == "mtl":
         encoder = DirectMTLEncoder(**model_params)
-        encoder.embedding_node = nn.Linear(2, model_params["embedding_dim"])
     elif kind == "moe":
         encoder = DirectMOEEncoder(**model_params)
-        encoder.embedding_node = _xy_raw_embedding(model_params)
     elif kind == "moe_light":
         encoder = DirectLightEncoder(**model_params)
-        encoder.embedding_node = _xy_raw_embedding(model_params)
     else:
         raise ValueError(kind)
     return encoder
 
 
-class XYOnlyDecoder(nn.Module):
-    """Coordinate encoder query augmented only by dynamic B state."""
+class SplitDecoder(nn.Module):
+    """Original MVMoE decoder context with a customer-only action space."""
 
     def __init__(self, kind: str, **model_params):
         super().__init__()
         self.model_params = model_params
-        embedding_dim = model_params["embedding_dim"]
-        head_num = model_params["head_num"]
-        qkv_dim = model_params["qkv_dim"]
-        self.Wq_first = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
-        self.Wq_last = nn.Linear(embedding_dim, head_num * qkv_dim, bias=False)
-        self.Wq_b = nn.Linear(B_CONTEXT_DIM, head_num * qkv_dim, bias=False)
-        self.b_candidate_score = nn.Linear(B_CANDIDATE_DIM, 1, bias=False)
-
         if kind == "mtl":
             direct = DirectMTLDecoder(**model_params)
         elif kind == "moe":
             direct = DirectMOEDecoder(**model_params)
         else:
             raise ValueError(kind)
+        self.Wq_last = direct.Wq_last
         self.Wk = direct.Wk
         self.Wv = direct.Wv
         self.multi_head_combine = direct.multi_head_combine
@@ -156,13 +126,10 @@ class XYOnlyDecoder(nn.Module):
         self.v = _reshape_by_heads(self.Wv(encoded_nodes), heads)
         self.single_head_key = encoded_nodes.transpose(1, 2)
 
-    def forward(
-        self, encoded_first, encoded_last, b_context, b_candidate, ninf_mask
-    ):
+    def forward(self, encoded_last, attr, ninf_mask):
         heads = self.model_params["head_num"]
-        q = _reshape_by_heads(self.Wq_first(encoded_first), heads)
-        q = q + _reshape_by_heads(self.Wq_last(encoded_last), heads)
-        q = q + _reshape_by_heads(self.Wq_b(b_context), heads)
+        decoder_input = torch.cat((encoded_last, attr), dim=2)
+        q = _reshape_by_heads(self.Wq_last(decoder_input), heads)
         out_concat = _multi_head_attention(q, self.k, self.v, ninf_mask)
         aux_loss = out_concat.new_zeros(())
         if isinstance(self.multi_head_combine, MoE):
@@ -170,26 +137,21 @@ class XYOnlyDecoder(nn.Module):
         else:
             attention_out = self.multi_head_combine(out_concat)
         score = torch.matmul(attention_out, self.single_head_key)
-        score = score + self.b_candidate_score(b_candidate).squeeze(3)
         score = self.model_params["logit_clipping"] * torch.tanh(
             score / self.model_params["sqrt_embedding_dim"]
         )
         return F.softmax(score + ninf_mask, dim=2), aux_loss
 
 
-class XYOnlyLightDecoder(nn.Module):
-    """MVMoE-L decoder with coordinate encoding and dynamic B state."""
+class SplitLightDecoder(nn.Module):
+    """MVMoE-L decoder with the original four dynamic attributes."""
 
     def __init__(self, **model_params):
         super().__init__()
         self.model_params = model_params
-        embedding_dim = model_params["embedding_dim"]
-        heads, qkv_dim = model_params["head_num"], model_params["qkv_dim"]
-        self.Wq_first = nn.Linear(embedding_dim, heads * qkv_dim, bias=False)
-        self.Wq_last = nn.Linear(embedding_dim, heads * qkv_dim, bias=False)
-        self.Wq_b = nn.Linear(B_CONTEXT_DIM, heads * qkv_dim, bias=False)
-        self.b_candidate_score = nn.Linear(B_CANDIDATE_DIM, 1, bias=False)
+        heads = model_params["head_num"]
         direct = DirectLightDecoder(**model_params)
+        self.Wq_last = direct.Wq_last
         self.Wk, self.Wv = direct.Wk, direct.Wv
         self.hierarchical_gating = direct.hierarchical_gating
         self.multi_head_combine_dense = direct.multi_head_combine_dense
@@ -206,14 +168,10 @@ class XYOnlyLightDecoder(nn.Module):
         self.single_head_key = encoded_nodes.transpose(1, 2)
         self.branch_probs = None
 
-    def forward(
-        self, encoded_first, encoded_last, b_context, b_candidate, ninf_mask,
-        temperature=1.0, step=1,
-    ):
+    def forward(self, encoded_last, attr, ninf_mask, temperature=1.0, step=1):
         heads = self.model_params["head_num"]
-        q = _reshape_by_heads(self.Wq_first(encoded_first), heads)
-        q = q + _reshape_by_heads(self.Wq_last(encoded_last), heads)
-        q = q + _reshape_by_heads(self.Wq_b(b_context), heads)
+        decoder_input = torch.cat((encoded_last, attr), dim=2)
+        q = _reshape_by_heads(self.Wq_last(decoder_input), heads)
         out_concat = _multi_head_attention(q, self.k, self.v, ninf_mask)
         aux_loss = out_concat.new_zeros(())
 
@@ -241,7 +199,6 @@ class XYOnlyLightDecoder(nn.Module):
             attention_out = self.multi_head_combine_dense(out_concat)
 
         score = torch.matmul(attention_out, self.single_head_key)
-        score = score + self.b_candidate_score(b_candidate).squeeze(3)
         score = self.model_params["logit_clipping"] * torch.tanh(
             score / self.model_params["sqrt_embedding_dim"]
         )
@@ -254,8 +211,8 @@ def _get_encoding(encoded_nodes, indices):
     return encoded_nodes.gather(1, gather)
 
 
-class _XYOnlySplitModel(nn.Module):
-    """XY-only static encoding with B-aware autoregressive decoding."""
+class _FeatureAlignedSplitModel(nn.Module):
+    """Original static and dynamic inputs with customer-only decoding."""
 
     kind = "mtl"
 
@@ -263,11 +220,11 @@ class _XYOnlySplitModel(nn.Module):
         super().__init__()
         self.model_params = model_params
         self.eval_type = model_params["eval_type"]
-        self.encoder = _make_xy_encoder(self.kind, model_params)
+        self.encoder = _make_static_encoder(self.kind, model_params)
         self.decoder = (
-            XYOnlyLightDecoder(**model_params)
+            SplitLightDecoder(**model_params)
             if self.kind == "moe_light"
-            else XYOnlyDecoder(self.kind, **model_params)
+            else SplitDecoder(self.kind, **model_params)
         )
         _enable_distributed_consistent_moe(self)
         self.encoded_nodes = None
@@ -285,9 +242,19 @@ class _XYOnlySplitModel(nn.Module):
         self.temperature = float(temperature)
 
     def pre_forward(self, reset_state):
-        # This is the enforcement boundary: these are the only two inputs read.
-        depot_xy, node_xy = reset_state.depot_xy, reset_state.node_xy
-        encoded = self.encoder(depot_xy, node_xy)
+        # Match the original fixed input order exactly: (x, y, q, a, b).
+        node_features = torch.cat(
+            (
+                reset_state.node_xy,
+                reset_state.node_demand[:, :, None],
+                reset_state.node_tw_start[:, :, None],
+                reset_state.node_tw_end[:, :, None],
+            ),
+            dim=2,
+        )
+        if node_features.size(2) != 5:
+            raise RuntimeError("customer encoder input must contain five features")
+        encoded = self.encoder(reset_state.depot_xy, node_features)
         if isinstance(encoded, tuple):
             self.encoded_nodes, encoder_aux = encoded
             self.aux_loss = encoder_aux
@@ -304,19 +271,23 @@ class _XYOnlySplitModel(nn.Module):
             prob = torch.ones(batch, pomo, device=device, dtype=self.encoded_nodes.dtype)
             return selected, prob
 
-        encoded_first = _get_encoding(self.encoded_nodes, state.START_NODE)
         encoded_last = _get_encoding(self.encoded_nodes, state.current_node)
+        attr = torch.cat(
+            (
+                state.load[:, :, None],
+                state.current_time[:, :, None],
+                state.length[:, :, None],
+                state.open[:, :, None],
+            ),
+            dim=2,
+        )
         if self.kind == "moe_light":
             probs, decoder_aux = self.decoder(
-                encoded_first, encoded_last, state.b_context,
-                state.b_candidate, state.ninf_mask,
+                encoded_last, attr, state.ninf_mask,
                 temperature=self.temperature, step=state.selected_count,
             )
         else:
-            probs, decoder_aux = self.decoder(
-                encoded_first, encoded_last, state.b_context,
-                state.b_candidate, state.ninf_mask
-            )
+            probs, decoder_aux = self.decoder(encoded_last, attr, state.ninf_mask)
         self.aux_loss = self.aux_loss + decoder_aux
 
         if selected is None:
@@ -330,25 +301,25 @@ class _XYOnlySplitModel(nn.Module):
         return selected, prob
 
 
-class POMOMTLSplit(_XYOnlySplitModel):
-    """POMO-MTL-Split: XY encoding, B decoding, and B/L/C/TW Split."""
+class POMOMTLSplit(_FeatureAlignedSplitModel):
+    """POMO-MTL-Split with original inputs and final exact Split."""
 
     kind = "mtl"
 
 
-class MVMoE4ESplit(_XYOnlySplitModel):
-    """MVMoE/4E-Split: XY encoding, B decoding, and B/L/C/TW Split."""
+class MVMoE4ESplit(_FeatureAlignedSplitModel):
+    """MVMoE/4E-Split with original inputs and final exact Split."""
 
     kind = "moe"
 
 
-class MVMoE4ELSplit(_XYOnlySplitModel):
-    """MVMoE/4E-L-Split: XY encoding, B decoding, and B/L/C/TW Split."""
+class MVMoE4ELSplit(_FeatureAlignedSplitModel):
+    """MVMoE/4E-L-Split with original inputs and final exact Split."""
 
     kind = "moe_light"
 
 
-def get_split_model(name: str) -> Type[_XYOnlySplitModel]:
+def get_split_model(name: str) -> Type[_FeatureAlignedSplitModel]:
     models = {
         "MTL_SPLIT": POMOMTLSplit,
         "POMO_MTL_SPLIT": POMOMTLSplit,

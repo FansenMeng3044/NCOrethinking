@@ -1,4 +1,4 @@
-"""Strict XY-only giant-tour versions of the three multitask MVMoE models."""
+"""Giant-tour versions using the original MVMoE static node features."""
 
 from .xy_models import MVMoE4ELSplit, MVMoE4ESplit, POMOMTLSplit, get_split_model
 

@@ -17,6 +17,13 @@ This directory archives the final training and official MVMoE evaluation artifac
 - Split backend: fused Triton implementation
 - Checkpoint interval: 300 epochs, plus the final epoch
 
+The exact B-mask v5 source used by this run is tracked in
+`third_party/Routing-MVMoE-overlay`.  The ten trajectory-affecting files listed
+in the checkpoint's `source_fingerprint` match that overlay byte for byte after
+checkout on Linux.  The recorded outer commit identifies the repository base;
+the overlay in this artifact branch records the previously uncommitted source
+that was deployed for training.
+
 The decoder keeps only depot/visited action validity and the official backhaul-order feasibility mask. Capacity, time-window, open-route, and route-duration constraints are not used as action masks; they are enforced by Split when the completed customer order is partitioned.
 
 ## Validation
@@ -27,6 +34,10 @@ The decoder keeps only depot/visited action validity and the official backhaul-o
 - The checkpoint contains model, optimizer, scheduler, RNG, source-fingerprint, and strict-resume state.
 - `training_metrics.csv` contains 795,019 data rows and ends with `run_summary,run_finished`.
 - All checked applicable values in `train_score`, `train_loss`, `learning_rate`, `grad_norm`, `step_seconds`, and `throughput` are finite.
+- Applying the archived overlay to official Routing-MVMoE commit
+  `af29e5af0595f94f3ecc3bc46d72df1089a62682` passes the complete Split test
+  suite: 152 tests passed and 82 CUDA-specific tests were skipped on the local
+  CPU verification host.
 
 ## Evaluation protocol
 
@@ -60,4 +71,3 @@ Paired means use only instances solved by both methods. The four unseen variants
 - `evaluation/results/`: per-instance Direct and Split results plus aggregate tables
 - `evaluation/logs/`, `evaluation/status/`: all evaluation attempts and final status
 - `MANIFEST.sha256`: SHA-256 hashes for all archived files
-

@@ -76,16 +76,24 @@ def test_all_three_trainers_write_structured_metrics(tmp_path, model_type):
     assert manifest["completed_epoch"] == 1
     assert manifest["next_epoch"] == 2
     assert manifest["rng_state_rank_count"] == 1
-    assert checkpoint["xy_only"] is True
-    assert checkpoint["xy_encoder_only"] is True
+    assert checkpoint["encoder_input_contract"] == "mvmoe_original_5d_customer"
+    assert checkpoint["static_encoder_features"] == [
+        "depot_xy", "node_xy", "node_demand", "node_tw_start", "node_tw_end"
+    ]
     assert checkpoint["decoder_constraints"] == ["B"]
-    assert checkpoint["split_constraints"] == ["B", "L", "C", "TW"]
-    assert checkpoint["constraint_factorization_version"] == 2
+    assert checkpoint["decoder_dynamic_features"] == [
+        "load", "current_time", "length", "open"
+    ]
+    assert checkpoint["decoder_action_mask"] == [
+        "depot", "visited", "B_order_feasibility"
+    ]
+    assert checkpoint["split_constraints"] == ["C", "TW", "B", "O", "L"]
+    assert checkpoint["constraint_factorization_version"] == 5
     assert checkpoint["distributed"] is False
     assert checkpoint["world_size"] == 1
     assert checkpoint["global_batch_size"] == 2
     assert checkpoint["local_batch_size"] == 2
-    assert checkpoint["checkpoint_schema_version"] == 2
+    assert checkpoint["checkpoint_schema_version"] == 5
     assert checkpoint["resume_contract"]["initial_seed"] == 2023
     assert checkpoint["resume_contract"]["feasibility_epsilon"] == pytest.approx(1e-5)
     assert set(checkpoint["rng_state_components"]) == {

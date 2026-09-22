@@ -1,3 +1,4 @@
+import importlib.util
 import math
 
 import pytest
@@ -17,7 +18,8 @@ from utils import get_env
 
 
 pytestmark = pytest.mark.skipif(
-    not torch.cuda.is_available(), reason="Triton Split validation requires CUDA"
+    not torch.cuda.is_available() or importlib.util.find_spec("triton") is None,
+    reason="Triton Split validation requires CUDA and Triton",
 )
 
 

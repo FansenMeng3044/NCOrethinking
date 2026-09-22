@@ -5,6 +5,14 @@
     "sha256": "ca33710947610f216684732baf853b6f17479ad309ac64dd969845c7e9d2fcd6",
     "strict_resume_state_present": true
   },
+  "source": {
+    "overlay_path": "third_party/Routing-MVMoE-overlay",
+    "official_mvmoe_commit": "af29e5af0595f94f3ecc3bc46d72df1089a62682",
+    "fingerprint_files_match_checkpoint": true,
+    "fingerprint_file_count": 10,
+    "tests_passed": 152,
+    "tests_skipped_without_cuda": 82
+  },
   "training": {
     "exit_code": 0,
     "phase": "completed",

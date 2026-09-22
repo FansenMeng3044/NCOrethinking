@@ -110,7 +110,7 @@ def test_two_rank_ddp_preserves_global_batch_and_writes_one_checkpoint(
     assert checkpoint["local_batch_size"] == 2
     assert checkpoint["global_train_episodes"] == 4
     assert len(checkpoint["rng_states"]) == 2
-    assert checkpoint["checkpoint_schema_version"] == 2
+    assert checkpoint["checkpoint_schema_version"] == 5
     assert checkpoint["resume_contract"]["world_size"] == 2
     assert checkpoint["resume_contract"]["global_train_batch_size"] == 4
     assert (output / "epoch-1.pt.resume.json").is_file()

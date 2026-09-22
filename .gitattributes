@@ -1,3 +1,4 @@
 *.pt filter=lfs diff=lfs merge=lfs -text
 **/training_metrics.csv.zst filter=lfs diff=lfs merge=lfs -text
 reproduction_records/pomo_mtl_split_n50_bmask_v5_20260922/** -text
+third_party/Routing-MVMoE-overlay/** -text whitespace=cr-at-eol

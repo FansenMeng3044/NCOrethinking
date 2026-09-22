@@ -1,4 +1,4 @@
-# XY-encoded, B-aware giant-tour variants
+# Original-input giant-tour variants with a B-only feasibility mask
 
 This extension adds three models without editing the official MVMoE models or
 environments:
@@ -9,30 +9,35 @@ environments:
 
 ## Constraint factorization
 
-The static encoder receives exactly `depot_xy` and `node_xy`; customer
-embeddings therefore retain input dimension two. During autoregressive
-decoding, only the backhaul (B) state is exposed. Route-length (L), ordinary
-capacity (C), and time-window (TW) attributes never enter the neural model.
+The static encoder matches the original POMO-MTL and MVMoE input contract. The
+depot receives `(x, y)`, while every customer receives
+`(x, y, demand, tw_start, tw_end)`. Non-TW environments set both TW fields to
+zero. Service time is not a static encoder feature.
 
-The decoder always emits exactly one permutation and never selects the depot.
-For each candidate it evaluates both continuation of the current hidden B route
-and restart from the depot. B uses MVMoE's signed-load transition, including
-its normalized signed customer demand and full/empty restart rule. If
-continuation is infeasible but restart is feasible, a hidden new route begins
-automatically. These B starts form a feasibility witness; a customer infeasible
-under both B transitions is masked. L never affects decoder features, candidate
-scores, masks, or starts.
+The decoder also matches the original dynamic input contract. Its query uses
+the current customer embedding together with `(load, current_time, length,
+open)`. The values are updated after every selected customer. Because the
+policy never selects the depot, they evolve continuously along the giant tour
+and are not reset at route boundaries during permutation construction.
 
-`MVMoEInstanceAdapter` leaves every official environment unchanged.  Its
-`PolicyView` contains only coordinates for static encoding. B flags and dynamic
-signed-load state are consumed during giant-tour decoding. The exact Split
-stage independently enforces B, L, C, and TW over all contiguous partitions.
-The decoder's hidden B boundaries are only a feasibility witness: Split may
-move, add, or remove them when selecting the minimum-cost feasible partition.
+The action mask always excludes the depot and customers already visited. In a
+backhaul environment, it additionally excludes a customer when that customer
+can neither continue the current hidden B-feasible route nor start a new
+B-feasible route. This hidden state is only a feasibility witness and is not an
+additional decoder feature. Capacity apart from the B signed-load semantics,
+hard time windows (TW), open routes (O), and route-duration limits (L) never
+exclude an action. The policy emits exactly one customer permutation. The exact
+Split stage subsequently enforces all applicable C, TW, B, O, and L semantics
+over its contiguous partitions and remains free to choose different boundaries.
+
+`MVMoEInstanceAdapter` leaves every official environment unchanged. Its
+`PolicyView` contains depot coordinates and the original five customer
+features, while `ConstraintSpec` contains the complete instance used by the
+dynamic context and final Split stage.
 
 All feasibility checks use the official MVMoE environment tolerance
 `round_error_epsilon = 1e-5`. The reference Split, fused Triton Split,
-backhaul-aware ordering state, and independent route replay share this single
+giant-tour environment, and independent route replay share this single
 constant so generator acceptance and downstream validation agree at numerical
 boundaries.
 
@@ -53,9 +58,8 @@ python train_split.py --problem Train_ALL --model_type MOE_SPLIT --problem_size 
 python train_split.py --problem Train_ALL --model_type MOE_LIGHT_SPLIT --problem_size 100 --pomo_size 100
 ```
 
-Reward is negative post-Split distance. The B construction is deterministic
-conditional on the selected order; no repair, sampling fallback, or constraint
-relaxation is applied.  The POMO baseline and policy loss are computed only
+Reward is negative post-Split distance. No repair, sampling fallback, or
+constraint relaxation is applied. The POMO baseline and policy loss are computed only
 over finite candidates, and training stops with a clear error if an instance
 has no feasible candidate. MoE auxiliary losses are kept.
 
@@ -124,7 +128,8 @@ python -m pytest tests_split -q
 
 The suite compares the B/L/C/TW dynamic program with exhaustive boundary
 enumeration on all 16 combinations (with and without objective rounding),
-adapts every official environment at sizes 50 and 100, audits B transition
-masks and mandatory starts, verifies L/C/TW blindness under fixed coordinates,
+adapts every official environment at sizes 50 and 100, verifies the exact
+five-feature encoder input and zero TW fields in non-TW tasks, verifies the
+four original dynamic decoder attributes and constraint-free customer masks,
 and runs finite forward/backward checks for all three models and both sizes on
 all six training tasks.

@@ -14,8 +14,8 @@ from utils import seed_everything
 def build_parser():
     parser = argparse.ArgumentParser(
         description=(
-            "Train XY-encoded POMO-MTL-Split / MVMoE-Split with B-aware "
-            "decoding and B/L/C/TW Split on official MVMoE tasks"
+            "Train POMO-MTL-Split / MVMoE-Split with original model inputs, "
+            "customer-only masks, and exact Split on official MVMoE tasks"
         )
     )
     parser.add_argument("--problem", default="Train_ALL", choices=[

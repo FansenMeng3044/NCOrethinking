@@ -29,7 +29,16 @@ class NoFeasibleCandidateError(RuntimeError):
     pass
 
 
-CHECKPOINT_SCHEMA_VERSION = 2
+CHECKPOINT_SCHEMA_VERSION = 5
+STATIC_ENCODER_FEATURES = [
+    "depot_xy", "node_xy", "node_demand", "node_tw_start", "node_tw_end"
+]
+ENCODER_INPUT_CONTRACT = "mvmoe_original_5d_customer"
+DECODER_CONSTRAINTS = ["B"]
+DECODER_DYNAMIC_FEATURES = ["load", "current_time", "length", "open"]
+DECODER_ACTION_MASK = ["depot", "visited", "B_order_feasibility"]
+SPLIT_CONSTRAINTS = ["C", "TW", "B", "O", "L"]
+CONSTRAINT_FACTORIZATION_VERSION = 5
 RESUME_SOURCE_FILES = (
     "train_split.py",
     "SplitTrainer.py",
@@ -173,7 +182,7 @@ def valid_pomo_reinforce_loss(reward: torch.Tensor, log_prob: torch.Tensor):
 
 
 class SplitTrainer:
-    """Six-task trainer for XY-encoded, B-aware giant-tour policies."""
+    """Six-task trainer with original inputs and customer-only action masks."""
 
     def __init__(self, args, env_params, model_params, optimizer_params, trainer_params):
         self.args = args
@@ -222,13 +231,19 @@ class SplitTrainer:
                 raise ValueError(
                     "trajectory-affecting source files differ from the checkpoint"
                 )
-            if not checkpoint.get("xy_encoder_only", checkpoint.get("xy_only", False)):
-                raise ValueError("refusing to load a checkpoint without XY-only static encoding")
-            if checkpoint.get("decoder_constraints") != ["B"]:
-                raise ValueError("checkpoint does not use the B-only decoder")
-            if checkpoint.get("split_constraints") != ["B", "L", "C", "TW"]:
-                raise ValueError("checkpoint does not use the B/L/C/TW Split protocol")
-            if checkpoint.get("constraint_factorization_version") != 2:
+            if checkpoint.get("encoder_input_contract") != ENCODER_INPUT_CONTRACT:
+                raise ValueError("checkpoint does not use the original MVMoE encoder inputs")
+            if checkpoint.get("static_encoder_features") != STATIC_ENCODER_FEATURES:
+                raise ValueError("checkpoint static encoder features do not match")
+            if checkpoint.get("decoder_constraints") != DECODER_CONSTRAINTS:
+                raise ValueError("checkpoint decoder constraint contract does not match")
+            if checkpoint.get("decoder_dynamic_features") != DECODER_DYNAMIC_FEATURES:
+                raise ValueError("checkpoint decoder dynamic features do not match")
+            if checkpoint.get("decoder_action_mask") != DECODER_ACTION_MASK:
+                raise ValueError("checkpoint decoder action mask does not match")
+            if checkpoint.get("split_constraints") != SPLIT_CONSTRAINTS:
+                raise ValueError("checkpoint Split constraint set does not match")
+            if checkpoint.get("constraint_factorization_version") != CONSTRAINT_FACTORIZATION_VERSION:
                 raise ValueError("checkpoint uses an incompatible constraint factorization")
             if checkpoint.get("model_type") != args.model_type:
                 raise ValueError("checkpoint model_type does not match the requested Split model")
@@ -284,7 +299,7 @@ class SplitTrainer:
             if key != "device"
         }
         return _normalized({
-            "schema_version": 1,
+            "schema_version": 3,
             "problem": self.args.problem,
             "model_type": self.args.model_type,
             "initial_seed": getattr(self.args, "seed", None),
@@ -303,10 +318,13 @@ class SplitTrainer:
                 "split_backend", os.environ.get("NCO_SPLIT_BACKEND", "reference")
             ),
             "feasibility_epsilon": FEASIBILITY_EPSILON,
-            "static_encoder_features": ["depot_xy", "node_xy"],
-            "decoder_constraints": ["B"],
-            "split_constraints": ["B", "L", "C", "TW"],
-            "constraint_factorization_version": 2,
+            "encoder_input_contract": ENCODER_INPUT_CONTRACT,
+            "static_encoder_features": STATIC_ENCODER_FEATURES,
+            "decoder_constraints": DECODER_CONSTRAINTS,
+            "decoder_dynamic_features": DECODER_DYNAMIC_FEATURES,
+            "decoder_action_mask": DECODER_ACTION_MASK,
+            "split_constraints": SPLIT_CONSTRAINTS,
+            "constraint_factorization_version": CONSTRAINT_FACTORIZATION_VERSION,
         })
 
     def _runtime_fingerprint(self):
@@ -691,11 +709,13 @@ class SplitTrainer:
                     "checkpoint_saved_at_utc": _utc_now(),
                     "epoch": epoch,
                     "model_type": self.args.model_type,
-                    "xy_only": True,
-                    "xy_encoder_only": True,
-                    "decoder_constraints": ["B"],
-                    "split_constraints": ["B", "L", "C", "TW"],
-                    "constraint_factorization_version": 2,
+                    "encoder_input_contract": ENCODER_INPUT_CONTRACT,
+                    "static_encoder_features": STATIC_ENCODER_FEATURES,
+                    "decoder_constraints": DECODER_CONSTRAINTS,
+                    "decoder_dynamic_features": DECODER_DYNAMIC_FEATURES,
+                    "decoder_action_mask": DECODER_ACTION_MASK,
+                    "split_constraints": SPLIT_CONSTRAINTS,
+                    "constraint_factorization_version": CONSTRAINT_FACTORIZATION_VERSION,
                     "split_reward": True,
                     "split_backend": self.trainer_params.get(
                         "split_backend", os.environ.get("NCO_SPLIT_BACKEND", "reference")
