@@ -1,0 +1,29 @@
+{
+  "checkpoint": {
+    "cpu_load_ok": true,
+    "epoch": 5000,
+    "sha256": "ca33710947610f216684732baf853b6f17479ad309ac64dd969845c7e9d2fcd6",
+    "strict_resume_state_present": true
+  },
+  "training": {
+    "exit_code": 0,
+    "phase": "completed",
+    "metrics_data_rows": 795019,
+    "last_record_type": "run_summary",
+    "last_event": "run_finished",
+    "bad_applicable_numeric_values": 0,
+    "uncompressed_metrics_sha256": "d459f816e2dc44e0f317dd2d2b5adfd6e8127b5a4b8b437e149139f4cd72296e",
+    "compressed_metrics_sha256": "25a76f13faeb924fe5b7977c8cba37de040d631c3844294df50dc14be35bf6f3"
+  },
+  "evaluation": {
+    "exit_code": 0,
+    "phase": "completed",
+    "results": {
+      "n50": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12926, "split_no_feasible_candidate": 3074},
+      "n100": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12178, "split_no_feasible_candidate": 3822},
+      "n200": {"direct_rows": 16000, "direct_ok": 16000, "split_rows": 16000, "split_ok": 12004, "split_no_feasible_candidate": 3996}
+    },
+    "unique_problem_instance_keys": true,
+    "finite_costs_for_ok_rows": true
+  }
+}

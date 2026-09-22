@@ -1,0 +1,33 @@
+nohup: ignoring input
+[2026-09-22T09:09:32Z] Direct n=200 batch=32
+CVRP: 1000/1000 ok, mean cost=25.729334
+OVRP: 1000/1000 ok, mean cost=16.646973
+VRPB: 1000/1000 ok, mean cost=21.528935
+VRPL: 1000/1000 ok, mean cost=25.720375
+VRPTW: 1000/1000 ok, mean cost=52.136372
+OVRPTW: 1000/1000 ok, mean cost=30.120909
+OVRPB: 1000/1000 ok, mean cost=14.715044
+OVRPL: 1000/1000 ok, mean cost=16.655409
+VRPBL: 1000/1000 ok, mean cost=20.520021
+VRPBTW: 1000/1000 ok, mean cost=54.492680
+VRPLTW: 1000/1000 ok, mean cost=53.094874
+OVRPBL: 1000/1000 ok, mean cost=14.672000
+OVRPBTW: 1000/1000 ok, mean cost=31.606746
+OVRPLTW: 1000/1000 ok, mean cost=30.030541
+VRPBLTW: 1000/1000 ok, mean cost=55.509366
+OVRPBLTW: 1000/1000 ok, mean cost=31.341324
+checkpoint epoch=5000; wrote 16000 rows to /root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/results/direct_n200.csv
+[2026-09-22T09:17:07Z] Split n=200 batch=32
+CVRP: 1000/1000 feasible, mean cost=25.528036
+OVRP: 1000/1000 feasible, mean cost=16.915483
+VRPB: 1000/1000 feasible, mean cost=19.801567
+VRPL: 1000/1000 feasible, mean cost=25.511786
+Traceback (most recent call last):
+  File "/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/test_split_v5.py", line 159, in <module>
+    main()
+  File "/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/test_split_v5.py", line 136, in main
+    records = evaluate_batch(model, source, pomo_size, args.augmentation)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/test_split_v5.py", line 54, in evaluate_batch
+    raise AssertionError("independent replay cost disagrees with Split")
+AssertionError: independent replay cost disagrees with Split

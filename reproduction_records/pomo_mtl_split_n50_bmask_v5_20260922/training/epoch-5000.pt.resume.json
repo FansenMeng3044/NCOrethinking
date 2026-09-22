@@ -1,0 +1,158 @@
+{
+  "checkpoint_path": "/root/autodl-tmp/mvmoe_split_bmask_v5_20260921/mtl_split_n50/outputs/20260921_183025_mtl_split_n50/epoch-5000.pt",
+  "checkpoint_saved_at_utc": "2026-09-22T07:42:16.759068+00:00",
+  "checkpoint_schema_version": 5,
+  "checkpoint_sha256": "ca33710947610f216684732baf853b6f17479ad309ac64dd969845c7e9d2fcd6",
+  "checkpoint_size_bytes": 15183515,
+  "completed_epoch": 5000,
+  "next_epoch": 5001,
+  "resume_contract": {
+    "constraint_factorization_version": 5,
+    "decoder_action_mask": [
+      "depot",
+      "visited",
+      "B_order_feasibility"
+    ],
+    "decoder_constraints": [
+      "B"
+    ],
+    "decoder_dynamic_features": [
+      "load",
+      "current_time",
+      "length",
+      "open"
+    ],
+    "distributed": false,
+    "encoder_input_contract": "mvmoe_original_5d_customer",
+    "env_params": {
+      "pomo_size": 50,
+      "problem_size": 50
+    },
+    "feasibility_epsilon": 1e-05,
+    "global_train_batch_size": 128,
+    "initial_seed": 2023,
+    "local_train_batch_size": 128,
+    "max_grad_norm": "inf",
+    "model_params": {
+      "decoder_layer_num": 1,
+      "embedding_dim": 128,
+      "encoder_layer_num": 6,
+      "eval_type": "argmax",
+      "expert_loc": [
+        "Enc0",
+        "Enc1",
+        "Enc2",
+        "Enc3",
+        "Enc4",
+        "Enc5",
+        "Dec"
+      ],
+      "ff_hidden_dim": 512,
+      "head_num": 8,
+      "logit_clipping": 10.0,
+      "norm": "instance",
+      "norm_loc": "norm_last",
+      "num_experts": 4,
+      "problem": "Train_ALL",
+      "qkv_dim": 16,
+      "routing_level": "node",
+      "routing_method": "input_choice",
+      "sqrt_embedding_dim": 11.313708498984761,
+      "topk": 2
+    },
+    "model_type": "MTL_SPLIT",
+    "optimizer_params": {
+      "optimizer": {
+        "lr": 0.0001,
+        "weight_decay": 1e-06
+      },
+      "scheduler": {
+        "gamma": 0.1,
+        "milestones": [
+          4501
+        ]
+      }
+    },
+    "problem": "Train_ALL",
+    "schema_version": 3,
+    "split_backend": "triton",
+    "split_constraints": [
+      "C",
+      "TW",
+      "B",
+      "O",
+      "L"
+    ],
+    "static_encoder_features": [
+      "depot_xy",
+      "node_xy",
+      "node_demand",
+      "node_tw_start",
+      "node_tw_end"
+    ],
+    "train_episodes_per_epoch": 20000,
+    "world_size": 1
+  },
+  "resumed_from_checkpoint": null,
+  "rng_state_components": [
+    "python",
+    "numpy",
+    "torch_cpu",
+    "torch_cuda"
+  ],
+  "rng_state_rank_count": 1,
+  "runtime_fingerprint": {
+    "command": [
+      "train_split.py",
+      "--problem",
+      "Train_ALL",
+      "--model_type",
+      "MTL_SPLIT",
+      "--problem_size",
+      "50",
+      "--pomo_size",
+      "50",
+      "--epochs",
+      "5000",
+      "--train_episodes",
+      "20000",
+      "--train_batch_size",
+      "128",
+      "--model_save_interval",
+      "300",
+      "--split_backend",
+      "triton",
+      "--metrics_log_interval",
+      "1",
+      "--metrics_flush_interval",
+      "50",
+      "--seed",
+      "2023",
+      "--log_dir",
+      "/root/autodl-tmp/mvmoe_split_bmask_v5_20260921/mtl_split_n50/outputs",
+      "--gpu_id",
+      "0"
+    ],
+    "cuda_runtime_version": "12.8",
+    "cuda_visible_devices": "0",
+    "cudnn_version": 91002,
+    "device_name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "device_type": "cuda",
+    "hostname": "autodl-container-9235478639-cb0ea021",
+    "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+    "python_version": "3.12.3",
+    "torch_version": "2.8.0+cu128"
+  },
+  "source_fingerprint": {
+    "SplitTrainer.py": "0f540445fef080e31c85eb59850b255e5c32cde0a621fe3eb372f77876c20157",
+    "split/constraints.py": "86ad214d7f763e42bfcc78963f91b2628024f873d15e4951aa502597fedcc79f",
+    "split/decoder.py": "bf104b415923daa900d5075b9d6782389ff228534034a8f64a6a54a45f5f8b39",
+    "split/triton_backend.py": "52ade56cab790b771a488d08360a184563895779d68b549f95f111661d09c967",
+    "split/verifier.py": "157ccf44a428f41f08c02ca769e8a68831fe5f41be6e7825ef07cf35afb83f0f",
+    "split_envs/adapter.py": "5c950e1ddcc7189c14d7718fa6b24cc7a207b9f85db3312292089d664b47a9d0",
+    "split_envs/giant_tour_env.py": "48416ffee50090831ff774c1b4af99380c9978bd5b85d0f8f9114d275ccb88ed",
+    "split_models/__init__.py": "3f6994527f724e6a86661bcfb52d5e933bc21ca70ff84dfa77c3a0a468fb926d",
+    "split_models/xy_models.py": "0c96eca1bd1d16acb5ba75f5e2c02fa55b00b5807800006091b2f31283adb0d8",
+    "train_split.py": "6c411c5b5f56514bb2d3a67e346e6e9a0ff48a6f096592a5c52450f8151857a3"
+  }
+}

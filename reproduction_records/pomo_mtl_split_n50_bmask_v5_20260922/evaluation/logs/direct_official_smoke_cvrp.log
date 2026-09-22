@@ -1,0 +1,53 @@
+{'aug_batch_size': 1,
+ 'aug_factor': 8,
+ 'checkpoint': '/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/official_bundle/pretrained/pomo_mtl_n50/epoch-5000.pt',
+ 'decoder_layer_num': 1,
+ 'embedding_dim': 128,
+ 'encoder_layer_num': 6,
+ 'eval_type': 'argmax',
+ 'expert_loc': ['Enc0', 'Enc1', 'Enc2', 'Enc3', 'Enc4', 'Enc5', 'Dec'],
+ 'ff_hidden_dim': 512,
+ 'fine_tune_aug_factor': 1,
+ 'fine_tune_batch_size': 128,
+ 'fine_tune_episodes': 10000,
+ 'fine_tune_epochs': 0,
+ 'gpu_id': 0,
+ 'head_num': 8,
+ 'logit_clipping': 10,
+ 'lr': 0.0001,
+ 'model_type': 'MTL',
+ 'no_cuda': False,
+ 'norm': 'instance',
+ 'norm_loc': 'norm_last',
+ 'num_experts': 4,
+ 'occ_gpu': 0.0,
+ 'pomo_size': 50,
+ 'problem': 'CVRP',
+ 'problem_size': 50,
+ 'qkv_dim': 16,
+ 'routing_level': 'node',
+ 'routing_method': 'input_choice',
+ 'sample_size': 10,
+ 'seed': 2024,
+ 'sqrt_embedding_dim': 11.313708498984761,
+ 'test_batch_size': 1,
+ 'test_episodes': 1,
+ 'test_set_opt_sol_path': None,
+ 'test_set_path': '/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/official_bundle/data/CVRP/cvrp50_uniform.pkl',
+ 'topk': 2,
+ 'weight_decay': 1e-06}
+>> No occupation needed
+>> USE_CUDA: True, CUDA_DEVICE_NUM: 0
+>> Start CVRP Testing ...
+There are 1254656 (1.25 million) parameters in this neural network
+>> Checkpoint (Epoch: 5000) Loaded!
+episode   1/  1, Elapsed[0.01m], Remain[0.00m], score:10.448, aug_score:10.240
+ 
+*** Test Done on CVRP *** 
+ NO-AUG SCORE: 10.4484, Gap: 0.0000 
+ AUGMENTATION SCORE: 10.2396, Gap: 0.0000 
+10.448 (0.000%)
+10.240 (0.000%)
+>> Evaluation finished within 0.52s
+
+>> Finish CVRP Testing ...

@@ -1,0 +1,22 @@
+nohup: ignoring input
+[2026-09-22T09:25:27Z] Split n=200 retry, batch=32, atol=2e-5, rtol=1e-6
+CVRP: 1000/1000 feasible, mean cost=25.528036
+OVRP: 1000/1000 feasible, mean cost=16.915483
+VRPB: 1000/1000 feasible, mean cost=19.801567
+VRPL: 1000/1000 feasible, mean cost=25.511786
+VRPTW: 1000/1000 feasible, mean cost=61.943147
+OVRPTW: 1000/1000 feasible, mean cost=33.719248
+OVRPB: 1000/1000 feasible, mean cost=15.159980
+OVRPL: 1000/1000 feasible, mean cost=16.925095
+VRPBL: 1000/1000 feasible, mean cost=20.110271
+VRPBTW: 1/1000 feasible, mean cost=57.550701
+VRPLTW: 1000/1000 feasible, mean cost=63.114954
+OVRPBL: 1000/1000 feasible, mean cost=15.100135
+OVRPBTW: 0/1000 feasible, mean cost=nan
+OVRPLTW: 1000/1000 feasible, mean cost=33.585179
+VRPBLTW: 0/1000 feasible, mean cost=nan
+OVRPBLTW: 3/1000 feasible, mean cost=38.576266
+wrote 16000 rows to /root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/results/split_n200.csv
+/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/results/comparison_by_environment.csv
+/root/autodl-tmp/pomo_mtl_split_n50_official_eval_20260922/results/comparison_summary.csv
+[2026-09-22T09:35:47Z] all evaluations and summaries completed

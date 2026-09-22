@@ -1,0 +1,23 @@
+{
+  "archive_sha256": "763861c21efe635f0272099cc78212269abd8dafa6065179d74b6f797e56f21b",
+  "constraint_masks": [
+    "B"
+  ],
+  "decoder_action_mask": [
+    "depot",
+    "visited",
+    "B_order_feasibility"
+  ],
+  "model": "MTL_SPLIT",
+  "official_mvmoe_commit": "af29e5af0595f94f3ecc3bc46d72df1089a62682",
+  "outer_commit": "5eb60377cb847ba68b88b24b960b9bbc76fdf286",
+  "problem_size": 50,
+  "protocol": "bmask_v5",
+  "unmasked_constraints": [
+    "C",
+    "TW",
+    "O",
+    "L"
+  ],
+  "visible_gpus": "0"
+}

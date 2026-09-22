@@ -31,4 +31,8 @@ shared route semantics, fixed-data format, training, evaluation, and tests.
   routes, and plotting-ready figures/scripts.
 - [`artifacts/cvrptw_tw_solomon_20260827`](artifacts/cvrptw_tw_solomon_20260827):
   final CVRPTW checkpoints, training records, and Solomon evaluation archive.
+- [`reproduction_records/pomo_mtl_split_n50_bmask_v5_20260922`](reproduction_records/pomo_mtl_split_n50_bmask_v5_20260922):
+  corrected POMO-MTL-Split n=50 final checkpoint, complete training records,
+  official 16-variant evaluations at n=50/100/200, Direct comparisons, logs,
+  validation metadata, and file hashes.
 
