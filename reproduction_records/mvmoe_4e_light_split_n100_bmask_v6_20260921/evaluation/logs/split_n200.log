@@ -1,0 +1,17 @@
+CVRP: 1000/1000 feasible, mean cost=24.380923
+OVRP: 1000/1000 feasible, mean cost=15.604597
+VRPB: 1000/1000 feasible, mean cost=18.680632
+VRPL: 1000/1000 feasible, mean cost=24.363962
+VRPTW: 1000/1000 feasible, mean cost=54.813311
+OVRPTW: 1000/1000 feasible, mean cost=29.276245
+OVRPB: 1000/1000 feasible, mean cost=14.268676
+OVRPL: 1000/1000 feasible, mean cost=15.605544
+VRPBL: 1000/1000 feasible, mean cost=18.836626
+VRPBTW: 1/1000 feasible, mean cost=56.694958
+VRPLTW: 1000/1000 feasible, mean cost=55.871630
+OVRPBL: 1000/1000 feasible, mean cost=14.228919
+OVRPBTW: 1/1000 feasible, mean cost=37.931879
+OVRPLTW: 1000/1000 feasible, mean cost=29.104817
+VRPBLTW: 0/1000 feasible, mean cost=nan
+OVRPBLTW: 1/1000 feasible, mean cost=32.176572
+wrote 16000 rows to /root/autodl-tmp/mvmoe_4e_light_split_n100_official_eval_20260924/results/split_n200.csv

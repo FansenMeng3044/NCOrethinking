@@ -1,0 +1,30 @@
+{
+  "change_reason": "user-authorized throughput increase after batch benchmark",
+  "constraint_masks": [
+    "B"
+  ],
+  "decoder_action_mask": [
+    "depot",
+    "visited",
+    "B_order_feasibility"
+  ],
+  "epochs": 5000,
+  "global_train_batch_size": 256,
+  "global_train_episodes": 20000,
+  "learning_rate": 0.0001,
+  "model": "MOE_LIGHT_SPLIT",
+  "model_save_interval": 300,
+  "problem_size": 100,
+  "protocol": "bmask_v6_batch256",
+  "seed": 2023,
+  "source_deploy": "/root/autodl-tmp/Routing-MVMoE_bmask_v6_20260921_184252",
+  "supersedes_task": "/root/autodl-tmp/mvmoe_split_bmask_v6_6gpu_20260921/moe_light_split_n100",
+  "unmasked_constraints": [
+    "C",
+    "TW",
+    "O",
+    "L"
+  ],
+  "visible_gpus": "0,1,2,3,4,5",
+  "world_size": 6
+}

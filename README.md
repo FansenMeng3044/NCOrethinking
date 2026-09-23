@@ -35,4 +35,13 @@ shared route semantics, fixed-data format, training, evaluation, and tests.
   corrected POMO-MTL-Split n=50 final checkpoint, complete training records,
   official 16-variant evaluations at n=50/100/200, Direct comparisons, logs,
   validation metadata, and file hashes.
+- [`reproduction_records/pomo_mtl_split_n100_bmask_v5_20260922`](reproduction_records/pomo_mtl_split_n100_bmask_v5_20260922):
+  corrected POMO-MTL-Split n=100 final checkpoint and the corresponding full
+  training and official n=50/100/200 evaluation archive.
+- [`reproduction_records/mvmoe_4e_light_split_n50_bmask_v5_20260921`](reproduction_records/mvmoe_4e_light_split_n50_bmask_v5_20260921):
+  final MVMoE/4E-L-Split n=50 checkpoint, lossless training metrics, training
+  logs, and complete official n=50/100/200 evaluation results.
+- [`reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921`](reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921):
+  final MVMoE/4E-L-Split n=100 checkpoint, lossless training metrics, training
+  logs, and complete official n=50/100/200 evaluation results.
 

@@ -1,0 +1,17 @@
+CVRP: 1000/1000 ok, mean cost=23.055083
+OVRP: 1000/1000 ok, mean cost=15.173808
+VRPB: 1000/1000 ok, mean cost=17.609701
+VRPL: 1000/1000 ok, mean cost=23.042740
+VRPTW: 1000/1000 ok, mean cost=46.214281
+OVRPTW: 1000/1000 ok, mean cost=26.034850
+OVRPB: 1000/1000 ok, mean cost=13.407990
+OVRPL: 1000/1000 ok, mean cost=15.166090
+VRPBL: 1000/1000 ok, mean cost=17.697009
+VRPBTW: 1000/1000 ok, mean cost=48.564408
+VRPLTW: 1000/1000 ok, mean cost=47.055443
+OVRPBL: 1000/1000 ok, mean cost=13.388542
+OVRPBTW: 1000/1000 ok, mean cost=27.527304
+OVRPLTW: 1000/1000 ok, mean cost=25.921850
+VRPBLTW: 1000/1000 ok, mean cost=49.506844
+OVRPBLTW: 1000/1000 ok, mean cost=27.269025
+checkpoint epoch=5000; wrote 16000 rows to /root/autodl-tmp/mvmoe_4e_light_split_n100_official_eval_20260924/results/direct_n200.csv

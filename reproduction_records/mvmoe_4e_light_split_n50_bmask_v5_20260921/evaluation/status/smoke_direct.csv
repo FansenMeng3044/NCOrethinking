@@ -1,0 +1,3 @@
+problem_size,problem,instance,status,no_aug_cost,cost
+50,CVRP,0,ok,10.4440345764,10.2396039963
+50,CVRP,1,ok,12.5577526093,12.5577526093
