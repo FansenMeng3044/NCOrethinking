@@ -1,0 +1,31 @@
+{
+  "checkpoint": {
+    "epoch": 5000,
+    "keys_present": true,
+    "model_state_entries": 193,
+    "sha256": "a07a269551811d3fb4531c4106971fd8ae4e8b131218f942546b182e5418e119",
+    "size_bytes": 44449499,
+    "torch_load_cpu": true
+  },
+  "evaluation": {
+    "detail_rows": 16,
+    "direct_ok": 16000,
+    "evaluation_size": 50,
+    "exit_code": 0,
+    "split_failed": 3048,
+    "split_ok": 12952,
+    "summary_rows": 3,
+    "unique_rows_per_csv": 16000
+  },
+  "training": {
+    "batch_records": 785000,
+    "epoch_records": 5000,
+    "exit_code": 0,
+    "learning_rates": [0.0001, 0.00001],
+    "max_epoch": 5000,
+    "nonfinite_applicable_values": 0,
+    "rows": 795019,
+    "training_metrics_gzip_sha256": "0e06d3b652792a6c4e95999eceb58bcbf10fd4063a40691b96036f1b46468236"
+  }
+}
+

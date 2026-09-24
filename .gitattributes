@@ -6,8 +6,14 @@ reproduction_records/mvmoe_4e_light_split_n50_bmask_v5_20260921/training/epoch-5
 reproduction_records/mvmoe_4e_light_split_n50_bmask_v5_20260921/training/training_metrics.csv.gz filter=lfs diff=lfs merge=lfs -text
 reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921/training/epoch-5000.pt filter=lfs diff=lfs merge=lfs -text
 reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921/training/training_metrics.csv.gz filter=lfs diff=lfs merge=lfs -text
+reproduction_records/mvmoe_4e_split_n50_bmask_v5_20260921/training/epoch-5000.pt filter=lfs diff=lfs merge=lfs -text
+reproduction_records/mvmoe_4e_split_n50_bmask_v5_20260921/training/training_metrics.csv.gz filter=lfs diff=lfs merge=lfs -text
+reproduction_records/mvmoe_4e_split_n100_bmask_v5_batch256_20260921/training/epoch-5000.pt filter=lfs diff=lfs merge=lfs -text
+reproduction_records/mvmoe_4e_split_n100_bmask_v5_batch256_20260921/training/training_metrics.csv.gz filter=lfs diff=lfs merge=lfs -text
 reproduction_records/pomo_mtl_split_n50_bmask_v5_20260922/** -text
 reproduction_records/pomo_mtl_split_n100_bmask_v5_20260922/** -text whitespace=-trailing-space
 reproduction_records/mvmoe_4e_light_split_n50_bmask_v5_20260921/** -text whitespace=-trailing-space
 reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921/** -text whitespace=-trailing-space
+reproduction_records/mvmoe_4e_split_n50_bmask_v5_20260921/** -text whitespace=-trailing-space
+reproduction_records/mvmoe_4e_split_n100_bmask_v5_batch256_20260921/** -text whitespace=-trailing-space
 third_party/Routing-MVMoE-overlay/** -text whitespace=cr-at-eol

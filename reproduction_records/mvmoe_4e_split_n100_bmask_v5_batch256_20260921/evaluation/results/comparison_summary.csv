@@ -1,0 +1,4 @@
+model,trained_size,evaluation_size,variant_regime,paired_instances,direct_mean_cost,split_mean_cost,split_vs_direct_percent
+MVMoE_4E,100,100,all,12089,14.5774221286,15.3723957829,5.453458
+MVMoE_4E,100,100,trained_variant,6000,15.6958583183,16.5056743361,5.159425
+MVMoE_4E,100,100,unseen_variant,6089,13.4753335855,14.2556818202,5.790938

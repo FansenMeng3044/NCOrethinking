@@ -1,0 +1,193 @@
+"""Evaluate a B-order-masked Split checkpoint on official MVMoE datasets."""
+
+import argparse
+import csv
+import math
+import os
+
+import torch
+
+from split import ALL_PROBLEMS, verify_routes
+from split_envs import GiantTourEnv
+from split_models import get_split_model
+from utils import get_env, seed_everything
+
+
+def evaluate_batch(model, source, pomo_size, augmentation):
+    env = GiantTourEnv.from_official_env(source, pomo_size=pomo_size)
+    actual_pomo_size = env.pomo_size
+    reset, _, _ = env.reset()
+    model.pre_forward(reset)
+    state, reward, done = env.pre_step()
+    while not done:
+        selected, _ = model(state)
+        state, reward, done = env.step(selected)
+
+    aug_batch = env.batch_size
+    if aug_batch % augmentation:
+        raise ValueError("augmented batch is not divisible by augmentation")
+    batch = aug_batch // augmentation
+    costs = env.last_split_result.costs.reshape(augmentation, batch, actual_pomo_size)
+    feasible = env.last_split_result.feasible.reshape(augmentation, batch, actual_pomo_size)
+    masked = costs.masked_fill(~feasible, float("inf"))
+    flat = masked.permute(1, 0, 2).reshape(batch, -1)
+    best_cost, best_flat = flat.min(dim=1)
+
+    records = []
+    for index in range(batch):
+        if not torch.isfinite(best_cost[index]):
+            records.append(("no_feasible_candidate", None, None))
+            continue
+        augmentation_index = int(best_flat[index].item()) // actual_pomo_size
+        pomo_index = int(best_flat[index].item()) % actual_pomo_size
+        source_batch_index = augmentation_index * batch + index
+        routes = env.get_routes(source_batch_index, pomo_index)
+        replay = verify_routes(
+            env.depot_xy,
+            env.node_xy,
+            routes,
+            env.instance.split_view,
+            batch_index=source_batch_index,
+        )
+        if not replay.feasible:
+            raise AssertionError(f"independent replay failed: {replay.reason}")
+        split_cost = float(best_cost[index].item())
+        if not math.isclose(replay.cost, split_cost, rel_tol=1e-6, abs_tol=2e-5):
+            raise AssertionError(
+                "independent replay cost disagrees with Split: "
+                f"replay={replay.cost:.12f}, split={split_cost:.12f}"
+            )
+        records.append(("ok", replay.cost, replay.route_count))
+    return records
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--checkpoint", required=True)
+    parser.add_argument(
+        "--model_type",
+        required=True,
+        choices=["MTL_SPLIT", "MOE_SPLIT", "MOE_LIGHT_SPLIT"],
+    )
+    parser.add_argument("--problem", default="ALL", choices=["ALL", *ALL_PROBLEMS])
+    parser.add_argument("--problem_size", type=int, choices=[50, 100, 200], required=True)
+    parser.add_argument("--pomo_size", type=int)
+    parser.add_argument("--episodes", type=int, default=1000)
+    parser.add_argument("--batch_size", type=int, default=100)
+    parser.add_argument("--augmentation", type=int, choices=[1, 8], default=8)
+    parser.add_argument("--data_root", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--gpu_id", type=int, default=0)
+    parser.add_argument("--seed", type=int, default=2024)
+    args = parser.parse_args()
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    if device.type == "cuda":
+        torch.cuda.set_device(device)
+    seed_everything(args.seed)
+    checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
+
+    expected_static = [
+        "depot_xy",
+        "node_xy",
+        "node_demand",
+        "node_tw_start",
+        "node_tw_end",
+    ]
+    if checkpoint.get("encoder_input_contract") != "mvmoe_original_5d_customer":
+        raise ValueError("checkpoint does not use the original MVMoE encoder inputs")
+    if checkpoint.get("static_encoder_features") != expected_static:
+        raise ValueError("checkpoint static encoder features do not match")
+    if not checkpoint.get("split_reward"):
+        raise ValueError("checkpoint is not marked as Split-objective training")
+    if checkpoint.get("decoder_constraints") != ["B"]:
+        raise ValueError("checkpoint decoder must enforce only B ordering feasibility")
+    if checkpoint.get("decoder_dynamic_features") != [
+        "load",
+        "current_time",
+        "length",
+        "open",
+    ]:
+        raise ValueError("checkpoint decoder dynamic features do not match")
+    if checkpoint.get("decoder_action_mask") != [
+        "depot",
+        "visited",
+        "B_order_feasibility",
+    ]:
+        raise ValueError("checkpoint decoder action mask does not match")
+    if checkpoint.get("split_constraints") != ["C", "TW", "B", "O", "L"]:
+        raise ValueError("checkpoint Split constraint set does not match")
+    factorization_version = int(checkpoint.get("constraint_factorization_version", -1))
+    if factorization_version not in (5, 6):
+        raise ValueError(
+            f"checkpoint uses incompatible constraint factorization {factorization_version}"
+        )
+    if checkpoint.get("model_type") != args.model_type:
+        raise ValueError("checkpoint model type mismatch")
+
+    model_params = dict(checkpoint["model_params"])
+    model_params["device"] = device
+    model = get_split_model(args.model_type)(**model_params).to(device)
+    model.load_state_dict(checkpoint["model_state_dict"], strict=True)
+    model.eval()
+    model.set_eval_type("argmax")
+
+    problems = ALL_PROBLEMS if args.problem == "ALL" else (args.problem,)
+    pomo_size = args.pomo_size or args.problem_size
+    rows = []
+    with torch.no_grad():
+        for problem in problems:
+            source_cls = get_env(problem)[0]
+            source = source_cls(
+                problem_size=args.problem_size,
+                pomo_size=pomo_size,
+                device=device,
+            )
+            dataset_path = os.path.join(
+                args.data_root,
+                problem,
+                f"{problem.lower()}{args.problem_size}_uniform.pkl",
+            )
+            offset = 0
+            while offset < args.episodes:
+                count = min(args.batch_size, args.episodes - offset)
+                data = source.load_dataset(dataset_path, offset=offset, num_samples=count)
+                if isinstance(data, torch.Tensor):
+                    data = data.to(device)
+                else:
+                    data = tuple(value.to(device) for value in data)
+                source.load_problems(count, problems=data, aug_factor=args.augmentation)
+                records = evaluate_batch(model, source, pomo_size, args.augmentation)
+                for local, (status, cost, vehicles) in enumerate(records):
+                    rows.append(
+                        {
+                            "problem_size": args.problem_size,
+                            "problem": problem,
+                            "instance": offset + local,
+                            "status": status,
+                            "cost": "" if cost is None else f"{cost:.10f}",
+                            "vehicles": "" if vehicles is None else vehicles,
+                        }
+                    )
+                offset += count
+            current = [row for row in rows if row["problem"] == problem]
+            ok = [row for row in current if row["status"] == "ok"]
+            mean = sum(float(row["cost"]) for row in ok) / len(ok) if ok else float("nan")
+            print(
+                f"{problem}: {len(ok)}/{len(current)} feasible, mean cost={mean:.6f}",
+                flush=True,
+            )
+
+    os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
+    with open(args.output, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=["problem_size", "problem", "instance", "status", "cost", "vehicles"],
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"wrote {len(rows)} rows to {os.path.abspath(args.output)}")
+
+
+if __name__ == "__main__":
+    main()

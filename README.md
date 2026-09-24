@@ -44,4 +44,10 @@ shared route semantics, fixed-data format, training, evaluation, and tests.
 - [`reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921`](reproduction_records/mvmoe_4e_light_split_n100_bmask_v6_20260921):
   final MVMoE/4E-L-Split n=100 checkpoint, lossless training metrics, training
   logs, and complete official n=50/100/200 evaluation results.
+- [`reproduction_records/mvmoe_4e_split_n50_bmask_v5_20260921`](reproduction_records/mvmoe_4e_split_n50_bmask_v5_20260921):
+  final MVMoE/4E-Split n=50 checkpoint, full training evidence, and the
+  same-size official 16-variant evaluation against Direct.
+- [`reproduction_records/mvmoe_4e_split_n100_bmask_v5_batch256_20260921`](reproduction_records/mvmoe_4e_split_n100_bmask_v5_batch256_20260921):
+  final MVMoE/4E-Split n=100 checkpoint, full training evidence, and the
+  same-size official 16-variant evaluation against Direct.
 
