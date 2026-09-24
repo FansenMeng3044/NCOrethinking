@@ -1,0 +1,144 @@
+{
+  "augmentation": 8,
+  "candidate_selection": "minimum official integer EUC_2D total distance",
+  "checkpoint_architecture_preflight_seconds": {
+    "am_direct_n100": 1.585767132230103,
+    "am_split_n100": 0.02813948132097721,
+    "pomo_direct_n100": 0.03522090055048466,
+    "pomo_split_n100": 0.036860900931060314
+  },
+  "checkpoints": {
+    "am_direct_n100": {
+      "epoch": 100,
+      "filename": "epoch-100.pt",
+      "model_state_key_count": 62,
+      "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/am_direct_n100/epoch-100.pt",
+      "sha256": "450c46de4a257605d66b5705cb38f0fd265ec3587a2c7bd866d0605ee463dfce",
+      "size_bytes": 31092198,
+      "top_level_keys": [
+        "baseline",
+        "cuda_rng_state",
+        "epoch",
+        "model",
+        "optimizer",
+        "rng_state"
+      ]
+    },
+    "am_split_n100": {
+      "epoch": 100,
+      "filename": "epoch-100.pt",
+      "model_state_key_count": 62,
+      "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/am_split_n100/epoch-100.pt",
+      "sha256": "58cdc39a2132e475848f48a0908ba3afe0e07720fb59fb6b50809a1e2b53170b",
+      "size_bytes": 23273995,
+      "top_level_keys": [
+        "baseline",
+        "cuda_rng_state",
+        "epoch",
+        "model",
+        "optimizer",
+        "rng_state"
+      ]
+    },
+    "pomo_direct_n100": {
+      "epoch": 2000,
+      "filename": "checkpoint-2000.pt",
+      "model_state_key_count": 87,
+      "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/pomo_direct_n100/checkpoint-2000.pt",
+      "sha256": "74bf36630f179b69d69ceae4997d6b03994815677c0c6bf4000b4936feb29af8",
+      "size_bytes": 15237818,
+      "top_level_keys": [
+        "epoch",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "result_log",
+        "scheduler_state_dict"
+      ]
+    },
+    "pomo_split_n100": {
+      "epoch": 2000,
+      "filename": "checkpoint-2000.pt",
+      "model_state_key_count": 87,
+      "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/pomo_split_n100/checkpoint-2000.pt",
+      "sha256": "4333ab8812c0443e723d3d1b4f1e39b56f4f1045dc435889e03403aa14f4eb8a",
+      "size_bytes": 15236311,
+      "top_level_keys": [
+        "env_params",
+        "epoch",
+        "model_params",
+        "model_state_dict",
+        "optimizer_state_dict",
+        "result_log",
+        "scheduler_state_dict"
+      ]
+    }
+  },
+  "complete_benchmark_requested": true,
+  "completed_at_utc": "2026-09-24T11:14:20.772195+00:00",
+  "coordinate_normalization": "fixed divisor 1000 for model input only",
+  "cuda": "12.8",
+  "dataset": "CVRPLIB X",
+  "dataset_identity_sha256": "8af33974abb17b35eff473f770be0d10e2265ab24894dd7a742bf76dec0323fc",
+  "decode_type": "greedy/argmax",
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "torch_deterministic_algorithms": true
+  },
+  "device": "cuda:0",
+  "evaluator_source_sha256": {
+    "evaluate_xset.py": "ca510062080c2a7761dce08bccf43639de9daaafbd0ad8864e3eb6c0d39f1133",
+    "summarize_xset.py": "f4b8f925939cbcd95afb85321e3e824a74d7ebd5a2316e71cdea5ff4fce560de",
+    "xset_io.py": "57f34e1692e07e4a484c65ef2c845760fd9ce87c512f34c2ec3eda0a473e3ac3"
+  },
+  "gpu": "NVIDIA RTX 6000D",
+  "instance_names_sha256": "af53dca39d7064e96b7cca47964163c60df827320b1ebcf3c78fdfe7b30f59bc",
+  "instances_requested": 100,
+  "model_invocation_timings": {
+    "am_direct_n100": {
+      "new_instances": 100,
+      "wall_seconds": 39.46319969929755
+    },
+    "am_split_n100": {
+      "new_instances": 100,
+      "wall_seconds": 31.43837517593056
+    },
+    "pomo_direct_n100": {
+      "new_instances": 100,
+      "wall_seconds": 65.10634046513587
+    },
+    "pomo_split_n100": {
+      "new_instances": 100,
+      "wall_seconds": 864.7979587800801
+    }
+  },
+  "models_config_sha256": "7d26247bd95b4a3bbebc1fa76ef0a6dcd1a763898a5bd2cc17c6788c63493718",
+  "models_requested": [
+    "am_direct_n100",
+    "am_split_n100",
+    "pomo_direct_n100",
+    "pomo_split_n100"
+  ],
+  "official_scoring": "nint Euclidean distance per edge, then sum",
+  "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+  "pomo_size": "number of customers in each instance",
+  "postprocessing": "none for direct; exact capacity Split for Split architectures",
+  "protocol": "xset_n100_models_greedy_8fold_official_euc2d_v1",
+  "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+  "reference_solution_use": "read only after candidate generation and selection",
+  "reference_value_label": "CVRPLIB solution-file reference cost",
+  "result_rows": 400,
+  "schema_version": 2,
+  "seed": 1234,
+  "source_bundle_commit": "d1bfa1b535b0ff8d3de2032ab51e1d79bf8566a2",
+  "source_repo": {
+    "branch": null,
+    "commit": null,
+    "status_porcelain": null
+  },
+  "started_at_utc": "2026-09-24T10:57:39.894115+00:00",
+  "status": "complete",
+  "torch": "2.8.0+cu128",
+  "wall_seconds_this_invocation": 1000.8778173383325
+}

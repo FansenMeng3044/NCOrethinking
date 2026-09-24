@@ -1,0 +1,447 @@
+{
+  "absolute_error": 6351,
+  "architecture": "pomo_split",
+  "augmentation_index": 7,
+  "candidate_feasibility_scope": "selected candidate independently verified",
+  "candidate_index": 947,
+  "candidates_checked_until_selection": 992,
+  "candidates_generated": 992,
+  "capacity": 188,
+  "checkpoint": {
+    "epoch": 2000,
+    "filename": "checkpoint-2000.pt",
+    "model_state_key_count": 87,
+    "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/pomo_split_n100/checkpoint-2000.pt",
+    "sha256": "4333ab8812c0443e723d3d1b4f1e39b56f4f1045dc435889e03403aa14f4eb8a",
+    "size_bytes": 15236311,
+    "top_level_keys": [
+      "env_params",
+      "epoch",
+      "model_params",
+      "model_state_dict",
+      "optimizer_state_dict",
+      "result_log",
+      "scheduler_state_dict"
+    ]
+  },
+  "cost": 61890,
+  "created_at_utc": "2026-09-24T10:59:56.508107+00:00",
+  "customers": 124,
+  "dataset": "CVRPLIB X",
+  "features": {
+    "customers": 124,
+    "dimension": 125,
+    "nominal_vehicles": 30
+  },
+  "gap_percent": 11.435207691892185,
+  "inference_seconds_amortized": 0.05327584594488144,
+  "instance": "X-n125-k30",
+  "model": "pomo_split_n100",
+  "no_aug_absolute_error": 8993,
+  "no_aug_candidate_index": 11,
+  "no_aug_candidates_generated": 124,
+  "no_aug_cost": 64532,
+  "no_aug_failure_reason": null,
+  "no_aug_gap_percent": 16.192225283134373,
+  "no_aug_policy_index": 11,
+  "no_aug_routes": [
+    [
+      12,
+      103
+    ],
+    [
+      39,
+      113
+    ],
+    [
+      75,
+      10
+    ],
+    [
+      57,
+      120
+    ],
+    [
+      48,
+      21
+    ],
+    [
+      18,
+      91
+    ],
+    [
+      112,
+      83
+    ],
+    [
+      61,
+      84,
+      106,
+      16,
+      43
+    ],
+    [
+      90,
+      52,
+      74,
+      13,
+      14,
+      97,
+      44,
+      123
+    ],
+    [
+      3,
+      31
+    ],
+    [
+      102,
+      60
+    ],
+    [
+      38,
+      96
+    ],
+    [
+      93,
+      26
+    ],
+    [
+      111,
+      86
+    ],
+    [
+      76,
+      49,
+      82
+    ],
+    [
+      56,
+      24,
+      23
+    ],
+    [
+      66,
+      116,
+      17,
+      15,
+      28,
+      78
+    ],
+    [
+      50,
+      124,
+      6,
+      2,
+      34,
+      59
+    ],
+    [
+      42,
+      81,
+      92,
+      19,
+      9,
+      115
+    ],
+    [
+      108,
+      95,
+      94,
+      47,
+      58,
+      20,
+      121,
+      64
+    ],
+    [
+      51,
+      105,
+      89,
+      88,
+      70,
+      11
+    ],
+    [
+      114,
+      87,
+      99
+    ],
+    [
+      73,
+      110
+    ],
+    [
+      122,
+      100
+    ],
+    [
+      35,
+      8
+    ],
+    [
+      32,
+      37
+    ],
+    [
+      33,
+      5,
+      53
+    ],
+    [
+      69,
+      45
+    ],
+    [
+      98,
+      71
+    ],
+    [
+      119,
+      104,
+      65,
+      80,
+      4
+    ],
+    [
+      22,
+      40,
+      29,
+      41,
+      107,
+      7
+    ],
+    [
+      77,
+      101,
+      54,
+      72,
+      67
+    ],
+    [
+      68,
+      25,
+      109,
+      118,
+      63,
+      36,
+      55,
+      79,
+      1,
+      46
+    ],
+    [
+      27,
+      30,
+      62,
+      85,
+      117
+    ]
+  ],
+  "no_aug_status": "ok",
+  "no_aug_vehicles": 34,
+  "physical_batch_size": 1,
+  "policy_index": 79,
+  "postprocess_seconds": 0.055953516624867916,
+  "protocol": "xset_n100_models_greedy_8fold_official_euc2d_v1",
+  "reference_cost": 55539,
+  "reference_verified": true,
+  "routes": [
+    [
+      80,
+      65,
+      40,
+      22,
+      118,
+      68,
+      47,
+      94
+    ],
+    [
+      95,
+      20,
+      58,
+      4,
+      64,
+      54,
+      77,
+      107,
+      7
+    ],
+    [
+      41,
+      101,
+      121,
+      48,
+      84
+    ],
+    [
+      76,
+      111
+    ],
+    [
+      86,
+      38
+    ],
+    [
+      60,
+      102
+    ],
+    [
+      90,
+      43,
+      106,
+      61
+    ],
+    [
+      83,
+      21
+    ],
+    [
+      18,
+      91
+    ],
+    [
+      10,
+      75
+    ],
+    [
+      32,
+      37
+    ],
+    [
+      5,
+      33,
+      53,
+      104
+    ],
+    [
+      29,
+      71,
+      119
+    ],
+    [
+      67,
+      72,
+      45
+    ],
+    [
+      98,
+      69
+    ],
+    [
+      39,
+      12
+    ],
+    [
+      103,
+      8
+    ],
+    [
+      113,
+      35
+    ],
+    [
+      120,
+      57
+    ],
+    [
+      100,
+      112
+    ],
+    [
+      122,
+      110
+    ],
+    [
+      99,
+      73
+    ],
+    [
+      87,
+      114,
+      11,
+      19,
+      9
+    ],
+    [
+      115,
+      88,
+      89,
+      105,
+      51
+    ],
+    [
+      34,
+      6,
+      70,
+      2,
+      59,
+      124,
+      78,
+      66,
+      116
+    ],
+    [
+      17,
+      50,
+      15,
+      28,
+      92
+    ],
+    [
+      16,
+      81,
+      42,
+      52,
+      44,
+      123,
+      97,
+      74,
+      13
+    ],
+    [
+      14,
+      23,
+      49,
+      24
+    ],
+    [
+      82,
+      56
+    ],
+    [
+      3,
+      31
+    ],
+    [
+      96,
+      93
+    ],
+    [
+      26
+    ],
+    [
+      108,
+      62,
+      85,
+      117,
+      30,
+      27
+    ],
+    [
+      55,
+      36,
+      79,
+      1,
+      46,
+      63,
+      25,
+      109
+    ]
+  ],
+  "schema_version": 2,
+  "status": "ok",
+  "training_size": 100,
+  "vehicles": 34
+}

@@ -1,0 +1,332 @@
+{
+  "absolute_error": 844,
+  "architecture": "am",
+  "augmentation_index": 0,
+  "candidate_feasibility_scope": "selected candidate independently verified",
+  "candidate_index": 0,
+  "candidates_checked_until_selection": 1,
+  "candidates_generated": 8,
+  "capacity": 66,
+  "checkpoint": {
+    "epoch": 100,
+    "filename": "epoch-100.pt",
+    "model_state_key_count": 62,
+    "path": "/root/autodl-tmp/cvrplib_x_eval_20260924/models/am_direct_n100/epoch-100.pt",
+    "sha256": "450c46de4a257605d66b5705cb38f0fd265ec3587a2c7bd866d0605ee463dfce",
+    "size_bytes": 31092198,
+    "top_level_keys": [
+      "baseline",
+      "cuda_rng_state",
+      "epoch",
+      "model",
+      "optimizer",
+      "rng_state"
+    ]
+  },
+  "cost": 15815,
+  "created_at_utc": "2026-09-24T10:57:42.074489+00:00",
+  "customers": 109,
+  "dataset": "CVRPLIB X",
+  "features": {
+    "customers": 109,
+    "dimension": 110,
+    "nominal_vehicles": 13
+  },
+  "gap_percent": 5.637565960857658,
+  "inference_seconds_amortized": 0.08708023373037577,
+  "instance": "X-n110-k13",
+  "model": "am_direct_n100",
+  "no_aug_absolute_error": 844,
+  "no_aug_candidate_index": 0,
+  "no_aug_candidates_generated": 1,
+  "no_aug_cost": 15815,
+  "no_aug_failure_reason": null,
+  "no_aug_gap_percent": 5.637565960857658,
+  "no_aug_policy_index": 0,
+  "no_aug_routes": [
+    [
+      19,
+      58,
+      12,
+      41,
+      54,
+      68,
+      50,
+      52
+    ],
+    [
+      21,
+      75,
+      88,
+      96,
+      95,
+      59,
+      17,
+      28
+    ],
+    [
+      39,
+      31,
+      27,
+      65,
+      36,
+      64,
+      99,
+      2
+    ],
+    [
+      71,
+      80,
+      43,
+      93,
+      104,
+      60,
+      61,
+      22,
+      83,
+      76
+    ],
+    [
+      30,
+      56,
+      55,
+      102,
+      33,
+      9,
+      101,
+      4,
+      24,
+      103
+    ],
+    [
+      69,
+      109,
+      18,
+      25,
+      84,
+      77,
+      5,
+      6
+    ],
+    [
+      63,
+      72,
+      10,
+      86,
+      73,
+      35,
+      47,
+      100,
+      62
+    ],
+    [
+      8,
+      40,
+      48,
+      82,
+      107,
+      57,
+      13
+    ],
+    [
+      87,
+      26,
+      53,
+      15,
+      66,
+      98,
+      11,
+      51,
+      85
+    ],
+    [
+      7,
+      37,
+      94,
+      81,
+      44,
+      70,
+      23,
+      90
+    ],
+    [
+      46,
+      89,
+      67,
+      45,
+      34,
+      106,
+      42,
+      97
+    ],
+    [
+      1,
+      16,
+      29,
+      78,
+      74,
+      20,
+      92,
+      105
+    ],
+    [
+      49,
+      14,
+      3,
+      79,
+      32,
+      38,
+      108,
+      91
+    ]
+  ],
+  "no_aug_status": "ok",
+  "no_aug_vehicles": 13,
+  "physical_batch_size": 1,
+  "policy_index": 0,
+  "postprocess_seconds": 0.0008022841066122055,
+  "protocol": "xset_n100_models_greedy_8fold_official_euc2d_v1",
+  "reference_cost": 14971,
+  "reference_verified": true,
+  "routes": [
+    [
+      19,
+      58,
+      12,
+      41,
+      54,
+      68,
+      50,
+      52
+    ],
+    [
+      21,
+      75,
+      88,
+      96,
+      95,
+      59,
+      17,
+      28
+    ],
+    [
+      39,
+      31,
+      27,
+      65,
+      36,
+      64,
+      99,
+      2
+    ],
+    [
+      71,
+      80,
+      43,
+      93,
+      104,
+      60,
+      61,
+      22,
+      83,
+      76
+    ],
+    [
+      30,
+      56,
+      55,
+      102,
+      33,
+      9,
+      101,
+      4,
+      24,
+      103
+    ],
+    [
+      69,
+      109,
+      18,
+      25,
+      84,
+      77,
+      5,
+      6
+    ],
+    [
+      63,
+      72,
+      10,
+      86,
+      73,
+      35,
+      47,
+      100,
+      62
+    ],
+    [
+      8,
+      40,
+      48,
+      82,
+      107,
+      57,
+      13
+    ],
+    [
+      87,
+      26,
+      53,
+      15,
+      66,
+      98,
+      11,
+      51,
+      85
+    ],
+    [
+      7,
+      37,
+      94,
+      81,
+      44,
+      70,
+      23,
+      90
+    ],
+    [
+      46,
+      89,
+      67,
+      45,
+      34,
+      106,
+      42,
+      97
+    ],
+    [
+      1,
+      16,
+      29,
+      78,
+      74,
+      20,
+      92,
+      105
+    ],
+    [
+      49,
+      14,
+      3,
+      79,
+      32,
+      38,
+      108,
+      91
+    ]
+  ],
+  "schema_version": 2,
+  "status": "ok",
+  "training_size": 100,
+  "vehicles": 13
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "instances": 100,
+    "mean_gap_percent": 13.539972395719346,
+    "mean_vehicles": 56.2,
+    "median_gap_percent": 11.622951186698717,
+    "model": "am_direct_n100",
+    "total_inference_seconds": 36.7216150322929,
+    "total_postprocess_seconds": 0.9475917378440499
+  },
+  {
+    "instances": 100,
+    "mean_gap_percent": 19.12566338779213,
+    "mean_vehicles": 56.72,
+    "median_gap_percent": 17.166313848649075,
+    "model": "am_split_n100",
+    "total_inference_seconds": 29.339900445193052,
+    "total_postprocess_seconds": 1.8078216407448053
+  },
+  {
+    "instances": 100,
+    "mean_gap_percent": 10.36995519968091,
+    "mean_vehicles": 54.23,
+    "median_gap_percent": 8.939956453168277,
+    "model": "pomo_direct_n100",
+    "total_inference_seconds": 56.509905686601996,
+    "total_postprocess_seconds": 7.1700585056096315
+  },
+  {
+    "instances": 100,
+    "mean_gap_percent": 19.00494599176338,
+    "mean_vehicles": 56.18,
+    "median_gap_percent": 17.9449598849776,
+    "model": "pomo_split_n100",
+    "total_inference_seconds": 39.79278821311891,
+    "total_postprocess_seconds": 823.8009053468704
+  }
+]

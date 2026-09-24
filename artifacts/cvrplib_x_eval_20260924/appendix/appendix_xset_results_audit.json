@@ -1,0 +1,58 @@
+{
+  "aggregate": {
+    "am_direct_n100": {
+      "instances": 100.0,
+      "mean_gap": 13.539972395719346,
+      "mean_vehicles": 56.2,
+      "median_gap": 11.622951186698717
+    },
+    "am_split_n100": {
+      "instances": 100.0,
+      "mean_gap": 19.12566338779213,
+      "mean_vehicles": 56.72,
+      "median_gap": 17.166313848649075
+    },
+    "pomo_direct_n100": {
+      "instances": 100.0,
+      "mean_gap": 10.36995519968091,
+      "mean_vehicles": 54.23,
+      "median_gap": 8.939956453168277
+    },
+    "pomo_split_n100": {
+      "instances": 100.0,
+      "mean_gap": 19.00494599176338,
+      "mean_vehicles": 56.18,
+      "median_gap": 17.9449598849776
+    }
+  },
+  "instances": 100,
+  "model_instance_rows": 400,
+  "models": [
+    "am_direct_n100",
+    "am_split_n100",
+    "pomo_direct_n100",
+    "pomo_split_n100"
+  ],
+  "output": "E:\\1study\\pomo\\.codex_tmp\\nco_split_v4_push_20260922\\artifacts\\cvrplib_x_eval_20260924\\appendix\\appendix_xset_results.tex",
+  "output_sha256": "9e64317bdd89aa6d2d533239b8f3f87ea84324a8918508963d4b3412540ec71a",
+  "paired": {
+    "AM": {
+      "direct_wins": 90.0,
+      "mean_gap_difference": 5.585690992072784,
+      "mean_relative_cost": 5.093456862681893,
+      "mean_vehicle_difference": 0.52,
+      "split_wins": 10.0,
+      "ties": 0.0
+    },
+    "POMO": {
+      "direct_wins": 91.0,
+      "mean_gap_difference": 8.63499079208247,
+      "mean_relative_cost": 7.939580868388143,
+      "mean_vehicle_difference": 1.95,
+      "split_wins": 9.0,
+      "ties": 0.0
+    }
+  },
+  "source": "E:\\1study\\pomo\\.codex_tmp\\nco_split_v4_push_20260922\\artifacts\\cvrplib_x_eval_20260924\\results\\xset_verified_results.csv",
+  "source_sha256": "38ae468e5d246d04d40ef76211a60c4acffab1f86d6e71ad15948df298a5c6df"
+}
